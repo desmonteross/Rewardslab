@@ -89,7 +89,10 @@ export const NAVIGATION: NavSection[] = [
   {
     // Last, and open to every staff role (all of them can see the dashboard).
     label: 'Help',
-    items: [{ label: 'Guides & FAQs', href: '/help', icon: 'LifeBuoy', permission: 'dashboard.view' }],
+    items: [
+      { label: 'Guides', href: '/help', icon: 'BookOpenText', permission: 'dashboard.view' },
+      { label: 'FAQs', href: '/help/faq', icon: 'CircleHelp', permission: 'dashboard.view' },
+    ],
   },
 ]
 

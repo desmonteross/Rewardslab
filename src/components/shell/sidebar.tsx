@@ -49,7 +49,14 @@ export function Sidebar({
     })
   }
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
+  // The most specific matching item wins, so /help/faq lights FAQs and not
+  // Guides (/help) as well.
+  const matches = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
+  const activeHref = sections
+    .flatMap((section) => section.items.map((item) => item.href))
+    .filter(matches)
+    .sort((a, b) => b.length - a.length)[0]
+  const isActive = (href: string) => href === activeHref
 
   return (
     <>

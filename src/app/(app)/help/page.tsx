@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { ArrowRight, ChevronDown } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { requireSession } from '@/lib/session'
 import { can, ROLE_LABELS } from '@/lib/rbac'
 import { Card, PageHeader } from '@/components/ui'
-import { FAQS, GETTING_AROUND, HELP_GROUPS } from '@/components/help-content'
+import { GETTING_AROUND, HELP_GROUPS } from '@/components/help-content'
 
-export const metadata = { title: 'Help & guides' }
+export const metadata = { title: 'Guides' }
 export const dynamic = 'force-dynamic'
 
 /**
@@ -30,14 +30,13 @@ export default async function HelpPage() {
   const contents = [
     { id: 'getting-around', label: 'Getting around' },
     ...groups.map((group) => ({ id: `group-${group.label.toLowerCase()}`, label: group.label })),
-    { id: 'faq', label: 'FAQs' },
   ]
 
   return (
     <>
       <PageHeader
-        title="Help & guides"
-        description={`How each part of the system works, how to move around it, and answers to common questions. Shown for your role: ${ROLE_LABELS[session.role] ?? session.role}.`}
+        title="Guides"
+        description={`How each part of the system works and how to move around it. Shown for your role: ${ROLE_LABELS[session.role] ?? session.role}.`}
       />
 
       <div className="grid gap-6 lg:grid-cols-[13rem_minmax(0,1fr)]">
@@ -113,22 +112,6 @@ export default async function HelpPage() {
             </section>
           ))}
 
-          <section id="faq" className="scroll-mt-20">
-            <h2 className="mb-3 text-lg font-semibold text-ink">Frequently asked questions</h2>
-            <Card padded={false}>
-              <div className="divide-y divide-line">
-                {FAQS.map((faq) => (
-                  <details key={faq.question} className="group px-5 py-4">
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-ink">
-                      {faq.question}
-                      <ChevronDown className="h-4 w-4 shrink-0 text-muted transition-transform group-open:rotate-180" aria-hidden />
-                    </summary>
-                    <p className="mt-2 text-sm leading-relaxed text-muted">{faq.answer}</p>
-                  </details>
-                ))}
-              </div>
-            </Card>
-          </section>
         </div>
       </div>
     </>
