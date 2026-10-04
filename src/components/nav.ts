@@ -86,6 +86,11 @@ export const NAVIGATION: NavSection[] = [
     label: 'Platform',
     items: [{ label: 'SaaS Admin', href: '/admin', icon: 'ShieldCheck', permission: 'platform.admin' }],
   },
+  {
+    // Last, and open to every staff role (all of them can see the dashboard).
+    label: 'Help',
+    items: [{ label: 'Guides & FAQs', href: '/help', icon: 'LifeBuoy', permission: 'dashboard.view' }],
+  },
 ]
 
 /** Flattened list used by the command bar. */
