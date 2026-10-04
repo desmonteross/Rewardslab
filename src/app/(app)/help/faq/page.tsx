@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { ChevronDown } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 import { requireSession } from '@/lib/session'
 import { Card, PageHeader } from '@/components/ui'
 import { FAQS } from '@/components/help-content'
@@ -31,7 +31,8 @@ export default async function FaqPage() {
             <details key={faq.question} className="group px-5 py-4">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-ink">
                 {faq.question}
-                <ChevronDown className="h-4 w-4 shrink-0 text-muted transition-transform group-open:rotate-180" aria-hidden />
+                <Plus className="h-4 w-4 shrink-0 text-muted group-open:hidden" aria-hidden />
+                <Minus className="hidden h-4 w-4 shrink-0 text-brand group-open:block" aria-hidden />
               </summary>
               <p className="mt-2 text-sm leading-relaxed text-muted">{faq.answer}</p>
             </details>
