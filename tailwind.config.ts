@@ -30,6 +30,7 @@ const config: Config = {
           ink: 'rgb(var(--nav-ink) / <alpha-value>)',
           muted: 'rgb(var(--nav-muted) / <alpha-value>)',
           line: 'rgb(var(--nav-line) / <alpha-value>)',
+          accent: 'rgb(var(--nav-accent) / <alpha-value>)',
         },
         panel: 'rgb(var(--panel) / <alpha-value>)',
         positive: 'rgb(var(--positive) / <alpha-value>)',

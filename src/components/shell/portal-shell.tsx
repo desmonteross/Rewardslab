@@ -123,10 +123,10 @@ export function PortalShell({
                   href={item.href}
                   aria-current={active ? 'page' : undefined}
                   className={clsx(
-                    'flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors',
+                    'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors',
                     active
-                      ? 'bg-brand/20 font-medium text-white'
-                      : 'text-nav-muted hover:bg-white/5 hover:text-nav-ink',
+                      ? 'bg-nav-raised font-medium text-nav-accent'
+                      : 'text-nav-ink hover:bg-nav-raised/60 hover:text-white',
                   )}
                 >
                   <item.icon className="h-4 w-4 shrink-0" aria-hidden />
