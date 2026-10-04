@@ -13,7 +13,15 @@ import * as s from '@/db/schema'
 import { scopeFromSession, systemScope, TenancyError, type Scope } from '@/lib/tenancy'
 import type { Session } from '@/lib/session'
 import { completeMoveIn } from '@/server/services/leases'
-import { createLandlord, createLease, createProperty, createTenant, createUnit } from '@/server/services/onboarding'
+import {
+  createLandlord,
+  createLease,
+  createProperty,
+  createTenant,
+  createUnit,
+  createUnits,
+  unitNumberRun,
+} from '@/server/services/onboarding'
 import { landlordHasTenant, landlordOwnsProperty } from '@/server/landlord-access'
 import { canRunReport, findReport } from '@/server/reports'
 
@@ -108,6 +116,33 @@ describe('onboarding a tenancy from nothing', () => {
     await expect(
       createUnit(scope, { ...unit, propertyId, monthlyRentCents: 1, depositCents: 0, serviceChargeCents: 0 }),
     ).rejects.toThrow(/already has a unit A1/)
+  })
+
+  it('adds a numbered run of units in one go, and none if any clash', async () => {
+    expect(unitNumberRun('A1', 3)).toEqual(['A1', 'A2', 'A3'])
+    expect(unitNumberRun('B09', 2)).toEqual(['B09', 'B10'])
+    expect(unitNumberRun('101', 1)).toEqual(['101'])
+    expect(() => unitNumberRun('Penthouse', 2)).toThrow(/start from a number/)
+
+    const base = {
+      propertyId,
+      unitNumber: 'B1',
+      type: 'BEDSITTER' as const,
+      floor: 1,
+      bedrooms: 0,
+      bathrooms: 1,
+      monthlyRentCents: 1_000_000,
+      depositCents: 0,
+      serviceChargeCents: 0,
+    }
+    const run = await createUnits(scope, base, 3)
+    expect(run.map((unit) => unit.unitNumber)).toEqual(['B1', 'B2', 'B3'])
+
+    // B3 already exists, so B3–B4 is refused whole.
+    await expect(createUnits(scope, { ...base, unitNumber: 'B3' }, 2)).rejects.toThrow(/already has a unit B3/)
+    const [after] = await db.select().from(s.properties).where(eq(s.properties.id, propertyId))
+    expect(after.unitCount).toBe(4)
+    expect(after.expectedMonthlyRent).toBe('55000.00')
   })
 
   it('signs a lease that reserves the unit, then a move-in that occupies it', async () => {

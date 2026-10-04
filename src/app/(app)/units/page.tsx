@@ -4,6 +4,7 @@ import { asc, eq, gte, ilike, lte, or, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { leases, properties, tenants, units, unitStatusEnum, unitTypeEnum } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
+import { can } from '@/lib/rbac'
 import { landlordScoped, scopeFromSession } from '@/lib/tenancy'
 import { amount, cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { one, pageOf, withParams, PAGE_SIZE, type SearchParamsPromise } from '@/lib/search-params'
@@ -124,14 +125,33 @@ export default async function UnitsPage({ searchParams }: { searchParams: Search
         title="Units"
         description="Occupancy across the portfolio, unit by unit."
         actions={
-          <ViewSwitch
-            name="view"
-            fallback="grid"
-            options={[
-              { value: 'grid', label: 'Occupancy' },
-              { value: 'table', label: 'Table' },
-            ]}
-          />
+          <>
+            <ViewSwitch
+              name="view"
+              fallback="grid"
+              options={[
+                { value: 'grid', label: 'Occupancy' },
+                { value: 'table', label: 'Table' },
+              ]}
+            />
+            {can(session, 'units.create') && propertyOptions.length > 0 && (
+              // Units live on a property, so this picks the property and
+              // opens its Units tab with the add form.
+              <form action="/units/add" className="flex gap-2">
+                <select name="property" className="field" defaultValue="" required aria-label="Property to add units to">
+                  <option value="">Add units to…</option>
+                  {propertyOptions.map((row) => (
+                    <option key={row.id} value={row.id}>
+                      {row.name}
+                    </option>
+                  ))}
+                </select>
+                <button type="submit" className="btn-primary">
+                  Add units
+                </button>
+              </form>
+            )}
+          </>
         }
       />
 

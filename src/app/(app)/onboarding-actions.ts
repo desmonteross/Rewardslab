@@ -11,7 +11,7 @@ import {
   createLease,
   createProperty,
   createTenant,
-  createUnit,
+  createUnits,
   type LandlordInput,
   type PropertyInput,
   type UnitInput,
@@ -84,7 +84,8 @@ export async function createPropertyAction(_previous: ActionState, formData: For
   } catch (error) {
     return failure(error, 'Could not add the property.')
   }
-  redirect(`/properties/${id}`)
+  // Straight on to the units, which is the next thing a new property needs.
+  redirect(`/properties/${id}?tab=units&added=1`)
 }
 
 export async function createUnitAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
@@ -96,20 +97,33 @@ export async function createUnitAction(_previous: ActionState, formData: FormDat
     const rentCents = cents(text(formData, 'monthlyRent') || '0')
     if (rentCents <= 0) return { ok: false, message: 'Give the monthly rent.' }
 
-    const created = await createUnit(scope, {
-      propertyId,
-      unitNumber,
-      type: text(formData, 'type') as UnitInput['type'],
-      floor: Number(text(formData, 'floor') || 0),
-      bedrooms: Number(text(formData, 'bedrooms') || 1),
-      bathrooms: Number(text(formData, 'bathrooms') || 1),
-      monthlyRentCents: rentCents,
-      depositCents: cents(text(formData, 'deposit') || '0'),
-      serviceChargeCents: cents(text(formData, 'serviceCharge') || '0'),
-    })
+    const count = Number(text(formData, 'count') || 1)
+    const created = await createUnits(
+      scope,
+      {
+        propertyId,
+        unitNumber,
+        type: text(formData, 'type') as UnitInput['type'],
+        floor: Number(text(formData, 'floor') || 0),
+        bedrooms: Number(text(formData, 'bedrooms') || 1),
+        bathrooms: Number(text(formData, 'bathrooms') || 1),
+        monthlyRentCents: rentCents,
+        depositCents: cents(text(formData, 'deposit') || '0'),
+        serviceChargeCents: cents(text(formData, 'serviceCharge') || '0'),
+      },
+      count,
+    )
     revalidatePath(`/properties/${propertyId}`)
     revalidatePath('/units')
-    return { ok: true, message: `Unit ${created.unitNumber} added.` }
+    const first = created[0].unitNumber
+    const last = created[created.length - 1].unitNumber
+    return {
+      ok: true,
+      message:
+        created.length === 1
+          ? `Unit ${first} added. Add the next one, or sign a lease on it below.`
+          : `${created.length} units added, ${first} to ${last}.`,
+    }
   } catch (error) {
     return failure(error, 'Could not add the unit.')
   }

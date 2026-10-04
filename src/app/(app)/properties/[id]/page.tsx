@@ -64,6 +64,7 @@ export default async function PropertyDetailPage({
   const session = await requirePermission('properties.view')
   const scope = scopeFromSession(session)
   const tab = one(query, 'tab') ?? 'overview'
+  const justAdded = one(query, 'added') === '1'
   const period = periodOf(new Date())
 
   const [record] = await db
@@ -184,7 +185,7 @@ export default async function PropertyDetailPage({
             )}
             {can(session, 'units.create') && (
               <Link href={href('units')} className="btn-secondary">
-                Add unit
+                Add units
               </Link>
             )}
             {can(session, 'rent.view') && (
@@ -221,6 +222,26 @@ export default async function PropertyDetailPage({
         <MoneyKpi label="Collected" amount={stats?.collectedMonth ?? 0} tone="positive" sub={`${formatPercent(collectionRate)} of billed`} />
         <MoneyKpi label="Outstanding" amount={stats?.outstanding ?? 0} tone={cents(stats?.outstanding) > 0 ? 'warning' : 'positive'} />
       </div>
+
+      {justAdded && tab === 'units' && unitRows.length === 0 && (
+        <div className="mt-4">
+          <Notice tone="brand" title={`${property.name} is saved`}>
+            Now add its units below. Each vacant unit gets a “Sign a lease” link once it exists.
+          </Notice>
+        </div>
+      )}
+
+      {!justAdded && unitRows.length === 0 && tab !== 'units' && can(session, 'units.create') && (
+        <div className="mt-4">
+          <Notice tone="warning" title="This property has no units yet">
+            Tenants can only be given a lease on a unit.{' '}
+            <Link href={href('units')} className="link">
+              Add units
+            </Link>
+            .
+          </Notice>
+        </div>
+      )}
 
       <div className="mt-6">
         <SectionTabs
@@ -290,13 +311,18 @@ export default async function PropertyDetailPage({
       {tab === 'units' && (
         <div className="space-y-4">
         {can(session, 'units.create') && (
-          <Card title="Add a unit">
-            <ActionForm action={createUnitAction} label="Add unit" pendingLabel="Adding…">
+          <Card title={unitRows.length === 0 ? 'Add the first units' : 'Add units'} description="Every unit in a run gets the same type and rent. Add differing units as separate runs.">
+            <ActionForm action={createUnitAction} label="Add units" pendingLabel="Adding…">
               <input type="hidden" name="propertyId" value={id} />
               <div className="grid gap-3 sm:grid-cols-4">
                 <label className="block text-xs font-medium text-muted">
                   Unit number
-                  <input name="unitNumber" className="field mt-1" placeholder="A1" required />
+                  <input name="unitNumber" className="field mt-1" placeholder="A1" required autoFocus={justAdded} />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  How many
+                  <input name="count" type="number" min="1" max="200" className="field mt-1" defaultValue="1" />
+                  <span className="mt-1 block text-2xs text-faint">More than 1 adds a run: A1, A2, A3…</span>
                 </label>
                 <label className="block text-xs font-medium text-muted">
                   Type
@@ -336,6 +362,7 @@ export default async function PropertyDetailPage({
           </Card>
         )}
         <Card title="Occupancy" description="Every unit in this property and its current state.">
+          {unitRows.length === 0 && <EmptyState title="No units yet" description="Units you add appear here." />}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
             {unitRows.map((unit) => (
               <div

@@ -8,7 +8,7 @@
 // ===========================================================================
 
 import { addMonths } from 'date-fns'
-import { eq, sql } from 'drizzle-orm'
+import { eq, inArray, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { landlords, leases, moveEvents, properties, tenants, units } from '@/db/schema'
 import { amount, cents } from '@/lib/money'
@@ -165,7 +165,29 @@ export interface UnitInput {
   serviceChargeCents: number
 }
 
+/**
+ * The unit numbers for a run starting at `first`: "A1" × 3 gives A1, A2, A3,
+ * and "101" × 3 gives 101, 102, 103. Zero padding is kept ("A01" → "A02").
+ */
+export function unitNumberRun(first: string, count: number): string[] {
+  if (count <= 1) return [first]
+  const match = /^(.*?)(\d+)$/.exec(first)
+  if (!match) throw new Error(`To add several units, start from a number such as A1 or 101, not "${first}".`)
+  const [, prefix, digits] = match
+  const start = Number(digits)
+  return Array.from({ length: count }, (_, index) => `${prefix}${String(start + index).padStart(digits.length, '0')}`)
+}
+
 export async function createUnit(scope: Scope, input: UnitInput) {
+  const [created] = await createUnits(scope, input, 1)
+  return created
+}
+
+/** Add `count` identical units numbered on from `input.unitNumber`, all or none. */
+export async function createUnits(scope: Scope, input: UnitInput, count: number) {
+  if (count < 1 || count > 200) throw new Error('Add between 1 and 200 units at a time.')
+  const numbers = unitNumberRun(input.unitNumber, count)
+
   return db.transaction(async (tx) => {
     const property = await tx
       .select()
@@ -176,46 +198,50 @@ export async function createUnit(scope: Scope, input: UnitInput) {
     assertInScope(property, scope, 'property')
 
     const [clash] = await tx
-      .select({ id: units.id })
+      .select({ unitNumber: units.unitNumber })
       .from(units)
-      .where(scoped(units, scope, eq(units.propertyId, input.propertyId), eq(units.unitNumber, input.unitNumber)))
+      .where(scoped(units, scope, eq(units.propertyId, input.propertyId), inArray(units.unitNumber, numbers)))
       .limit(1)
-    if (clash) throw new Error(`${property.name} already has a unit ${input.unitNumber}.`)
+    if (clash) throw new Error(`${property.name} already has a unit ${clash.unitNumber}.`)
 
-    const [created] = await tx
+    const created = await tx
       .insert(units)
-      .values({
-        organizationId: scope.organizationId,
-        propertyId: input.propertyId,
-        unitNumber: input.unitNumber,
-        type: input.type,
-        floor: input.floor,
-        bedrooms: input.bedrooms,
-        bathrooms: input.bathrooms,
-        monthlyRent: amount(input.monthlyRentCents),
-        deposit: amount(input.depositCents),
-        serviceCharge: amount(input.serviceChargeCents),
-        status: 'VACANT',
-      })
+      .values(
+        numbers.map((unitNumber) => ({
+          organizationId: scope.organizationId,
+          propertyId: input.propertyId,
+          unitNumber,
+          type: input.type,
+          floor: input.floor,
+          bedrooms: input.bedrooms,
+          bathrooms: input.bathrooms,
+          monthlyRent: amount(input.monthlyRentCents),
+          deposit: amount(input.depositCents),
+          serviceCharge: amount(input.serviceChargeCents),
+          status: 'VACANT' as const,
+        })),
+      )
       .returning()
 
     // The property's headline figures are kept in step with its units.
     await tx
       .update(properties)
       .set({
-        unitCount: sql`${properties.unitCount} + 1`,
-        expectedMonthlyRent: sql`${properties.expectedMonthlyRent} + ${amount(input.monthlyRentCents)}`,
+        unitCount: sql`${properties.unitCount} + ${numbers.length}`,
+        expectedMonthlyRent: sql`${properties.expectedMonthlyRent} + ${amount(input.monthlyRentCents * numbers.length)}`,
         updatedAt: new Date(),
       })
       .where(scoped(properties, scope, eq(properties.id, input.propertyId)))
 
-    await audit(tx, scope, {
-      action: 'Unit Created',
-      entityType: 'Unit',
-      entityId: created.id,
-      reference: `${property.code}-${created.unitNumber}`,
-      newValue: { unitNumber: created.unitNumber, monthlyRent: created.monthlyRent },
-    })
+    for (const unit of created) {
+      await audit(tx, scope, {
+        action: 'Unit Created',
+        entityType: 'Unit',
+        entityId: unit.id,
+        reference: `${property.code}-${unit.unitNumber}`,
+        newValue: { unitNumber: unit.unitNumber, monthlyRent: unit.monthlyRent },
+      })
+    }
     return created
   })
 }
