@@ -180,8 +180,8 @@ export function PayForm({ invoices }: { invoices: PayableInvoice[] }) {
                   {status.pointsAwarded.toLocaleString()} points earned
                 </p>
                 <p className="mt-1 text-sm text-muted">
-                  They will be available to redeem in 30 days. Until then they show as pending on
-                  your points balance.
+                  They settle over the next 30 days, then count towards your chances of discounts and
+                  giveaways that property owners offer.
                 </p>
               </div>
             </div>

@@ -534,7 +534,7 @@ export async function matureDuePoints(tx: Tx, asOf: Date = new Date()): Promise<
     await postRewardGroup(tx, {
       programmeId: programme.id,
       type: 'MATURE',
-      narrative: 'Points matured and are now available to redeem',
+      narrative: 'Points confirmed after the 30-day settling period',
       transactionDate: asOf,
       originOrganizationId: entry.originOrganizationId,
       reversesGroupId: entry.entryGroupId,
@@ -743,6 +743,71 @@ export async function rewardStatementForTenant(tx: Tx, tenantId: string, limit =
         ? `${String(row.periodMonth).padStart(2, '0')}/${row.periodYear}`
         : null,
   }))
+}
+
+export interface RewardEarning {
+  periodYear: number
+  periodMonth: number
+  points: number
+  /** Days after the due date the rent was cleared; 0 or less is on time. */
+  daysLate: number | null
+  streakMonths: number | null
+  pending: boolean
+}
+
+/**
+ * What a tenant earned, one row per rent month, oldest first. Reversed
+ * awards are left out, so every branch on the points tree is still standing.
+ */
+export async function rewardEarningsForTenant(tx: Tx, tenantId: string): Promise<RewardEarning[]> {
+  const { programme } = await ensureProgramme(tx)
+  const rows = await tx
+    .select({
+      groupId: rewardEntries.entryGroupId,
+      type: rewardEntries.type,
+      bucket: rewardEntries.bucket,
+      points: rewardEntries.points,
+      periodYear: rewardEntries.periodYear,
+      periodMonth: rewardEntries.periodMonth,
+      daysLate: rewardEntries.daysLate,
+      streakMonths: rewardEntries.streakMonths,
+      reversesGroupId: rewardEntries.reversesGroupId,
+    })
+    .from(rewardEntries)
+    .where(
+      and(
+        eq(rewardEntries.programmeId, programme.id),
+        eq(rewardEntries.tenantId, tenantId),
+        inArray(rewardEntries.type, ['EARN', 'REVERSAL', 'MATURE']),
+      ),
+    )
+
+  const reversed = new Set(rows.filter((row) => row.type === 'REVERSAL' && row.reversesGroupId).map((row) => row.reversesGroupId))
+  const matured = new Set(rows.filter((row) => row.type === 'MATURE' && row.reversesGroupId).map((row) => row.reversesGroupId))
+
+  const byPeriod = new Map<string, RewardEarning>()
+  for (const row of rows) {
+    if (row.type !== 'EARN' || row.points <= 0 || reversed.has(row.groupId)) continue
+    if (row.periodYear === null || row.periodMonth === null) continue
+    const key = `${row.periodYear}-${row.periodMonth}`
+    const existing = byPeriod.get(key)
+    const pending = !matured.has(row.groupId)
+    if (existing) {
+      existing.points += row.points
+      existing.pending = existing.pending || pending
+      existing.daysLate = Math.max(existing.daysLate ?? 0, row.daysLate ?? 0)
+    } else {
+      byPeriod.set(key, {
+        periodYear: row.periodYear,
+        periodMonth: row.periodMonth,
+        points: row.points,
+        daysLate: row.daysLate,
+        streakMonths: row.streakMonths,
+        pending,
+      })
+    }
+  }
+  return [...byPeriod.values()].sort((a, b) => a.periodYear - b.periodYear || a.periodMonth - b.periodMonth)
 }
 
 /**

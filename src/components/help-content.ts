@@ -378,7 +378,7 @@ export const FAQS: { question: string; answer: string }[] = [
   {
     question: 'What are reward points?',
     answer:
-      'Tenants earn points for paying rent on time: 1 point per KES 100, with a bonus for a streak of on-time months. Late payments earn less, and nothing if more than 15 days late. Points are pending for 30 days before they can be used.',
+      'Tenants earn points for paying rent on time: 1 point per KES 100, with a bonus for a streak of on-time months. Late payments earn less, and nothing if more than 15 days late. Points cannot be redeemed for cash. They raise a tenant’s chances when property owners offer discounts or giveaways. Tenants see their points as a tree in the portal, one branch per month of rent.',
   },
   {
     question: 'Are M-Pesa and KRA real in this version?',

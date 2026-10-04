@@ -153,7 +153,7 @@ export default async function PortalHomePage() {
         <PortalTile
           label="Reward points"
           value={points.total.toLocaleString()}
-          sub={`${points.available.toLocaleString()} available to redeem`}
+          sub="Boosts your chances of owner offers"
           icon={<Sparkles className="h-4 w-4" />}
           tone="brand"
           href="/portal/rewards"
