@@ -1,0 +1,855 @@
+openapi: 3.1.0
+
+info:
+  title: Kenya PMS API
+  version: 1.0.0-phase1
+  summary: Multi-tenant property management, rent collection and KRA eRITS compliance.
+  description: |
+    The API the web application uses, and the contract the Phase 2 tenant mobile
+    application will be built against. Phase 1 ships the read and write
+    endpoints a tenant app needs — rent due, payment history, receipts,
+    statements, lease and maintenance — plus the M-Pesa webhook.
+
+    ## Tenancy
+    Every request is scoped to the organization on the authenticated session.
+    There is no organization parameter, and supplying an id belonging to another
+    organization returns 404 rather than 403, so the API never confirms the
+    existence of another tenant's records.
+
+    ## Money
+    All amounts are KES. Requests and responses use decimal numbers with two
+    decimal places (`25000.00` → `25000`); the server stores and computes in
+    integer cents, so no value passes through a float.
+
+    ## Errors
+    Failures return `{ "error": { "code", "message", "details"? } }` with a
+    conventional status: 400 malformed, 401 unauthenticated, 403 no permission,
+    404 not found or out of scope, 409 conflict, 422 validation, 500 server.
+
+servers:
+  - url: http://localhost:3000
+    description: Local development
+  - url: https://{host}
+    description: Deployment
+    variables:
+      host:
+        default: pms.example.co.ke
+
+tags:
+  - name: Authentication
+  - name: Tenant app
+    description: The endpoints the Phase 2 mobile application consumes.
+  - name: Portfolio
+  - name: Finance
+  - name: Operations
+  - name: Reporting
+  - name: Webhooks
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: pms_session
+      description: |
+        Signed, HTTP-only session cookie issued by `POST /api/auth/login`.
+        Phase 2 will add a bearer-token flow for the mobile client against the
+        same handlers.
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, example: forbidden }
+            message: { type: string }
+            details: {}
+
+    PageMeta:
+      type: object
+      properties:
+        page: { type: integer, example: 1 }
+        pageSize: { type: integer, example: 25 }
+        total: { type: integer, example: 137 }
+        pageCount: { type: integer, example: 6 }
+
+    Money:
+      type: number
+      format: double
+      description: An amount in KES with two decimal places.
+      example: 25000
+
+    Session:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            id: { type: string }
+            email: { type: string, format: email }
+            fullName: { type: string }
+            role:
+              type: string
+              enum: [SUPER_ADMIN, ORG_ADMIN, PROPERTY_MANAGER, ACCOUNTANT, LANDLORD, CARETAKER, MAINTENANCE, AUDITOR]
+            landlordId: { type: string, nullable: true }
+        organization:
+          type: object
+          nullable: true
+          properties:
+            id: { type: string }
+            name: { type: string }
+            slug: { type: string }
+        permissions:
+          type: array
+          items: { type: string }
+
+    Property:
+      type: object
+      properties:
+        id: { type: string }
+        code: { type: string, example: GV }
+        name: { type: string, example: Greenview Apartments }
+        type:
+          type: string
+          enum: [RESIDENTIAL, COMMERCIAL, MIXED_USE, APARTMENT, BEDSITTER_COMPLEX, MAISONETTE, HOSTEL, OFFICE, RETAIL, INDUSTRIAL, OTHER]
+        status: { type: string, enum: [ACTIVE, INACTIVE, UNDER_CONSTRUCTION, ARCHIVED] }
+        county: { type: string, example: Nairobi }
+        town: { type: string, example: Nairobi }
+        area: { type: string, nullable: true, example: Kilimani }
+        unitCount: { type: integer, example: 48 }
+        occupiedUnits: { type: integer, example: 44 }
+        expectedMonthlyRent: { $ref: '#/components/schemas/Money' }
+        landlordId: { type: string }
+        landlordName: { type: string, example: Wanjiku Holdings Ltd }
+
+    Invoice:
+      type: object
+      properties:
+        id: { type: string }
+        number: { type: string, example: INV-2026-001023 }
+        periodLabel: { type: string, example: September 2026 }
+        periodYear: { type: integer, example: 2026 }
+        periodMonth: { type: integer, example: 9 }
+        issueDate: { type: string, format: date-time }
+        dueDate: { type: string, format: date-time }
+        subtotal: { $ref: '#/components/schemas/Money' }
+        penaltyAmount: { $ref: '#/components/schemas/Money' }
+        total: { $ref: '#/components/schemas/Money' }
+        amountPaid: { $ref: '#/components/schemas/Money' }
+        balance: { $ref: '#/components/schemas/Money' }
+        status: { type: string, enum: [DRAFT, DUE, PARTIALLY_PAID, PAID, OVERDUE, CANCELLED] }
+        tenantId: { type: string }
+        tenantName: { type: string }
+        propertyId: { type: string }
+        propertyName: { type: string }
+        unitNumber: { type: string, example: A12 }
+        currency: { type: string, example: KES }
+
+    Payment:
+      type: object
+      properties:
+        id: { type: string }
+        reference: { type: string, example: PAY-102938 }
+        externalReference: { type: string, nullable: true, example: SLP4TG9XQ2 }
+        method: { type: string, enum: [MPESA, BANK_TRANSFER, CASH, CHEQUE, CARD, ADJUSTMENT] }
+        status: { type: string, enum: [INITIATED, PENDING, CONFIRMED, FAILED, REVERSED, UNMATCHED] }
+        reconciliationStatus:
+          type: string
+          enum: [UNRECONCILED, AUTO_MATCHED, MANUALLY_MATCHED, PARTIALLY_ALLOCATED, EXCEPTION]
+        settlementStatus: { type: string, enum: [PENDING, SCHEDULED, PROCESSING, SETTLED, FAILED, REVERSED] }
+        grossAmount: { $ref: '#/components/schemas/Money' }
+        commissionAmount: { $ref: '#/components/schemas/Money' }
+        netAmount: { $ref: '#/components/schemas/Money' }
+        allocatedAmount: { $ref: '#/components/schemas/Money' }
+        unallocatedAmount: { $ref: '#/components/schemas/Money' }
+        paidAt: { type: string, format: date-time }
+        accountReference: { type: string, nullable: true, example: GV-A12 }
+        tenantId: { type: string, nullable: true }
+        tenantName: { type: string, nullable: true }
+        currency: { type: string, example: KES }
+
+    Receipt:
+      type: object
+      properties:
+        id: { type: string }
+        number: { type: string, example: RCP-2026-000042 }
+        periodLabel: { type: string, example: September 2026 }
+        amount: { $ref: '#/components/schemas/Money' }
+        method: { type: string }
+        mpesaReference: { type: string, nullable: true }
+        paidAt: { type: string, format: date-time }
+        balanceAfter: { $ref: '#/components/schemas/Money' }
+        tenantName: { type: string }
+        propertyName: { type: string }
+        unitNumber: { type: string }
+        currency: { type: string, example: KES }
+
+    Ticket:
+      type: object
+      properties:
+        id: { type: string }
+        number: { type: string, example: TCK-00042 }
+        title: { type: string }
+        description: { type: string }
+        category:
+          type: string
+          enum: [PLUMBING, ELECTRICAL, WATER, STRUCTURAL, SECURITY, APPLIANCE, INTERNET, CLEANING, OTHER]
+        priority: { type: string, enum: [LOW, MEDIUM, HIGH, URGENT] }
+        status:
+          type: string
+          enum: [REPORTED, ACKNOWLEDGED, ASSIGNED, IN_PROGRESS, WAITING, RESOLVED, CLOSED]
+        estimatedCost: { $ref: '#/components/schemas/Money' }
+        actualCost: { $ref: '#/components/schemas/Money' }
+        reportedAt: { type: string, format: date-time }
+        resolvedAt: { type: string, format: date-time, nullable: true }
+        propertyName: { type: string }
+        unitNumber: { type: string, nullable: true }
+        currency: { type: string, example: KES }
+
+    RentalRecord:
+      type: object
+      description: >
+        An explainable summary of how a tenant has paid. Not a credit bureau
+        score; derived on read from this system's own invoices and payments,
+        using no demographic, employment or identity information.
+      properties:
+        band:
+          type: string
+          enum: [EXCELLENT, GOOD, FAIR, BUILDING, ATTENTION]
+          description: BUILDING means too little history to judge; ATTENTION means arrears or persistent lateness.
+        bandLabel: { type: string, example: Good }
+        score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: The sum of the factor points below. Meaningless unless hasEnoughHistory is true.
+        hasEnoughHistory:
+          type: boolean
+          description: False until at least three invoices have been settled.
+        summary:
+          type: object
+          properties:
+            monthsAssessed: { type: integer }
+            monthsSettled: { type: integer }
+            onTimeRate: { type: number, format: float, example: 0.75 }
+            averageDaysLate: { type: number, format: float, example: 2.2 }
+            longestOnTimeStreak: { type: integer }
+            arrears: { $ref: '#/components/schemas/Money' }
+            arrearsInMonths: { type: number, format: float }
+            monthsOnRecord: { type: integer }
+        factors:
+          type: array
+          description: >
+            Every point in the score, attributed. Clients must display these
+            alongside the band rather than showing the number alone.
+          items:
+            type: object
+            properties:
+              key: { type: string, example: punctuality }
+              label: { type: string, example: Paid on time }
+              weight: { type: number, example: 45 }
+              earned: { type: number, example: 33.8 }
+              detail: { type: string, example: 75% of 6 months cleared by the due date }
+              improve: { type: string }
+        months:
+          type: array
+          description: The months the record is built from, newest first.
+          items:
+            type: object
+            properties:
+              periodLabel: { type: string, example: September 2026 }
+              dueDate: { type: string, format: date-time }
+              amount: { $ref: '#/components/schemas/Money' }
+              balance: { $ref: '#/components/schemas/Money' }
+              clearedAt: { type: string, format: date-time, nullable: true }
+              daysLate: { type: integer }
+              outcome:
+                type: string
+                enum: [ON_TIME, WITHIN_GRACE, LATE, OUTSTANDING, NOT_YET_DUE]
+        tenancies:
+          type: array
+          description: The rental passport — every tenancy on record, newest first.
+          items:
+            type: object
+            properties:
+              leaseCode: { type: string }
+              status: { type: string }
+              property: { type: string }
+              unit: { type: string }
+              startDate: { type: string, format: date-time }
+              endDate: { type: string, format: date-time, nullable: true }
+              months: { type: integer }
+              monthlyRent: { $ref: '#/components/schemas/Money' }
+        disclaimer: { type: string }
+        currency: { type: string, example: KES }
+
+    TenantSummary:
+      type: object
+      description: Everything the tenant app's home screen needs, in one call.
+      properties:
+        tenant:
+          type: object
+          properties:
+            id: { type: string }
+            code: { type: string, example: TNT-0001 }
+            fullName: { type: string }
+            phone: { type: string }
+            email: { type: string, nullable: true }
+            status: { type: string }
+        lease:
+          type: object
+          nullable: true
+          properties:
+            id: { type: string }
+            code: { type: string }
+            monthlyRent: { $ref: '#/components/schemas/Money' }
+            serviceCharge: { $ref: '#/components/schemas/Money' }
+            deposit: { $ref: '#/components/schemas/Money' }
+            dueDayOfMonth: { type: integer, example: 5 }
+            startDate: { type: string, format: date-time }
+            endDate: { type: string, format: date-time }
+            status: { type: string }
+            unitNumber: { type: string }
+            propertyName: { type: string }
+        balance: { $ref: '#/components/schemas/Money' }
+        nextDue:
+          type: object
+          nullable: true
+          properties:
+            invoiceId: { type: string }
+            number: { type: string }
+            periodLabel: { type: string }
+            dueDate: { type: string, format: date-time }
+            amount: { $ref: '#/components/schemas/Money' }
+            status: { type: string }
+        openInvoices:
+          type: array
+          items: { $ref: '#/components/schemas/Invoice' }
+        lastReceipt:
+          allOf: [{ $ref: '#/components/schemas/Receipt' }]
+          nullable: true
+        paymentHistory:
+          type: object
+          properties:
+            count: { type: integer }
+            total: { $ref: '#/components/schemas/Money' }
+        openMaintenance:
+          type: array
+          items: { $ref: '#/components/schemas/Ticket' }
+        payment:
+          type: object
+          description: How to pay — the app pre-fills the M-Pesa account number from this.
+          properties:
+            method: { type: string, example: MPESA }
+            accountReference: { type: string, nullable: true, example: GV-A12 }
+        currency: { type: string, example: KES }
+
+    StatementEntry:
+      type: object
+      properties:
+        date: { type: string, format: date-time }
+        reference: { type: string }
+        description: { type: string }
+        type: { type: string, example: RENT }
+        charge: { $ref: '#/components/schemas/Money' }
+        payment: { $ref: '#/components/schemas/Money' }
+        balance: { $ref: '#/components/schemas/Money' }
+
+  responses:
+    Unauthorized:
+      description: No valid session.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Forbidden:
+      description: The session lacks the required permission.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    NotFound:
+      description: Not found, or outside this organization.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Unprocessable:
+      description: Validation failed.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+
+  parameters:
+    page:
+      name: page
+      in: query
+      schema: { type: integer, minimum: 1, default: 1 }
+    pageSize:
+      name: pageSize
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 200, default: 25 }
+    tenantId:
+      name: tenantId
+      in: query
+      schema: { type: string }
+      description: Restrict to one tenant.
+
+security:
+  - sessionCookie: []
+
+paths:
+  /api/auth/login:
+    post:
+      tags: [Authentication]
+      summary: Sign in
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email, example: admin@prime.co.ke }
+                password: { type: string, example: Password123 }
+      responses:
+        '200':
+          description: Signed in; the session cookie is set.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Session' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /api/auth/logout:
+    post:
+      tags: [Authentication]
+      summary: Sign out
+      responses:
+        '200':
+          description: Session cleared.
+
+  /api/auth/me:
+    get:
+      tags: [Authentication]
+      summary: The current session, role and permissions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/Session' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /api/v1/me/summary:
+    get:
+      tags: [Tenant app]
+      summary: Home screen for a tenant
+      description: Rent due, balance, latest receipt, open maintenance and how to pay.
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/TenantSummary' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /api/v1/me/record:
+    get:
+      tags: [Tenant app]
+      summary: The tenant's rental record
+      description: >
+        An explainable summary of how this tenant has paid, computed on read
+        from their own invoices and payments. NOT a credit bureau score, and
+        never shared with any credit reference bureau. The weighted factors
+        that produced the band are always part of the payload, so no client can
+        display a bare number without its reasons.
+
+
+        A tenant session carries its own tenant id and it always wins; passing
+        another tenant's id returns 403.
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/RentalRecord' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /api/v1/me/issues:
+    get:
+      tags: [Tenant app]
+      summary: The tenant's own maintenance tickets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Ticket' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+    post:
+      tags: [Tenant app]
+      summary: Report a maintenance issue
+      description: >
+        Creates a real maintenance ticket on the staff board. The property and
+        unit are taken from the tenant's own active lease, never from the
+        request body, so this endpoint cannot raise a ticket against another
+        building.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [category, title, description]
+              properties:
+                category:
+                  type: string
+                  enum: [PLUMBING, ELECTRICAL, WATER, STRUCTURAL, SECURITY, APPLIANCE, INTERNET, CLEANING, OTHER]
+                title: { type: string, minLength: 4, maxLength: 120 }
+                description: { type: string, minLength: 10, maxLength: 4000 }
+                priority:
+                  type: string
+                  enum: [LOW, MEDIUM, HIGH, URGENT]
+                  default: MEDIUM
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id: { type: string }
+                      number: { type: string, example: TKT-2026-000123 }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /api/v1/statements:
+    get:
+      tags: [Tenant app]
+      summary: Tenant statement with a running balance
+      parameters:
+        - $ref: '#/components/parameters/tenantId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      tenant: { type: object }
+                      entries:
+                        type: array
+                        items: { $ref: '#/components/schemas/StatementEntry' }
+                      totals:
+                        type: object
+                        properties:
+                          charged: { $ref: '#/components/schemas/Money' }
+                          paid: { $ref: '#/components/schemas/Money' }
+                          balance: { $ref: '#/components/schemas/Money' }
+                      currency: { type: string }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /api/v1/properties:
+    get:
+      tags: [Portfolio]
+      summary: List properties
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/pageSize'
+        - { name: q, in: query, schema: { type: string }, description: Search name or code. }
+        - { name: landlordId, in: query, schema: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Property' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /api/v1/invoices:
+    get:
+      tags: [Tenant app, Finance]
+      summary: List rent invoices
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/tenantId'
+        - { name: propertyId, in: query, schema: { type: string } }
+        - { name: status, in: query, schema: { type: string, enum: [DRAFT, DUE, PARTIALLY_PAID, PAID, OVERDUE, CANCELLED] } }
+        - { name: open, in: query, schema: { type: boolean }, description: Only invoices with a balance. }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Invoice' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+
+  /api/v1/payments:
+    get:
+      tags: [Tenant app, Finance]
+      summary: List payments
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/tenantId'
+        - { name: status, in: query, schema: { type: string } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Payment' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+    post:
+      tags: [Finance]
+      summary: Record a payment
+      description: |
+        Runs the full pipeline: identify the tenant, allocate across open
+        invoices oldest-first, calculate commission, post the double-entry
+        ledger group, issue a receipt and create the landlord payable. A payment
+        that cannot be matched is stored as UNMATCHED with a compliance
+        exception rather than being guessed onto an account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount]
+              properties:
+                amount: { $ref: '#/components/schemas/Money' }
+                method: { type: string, enum: [MPESA, BANK_TRANSFER, CASH, CHEQUE, CARD], default: MPESA }
+                tenantId: { type: string, description: Supply this or accountReference. }
+                accountReference: { type: string, example: GV-A12 }
+                externalReference: { type: string, example: SLP4TG9XQ2 }
+                payerName: { type: string }
+                payerPhone: { type: string, example: '254722123456' }
+                paidAt: { type: string, format: date-time }
+                narrative: { type: string }
+      responses:
+        '201':
+          description: Recorded.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      paymentId: { type: string }
+                      reference: { type: string }
+                      matched: { type: boolean }
+                      matchStrategy: { type: string, example: property code + unit number }
+                      allocated: { $ref: '#/components/schemas/Money' }
+                      unallocated: { $ref: '#/components/schemas/Money' }
+                      commission: { $ref: '#/components/schemas/Money' }
+                      net: { $ref: '#/components/schemas/Money' }
+                      receiptNumber: { type: string, nullable: true }
+                      invoicesUpdated:
+                        type: array
+                        items: { type: string }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /api/v1/receipts:
+    get:
+      tags: [Tenant app, Finance]
+      summary: List receipts
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/tenantId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Receipt' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+
+  /api/v1/maintenance:
+    get:
+      tags: [Tenant app, Operations]
+      summary: List maintenance tickets
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/tenantId'
+        - { name: propertyId, in: query, schema: { type: string } }
+        - { name: open, in: query, schema: { type: boolean } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Ticket' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+    post:
+      tags: [Tenant app, Operations]
+      summary: Raise a maintenance request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [propertyId, category, title, description]
+              properties:
+                propertyId: { type: string }
+                unitId: { type: string }
+                tenantId: { type: string }
+                category:
+                  type: string
+                  enum: [PLUMBING, ELECTRICAL, WATER, STRUCTURAL, SECURITY, APPLIANCE, INTERNET, CLEANING, OTHER]
+                title: { type: string, minLength: 3 }
+                description: { type: string, minLength: 3 }
+                priority: { type: string, enum: [LOW, MEDIUM, HIGH, URGENT], default: MEDIUM }
+                estimatedCost: { $ref: '#/components/schemas/Money' }
+      responses:
+        '201':
+          description: Raised.
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /api/v1/search:
+    get:
+      tags: [Portfolio]
+      summary: Cross-entity search, scoped to the organization
+      parameters:
+        - { name: q, in: query, required: true, schema: { type: string, minLength: 2 } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        type: { type: string, example: Tenant }
+                        label: { type: string }
+                        detail: { type: string }
+                        href: { type: string }
+
+  /api/v1/reports/{slug}/export:
+    get:
+      tags: [Reporting]
+      summary: Export a report as CSV
+      parameters:
+        - { name: slug, in: path, required: true, schema: { type: string }, example: rent-collection }
+        - { name: format, in: query, schema: { type: string, enum: [csv], default: csv } }
+        - { name: month, in: query, schema: { type: string }, example: '2026-9' }
+        - { name: property, in: query, schema: { type: string } }
+        - { name: landlord, in: query, schema: { type: string } }
+        - { name: from, in: query, schema: { type: string, format: date } }
+        - { name: to, in: query, schema: { type: string, format: date } }
+      responses:
+        '200':
+          description: CSV file.
+          content:
+            text/csv:
+              schema: { type: string }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /api/v1/webhooks/mpesa:
+    post:
+      tags: [Webhooks]
+      summary: M-Pesa C2B confirmation
+      security: []
+      description: |
+        Accepts Safaricom's confirmation payload. The organization is resolved
+        from the short code, the raw transaction is stored before matching is
+        attempted, and the response always acknowledges — a webhook that errors
+        gets retried, which for payments means duplicate processing.
+        Idempotency on the provider's transaction id is what makes retries safe.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                TransactionType: { type: string, example: Pay Bill }
+                TransID: { type: string, example: SLP4TG9XQ2 }
+                TransTime: { type: string, example: '20260905084512' }
+                TransAmount: { type: string, example: '25000.00' }
+                BusinessShortCode: { type: string, example: '400200' }
+                BillRefNumber: { type: string, example: GV-A12 }
+                MSISDN: { type: string, example: '254722123456' }
+                FirstName: { type: string, example: JAMES }
+                LastName: { type: string, example: MWANGI }
+      responses:
+        '200':
+          description: Acknowledged.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ResultCode: { type: integer, example: 0 }
+                  ResultDesc: { type: string, example: Accepted }

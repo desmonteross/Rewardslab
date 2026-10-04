@@ -1,0 +1,54 @@
+{
+  "name": "rentrewards",
+  "version": "3.1.0",
+  "private": true,
+  "description": "Multi-tenant SaaS Property Management System for the Kenyan market \u2014 rent collection, M-Pesa, accounting, landlord settlements and KRA eRITS compliance.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:reset": "tsx src/db/reset.ts && tsx src/db/seed.ts",
+    "setup": "drizzle-kit push --force && tsx src/db/seed.ts",
+    "db:backfill-valuations": "tsx src/db/backfill-valuations.ts"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "drizzle-orm": "^0.38.3",
+    "jose": "^5.9.6",
+    "lucide-react": "^0.462.0",
+    "next": "^15.1.6",
+    "pdf-lib": "^1.17.1",
+    "pg": "^8.13.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^2.15.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.10.5",
+    "@types/pg": "^8.11.10",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "autoprefixer": "^10.4.20",
+    "drizzle-kit": "^0.30.1",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

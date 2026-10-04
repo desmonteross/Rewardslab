@@ -1,0 +1,146 @@
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import clsx from 'clsx'
+import * as Icons from 'lucide-react'
+import { NAVIGATION, type NavSection } from '@/components/nav'
+import { BrandBadge } from '@/components/brand'
+
+function Icon({ name, className }: { name: string; className?: string }) {
+  const Resolved = (Icons as unknown as Record<string, Icons.LucideIcon>)[name] ?? Icons.Circle
+  return <Resolved className={className} aria-hidden />
+}
+
+export function Sidebar({
+  sections,
+  organizationName,
+  platformName,
+  mobileOpen,
+  onCloseMobile,
+}: {
+  sections: NavSection[]
+  organizationName: string
+  platformName: string
+  mobileOpen: boolean
+  onCloseMobile: () => void
+}) {
+  const pathname = usePathname()
+  const [collapsed, setCollapsed] = useState(false)
+
+  useEffect(() => {
+    try {
+      setCollapsed(localStorage.getItem('pms-sidebar') === 'collapsed')
+    } catch {
+      /* private mode — keep the default */
+    }
+  }, [])
+
+  function toggle() {
+    setCollapsed((previous) => {
+      const next = !previous
+      try {
+        localStorage.setItem('pms-sidebar', next ? 'collapsed' : 'expanded')
+      } catch {
+        /* nothing to persist to */
+      }
+      return next
+    })
+  }
+
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
+
+  return (
+    <>
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+          onClick={onCloseMobile}
+          aria-hidden
+        />
+      )}
+
+      <aside
+        className={clsx(
+          /* A fixed dark rail in both themes — the navigation is chrome, not
+             content, and holding it constant keeps the eye on the figures. */
+          'fixed inset-y-0 left-0 z-40 flex shrink-0 flex-col border-r border-nav-line bg-nav text-nav-ink transition-[width,transform] duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0',
+          collapsed ? 'w-[4.25rem]' : 'w-64',
+          mobileOpen ? 'translate-x-0' : '-translate-x-full',
+        )}
+      >
+        <div className="flex h-16 shrink-0 items-center gap-2.5 border-b border-nav-line px-4">
+          <BrandBadge size="sm" />
+          {!collapsed && (
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold leading-tight text-nav-ink">{platformName}</p>
+              <p className="truncate text-2xs leading-tight text-nav-muted">{organizationName}</p>
+            </div>
+          )}
+        </div>
+
+        <nav className="flex-1 overflow-y-auto px-2.5 py-3" aria-label="Main">
+          {sections.map((section, index) => (
+            <div key={section.label ?? `section-${index}`} className="mb-3 last:mb-0">
+              {section.label && !collapsed && (
+                <p className="px-2.5 pb-1.5 pt-2 text-2xs font-semibold uppercase tracking-wider text-nav-muted/70">
+                  {section.label}
+                </p>
+              )}
+              {section.label && collapsed && index > 0 && <hr className="mx-2 my-2 border-nav-line" />}
+              <ul className="space-y-0.5">
+                {section.items.map((item) => {
+                  const active = isActive(item.href)
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        onClick={onCloseMobile}
+                        aria-current={active ? 'page' : undefined}
+                        title={collapsed ? item.label : undefined}
+                        className={clsx(
+                          'flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors',
+                          collapsed && 'justify-center',
+                          active
+                            ? 'bg-brand/20 font-medium text-white'
+                            : 'text-nav-muted hover:bg-white/5 hover:text-nav-ink',
+                        )}
+                      >
+                        <Icon name={item.icon} className="h-4 w-4 shrink-0" />
+                        {!collapsed && <span className="truncate">{item.label}</span>}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
+        <div className="shrink-0 border-t border-nav-line p-2.5">
+          <button
+            type="button"
+            onClick={toggle}
+            className={clsx(
+              'flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-nav-muted transition-colors hover:bg-white/5 hover:text-nav-ink',
+              collapsed && 'justify-center',
+            )}
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {collapsed ? (
+              <Icons.PanelLeftOpen className="h-4 w-4" aria-hidden />
+            ) : (
+              <>
+                <Icons.PanelLeftClose className="h-4 w-4" aria-hidden />
+                <span>Collapse</span>
+              </>
+            )}
+          </button>
+        </div>
+      </aside>
+    </>
+  )
+}
+
+export { NAVIGATION }

@@ -1,0 +1,67 @@
+# =============================================================================
+#  RentRewards — the whole system, one command.
+#
+#      docker compose up
+#
+#  Brings up PostgreSQL and the application, applies the schema, seeds
+#  realistic demo data on first run, and serves on http://localhost:3000
+#
+#  Nothing else needs installing: no Node, no PostgreSQL, no configuration.
+# =============================================================================
+
+# A fixed project name, so container and volume names do not depend on what
+# the recipient happens to call the folder they extract into.
+name: rentrewards
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: rentrewards-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pms
+      POSTGRES_PASSWORD: pms
+      POSTGRES_DB: pms
+    ports:
+      # Exposed so the database can be inspected from the host. Change the
+      # left-hand number if 5432 is already taken on the recipient's machine.
+      - '${DB_PORT:-5432}:5432'
+    volumes:
+      - rentrewards-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pms -d pms']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rentrewards:latest
+    container_name: rentrewards-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://pms:pms@db:5432/pms
+      # Demonstration secret. Generate a real one for anything beyond a demo:
+      #   openssl rand -hex 32
+      AUTH_SECRET: ${AUTH_SECRET:-demo-only-secret-change-me-0123456789abcdef}
+      PLATFORM_NAME: RentRewards
+      # Both integrations are mocks. Nothing is transmitted to Safaricom or KRA.
+      PAYMENTS_PROVIDER: mpesa-mock
+      TAX_PROVIDER: erits-mock
+      NOTIFICATIONS_PROVIDER: console
+      DEFAULT_COMMISSION_RATE: '1.0'
+      DEFAULT_CURRENCY: KES
+      DEFAULT_TIMEZONE: Africa/Nairobi
+      NEXT_TELEMETRY_DISABLED: '1'
+      # RESEED: '1'     # rebuild the demo data on the next start
+      # SKIP_SEED: '1'  # start with an empty system
+    ports:
+      - '${APP_PORT:-3000}:3000'
+
+volumes:
+  rentrewards-db:

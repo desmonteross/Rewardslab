@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.env
+.env.local
+.rentrewards-state
+*.log
+*.tar.gz
+coverage
+tsconfig.tsbuildinfo
+shots
