@@ -234,6 +234,9 @@ export async function completeMoveIn(scope: Scope, moveEventId: string, notes?: 
       .limit(1)
       .then((rows) => rows[0])
     assertInScope(move, scope, 'move event')
+    if (move.type !== 'MOVE_IN' || move.status !== 'SCHEDULED') {
+      throw new Error('Only a scheduled move-in can be completed.')
+    }
 
     const [updated] = await tx
       .update(moveEvents)

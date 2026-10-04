@@ -16,9 +16,13 @@ import {
   rentInvoices,
   tenants,
   units,
+  unitTypeEnum,
   users,
 } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
+import { can } from '@/lib/rbac'
+import { ActionForm } from '@/components/action-form'
+import { createUnitAction } from '../../onboarding-actions'
 import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { fmtDate, periodOf } from '@/lib/dates'
@@ -173,12 +177,21 @@ export default async function PropertyDetailPage({
         description={`${property.code} · ${humanise(property.type)} · ${property.area ?? property.town}, ${property.county}`}
         actions={
           <>
-            <Link href={`/landlords/${record.landlordId}`} className="btn-secondary">
+            {can(session, 'landlords.view') && (
+              <Link href={`/landlords/${record.landlordId}`} className="btn-secondary">
               Landlord
             </Link>
-            <Link href={`/rent?property=${id}`} className="btn-primary">
+            )}
+            {can(session, 'units.create') && (
+              <Link href={href('units')} className="btn-secondary">
+                Add unit
+              </Link>
+            )}
+            {can(session, 'rent.view') && (
+              <Link href={`/rent?property=${id}`} className="btn-primary">
               Rent collection
             </Link>
+            )}
           </>
         }
       />
@@ -275,6 +288,53 @@ export default async function PropertyDetailPage({
       )}
 
       {tab === 'units' && (
+        <div className="space-y-4">
+        {can(session, 'units.create') && (
+          <Card title="Add a unit">
+            <ActionForm action={createUnitAction} label="Add unit" pendingLabel="Adding…">
+              <input type="hidden" name="propertyId" value={id} />
+              <div className="grid gap-3 sm:grid-cols-4">
+                <label className="block text-xs font-medium text-muted">
+                  Unit number
+                  <input name="unitNumber" className="field mt-1" placeholder="A1" required />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Type
+                  <select name="type" className="field mt-1" defaultValue="ONE_BEDROOM">
+                    {unitTypeEnum.enumValues.map((value) => (
+                      <option key={value} value={value}>
+                        {humanise(value)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Floor
+                  <input name="floor" type="number" min="0" className="field mt-1" defaultValue="0" />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Bedrooms / bathrooms
+                  <span className="mt-1 flex gap-2">
+                    <input name="bedrooms" type="number" min="0" className="field" defaultValue="1" aria-label="Bedrooms" />
+                    <input name="bathrooms" type="number" min="0" className="field" defaultValue="1" aria-label="Bathrooms" />
+                  </span>
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Monthly rent (KES)
+                  <input name="monthlyRent" type="number" min="1" step="1" className="field mt-1" required />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Deposit (KES)
+                  <input name="deposit" type="number" min="0" step="1" className="field mt-1" defaultValue="0" />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Service charge (KES)
+                  <input name="serviceCharge" type="number" min="0" step="1" className="field mt-1" defaultValue="0" />
+                </label>
+              </div>
+            </ActionForm>
+          </Card>
+        )}
         <Card title="Occupancy" description="Every unit in this property and its current state.">
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
             {unitRows.map((unit) => (
@@ -286,10 +346,16 @@ export default async function PropertyDetailPage({
                 <p className="mt-0.5 truncate text-2xs text-muted">{humanise(unit.status)}</p>
                 <p className="mt-1 truncate text-2xs tabular-nums text-faint">{formatKES(unit.monthlyRent)}</p>
                 <p className="truncate text-2xs text-faint">{humanise(unit.type)}</p>
+                {unit.status === 'VACANT' && can(session, 'leases.create') && (
+                  <Link href={`/leases/new?unit=${unit.id}`} className="link mt-1 block text-2xs">
+                    Sign a lease
+                  </Link>
+                )}
               </div>
             ))}
           </div>
         </Card>
+        </div>
       )}
 
       {tab === 'tenants' && (

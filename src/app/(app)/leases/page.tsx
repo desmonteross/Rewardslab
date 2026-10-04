@@ -3,6 +3,7 @@ import { asc, eq, ilike, or, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { leases, leaseStatusEnum, properties, tenants, units } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
+import { can } from '@/lib/rbac'
 import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { one, pageOf, withParams, PAGE_SIZE, type SearchParamsPromise } from '@/lib/search-params'
@@ -87,9 +88,16 @@ export default async function LeasesPage({ searchParams }: { searchParams: Searc
         title="Leases"
         description="Tenancy agreements, their terms and when they end."
         actions={
-          <Link href="/leases?expiring=90" className="btn-secondary">
-            Expiring in 90 days
-          </Link>
+          <>
+            <Link href="/leases?expiring=90" className="btn-secondary">
+              Expiring in 90 days
+            </Link>
+            {can(session, 'leases.create') && (
+              <Link href="/leases/new" className="btn-primary">
+                New lease
+              </Link>
+            )}
+          </>
         }
       />
 

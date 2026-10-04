@@ -15,6 +15,7 @@ import {
   units,
 } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
+import { can } from '@/lib/rbac'
 import { ownLandlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { fmtDate, fmtDayMonth, periodOf } from '@/lib/dates'
@@ -137,6 +138,11 @@ export default async function LandlordDetailPage({ params }: { params: Promise<{
         description={`${landlord.code} · ${humanise(landlord.type)} · ${landlord.county ?? '—'}`}
         actions={
           <>
+            {can(session, 'properties.create') && (
+              <Link href={`/properties/new?landlord=${id}`} className="btn-secondary">
+                Add property
+              </Link>
+            )}
             <Link href={`/reports/landlord-statement?landlord=${id}`} className="btn-secondary">
               Landlord statement
             </Link>
