@@ -22,9 +22,14 @@ export default async function NotificationsPage({ searchParams }: { searchParams
   const channel = one(params, 'channel')
   const status = one(params, 'status')
 
+  // A landlord sees only messages addressed to their own login, never the
+  // organization's traffic to tenants and other landlords.
+  const own = scope.landlordId ? eq(notifications.userId, scope.userId) : undefined
+
   const where = scoped(
     notifications,
     scope,
+    own,
     channel ? eq(notifications.channel, channel as 'EMAIL') : undefined,
     status ? eq(notifications.status, status as 'SENT') : undefined,
   )
@@ -40,7 +45,7 @@ export default async function NotificationsPage({ searchParams }: { searchParams
         unread: sql<number>`count(*) filter (where ${notifications.readAt} is null)::int`,
       })
       .from(notifications)
-      .where(scoped(notifications, scope)),
+      .where(scoped(notifications, scope, own)),
   ])
 
   return (

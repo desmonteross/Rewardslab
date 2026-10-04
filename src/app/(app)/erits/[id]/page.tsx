@@ -14,7 +14,7 @@ import {
   tenants,
 } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
-import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { can } from '@/lib/rbac'
 import { cents, formatKES } from '@/lib/money'
 import { fmtDate, fmtDateTime, periodFrom } from '@/lib/dates'
@@ -54,7 +54,7 @@ export default async function EritsPeriodPage({ params }: { params: Promise<{ id
     })
     .from(eritsPeriods)
     .innerJoin(landlords, eq(landlords.id, eritsPeriods.landlordId))
-    .where(scoped(eritsPeriods, scope, eq(eritsPeriods.id, id)))
+    .where(landlordScoped(eritsPeriods, scope, eq(eritsPeriods.id, id)))
     .limit(1)
 
   if (!record) notFound()

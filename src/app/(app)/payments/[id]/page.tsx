@@ -16,7 +16,7 @@ import {
   units,
 } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
-import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { can } from '@/lib/rbac'
 import { cents, formatKES } from '@/lib/money'
 import { fmtDate, fmtDateTime } from '@/lib/dates'
@@ -49,7 +49,7 @@ export default async function PaymentDetailPage({ params }: { params: Promise<{ 
     .leftJoin(units, eq(units.id, payments.unitId))
     .leftJoin(properties, eq(properties.id, payments.propertyId))
     .leftJoin(landlords, eq(landlords.id, payments.landlordId))
-    .where(scoped(payments, scope, eq(payments.id, id)))
+    .where(landlordScoped(payments, scope, eq(payments.id, id)))
     .limit(1)
 
   if (!record) notFound()

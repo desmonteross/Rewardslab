@@ -4,6 +4,7 @@ import { db } from '@/db'
 import { invoiceItems, leases, organizations, payments, properties, rentInvoices, tenants, units } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
 import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordHasTenant } from '@/server/landlord-access'
 import { cents, formatKES } from '@/lib/money'
 import { fmtDate } from '@/lib/dates'
 import { one, type SearchParamsPromise } from '@/lib/search-params'
@@ -30,7 +31,15 @@ export default async function TenantLedgerPage({ searchParams }: { searchParams:
   const tenantOptions = await db
     .select({ id: tenants.id, name: sql<string>`${tenants.fullName} || ' (' || ${tenants.code} || ')'` })
     .from(tenants)
-    .where(scoped(tenants, scope))
+    .where(
+      scoped(
+        tenants,
+        scope,
+        scope.landlordId
+          ? sql`exists (select 1 from leases l join properties p on p.id = l.property_id where l.tenant_id = tenants.id and p.landlord_id = ${scope.landlordId})`
+          : undefined,
+      ),
+    )
     .orderBy(asc(tenants.fullName))
     .limit(1000)
 
@@ -59,7 +68,7 @@ export default async function TenantLedgerPage({ searchParams }: { searchParams:
 
   const [tenant] = await db.select().from(tenants).where(scoped(tenants, scope, eq(tenants.id, tenantId))).limit(1)
 
-  if (!tenant) {
+  if (!tenant || !(await landlordHasTenant(scope, tenant.id))) {
     return (
       <>
         <PageHeader breadcrumb={[{ label: 'Reports', href: '/reports' }]} title="Tenant ledger" />

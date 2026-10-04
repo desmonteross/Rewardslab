@@ -15,7 +15,7 @@ import {
   units,
 } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
-import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { cents, formatKES } from '@/lib/money'
 import { daysOverdue, fmtDate } from '@/lib/dates'
 import { Card, DataTable, DetailList, EmptyState, Money, Notice, PageHeader, StatusBadge, humanise } from '@/components/ui'
@@ -48,7 +48,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
     .innerJoin(properties, eq(properties.id, rentInvoices.propertyId))
     .innerJoin(landlords, eq(landlords.id, rentInvoices.landlordId))
     .innerJoin(leases, eq(leases.id, rentInvoices.leaseId))
-    .where(scoped(rentInvoices, scope, eq(rentInvoices.id, id)))
+    .where(landlordScoped(rentInvoices, scope, eq(rentInvoices.id, id)))
     .limit(1)
 
   if (!record) notFound()

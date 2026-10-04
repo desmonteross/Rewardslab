@@ -2,7 +2,8 @@ import Link from 'next/link'
 import { FileSpreadsheet } from 'lucide-react'
 import { requirePermission } from '@/lib/session'
 import { Card, PageHeader } from '@/components/ui'
-import { REPORTS } from '@/server/reports'
+import { scopeFromSession } from '@/lib/tenancy'
+import { REPORTS, canRunReport } from '@/server/reports'
 
 export const metadata = { title: 'Reports' }
 
@@ -24,7 +25,7 @@ const SPECIALS = [
 ]
 
 export default async function ReportsPage() {
-  await requirePermission('reports.view')
+  const scope = scopeFromSession(await requirePermission('reports.view'))
 
   return (
     <>
@@ -36,7 +37,7 @@ export default async function ReportsPage() {
       <div className="space-y-6">
         {GROUPS.map((group) => {
           const reports = [
-            ...REPORTS.filter((report) => report.group === group),
+            ...REPORTS.filter((report) => report.group === group && canRunReport(scope, report)),
             ...SPECIALS.filter((report) => report.group === group),
           ]
           if (reports.length === 0) return null

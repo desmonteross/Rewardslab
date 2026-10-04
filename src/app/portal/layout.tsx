@@ -17,7 +17,8 @@ export default async function PortalLayout({ children }: { children: React.React
 
   const scope = scopeFromSession(session)
   const [tenancy, counts] = await Promise.all([portalTenancy(scope), portalNavCounts(scope)])
-  if (!tenancy) redirect('/login')
+  // No tenancy row: send them somewhere that does not bounce back here.
+  if (!tenancy) redirect('/forbidden')
 
   const unitLabel = tenancy.lease
     ? `${tenancy.lease.propertyName} · ${tenancy.lease.unitNumber}`

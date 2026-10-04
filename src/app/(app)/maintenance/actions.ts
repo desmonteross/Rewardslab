@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { requirePermission } from '@/lib/session'
+import { can } from '@/lib/rbac'
 import { scopeFromSession } from '@/lib/tenancy'
 import { cents } from '@/lib/money'
 import {
@@ -23,6 +24,12 @@ export async function createTicketAction(_previous: ActionState, formData: FormD
     if (!propertyId) return { ok: false, message: 'Choose the property.' }
     if (!title) return { ok: false, message: 'Give the ticket a short title.' }
 
+    const assignedToId = String(formData.get('assignedToId') ?? '') || null
+    const vendorId = String(formData.get('vendorId') ?? '') || null
+    if ((assignedToId || vendorId) && !can(session, 'maintenance.assign')) {
+      return { ok: false, message: 'Your role cannot assign tickets. Raise it unassigned.' }
+    }
+
     const ticket = await createTicket(scope, {
       propertyId,
       unitId: String(formData.get('unitId') ?? '') || null,
@@ -31,8 +38,8 @@ export async function createTicketAction(_previous: ActionState, formData: FormD
       description: description || title,
       priority: String(formData.get('priority') ?? 'MEDIUM') as 'MEDIUM',
       estimatedCostCents: cents(String(formData.get('estimatedCost') ?? '0')),
-      vendorId: String(formData.get('vendorId') ?? '') || null,
-      assignedToId: String(formData.get('assignedToId') ?? '') || null,
+      vendorId,
+      assignedToId,
     })
 
     revalidatePath('/maintenance')
@@ -51,6 +58,18 @@ export async function updateTicketAction(_previous: ActionState, formData: FormD
     const status = String(formData.get('status') ?? '') as TicketStatusName | ''
     const actualCost = String(formData.get('actualCost') ?? '')
 
+    // The form hides these controls from roles without the permission; the
+    // checks here stop a hand-built request doing the same thing.
+    const canAssign = can(session, 'maintenance.assign')
+    const changesAssignment = formData.has('assignedToId') || formData.has('vendorId')
+    if (changesAssignment && !canAssign) {
+      return { ok: false, message: 'Your role cannot assign tickets.' }
+    }
+    if (status === 'CLOSED' && !can(session, 'maintenance.close')) {
+      return { ok: false, message: 'Your role cannot close tickets. Mark it resolved instead.' }
+    }
+    const raiseExpense = formData.get('raiseExpense') === 'on' && can(session, 'expenses.create')
+
     const result = await updateTicket(scope, ticketId, {
       status: status || undefined,
       note: String(formData.get('note') ?? '') || undefined,
@@ -58,7 +77,7 @@ export async function updateTicketAction(_previous: ActionState, formData: FormD
       vendorId: formData.has('vendorId') ? String(formData.get('vendorId')) || null : undefined,
       actualCostCents: actualCost ? cents(actualCost) : undefined,
       resolutionNotes: String(formData.get('resolutionNotes') ?? '') || undefined,
-      raiseExpense: formData.get('raiseExpense') === 'on',
+      raiseExpense,
     })
 
     revalidatePath('/maintenance')

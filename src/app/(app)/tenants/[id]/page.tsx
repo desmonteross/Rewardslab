@@ -29,6 +29,7 @@ import {
 import { requirePermission } from '@/lib/session'
 import { can } from '@/lib/rbac'
 import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordHasTenant } from '@/server/landlord-access'
 import { cents, formatKES } from '@/lib/money'
 import { fmtDate, fmtDateTime, fmtDayMonth } from '@/lib/dates'
 import { one, type SearchParamsPromise } from '@/lib/search-params'
@@ -81,7 +82,7 @@ export default async function TenantDetailPage({
   const tab = (one(query, 'tab') ?? 'overview') as (typeof TABS)[number]
 
   const [tenant] = await db.select().from(tenants).where(scoped(tenants, scope, eq(tenants.id, id))).limit(1)
-  if (!tenant) notFound()
+  if (!tenant || !(await landlordHasTenant(scope, id))) notFound()
 
   const [currentLease] = await db
     .select({

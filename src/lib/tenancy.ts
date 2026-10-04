@@ -45,6 +45,15 @@ export function scopeFromSession(session: Session): Scope {
       'This session is not bound to an organization. Platform staff must select an organization first.',
     )
   }
+  // A landlord or tenant login with no linked record must not fall back to
+  // the whole organization: the narrowing helpers skip their filter when the
+  // id is null, so a missing link would otherwise widen every read.
+  if (session.role === 'LANDLORD' && !session.landlordId) {
+    throw new TenancyError('This landlord login is not linked to a landlord record.')
+  }
+  if (session.role === 'TENANT' && !session.tenantId) {
+    throw new TenancyError('This tenant login is not linked to a tenant record.')
+  }
   return {
     organizationId: session.organizationId,
     landlordId: session.role === 'LANDLORD' ? session.landlordId : null,

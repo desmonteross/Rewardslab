@@ -1,10 +1,26 @@
 import { NextResponse } from 'next/server'
+import { timingSafeEqual } from 'node:crypto'
 import { db } from '@/db'
 import { integrations } from '@/db/schema'
 import { and, eq, sql } from 'drizzle-orm'
 import { handler } from '@/lib/api'
 import { ingestMpesaTransaction } from '@/server/services/mpesa'
 import { getPaymentProvider } from '@/server/adapters'
+import { env } from '@/lib/env'
+
+/**
+ * C2B callbacks are not signed, so the callback URL registered with Safaricom
+ * carries a secret token. Without MPESA_WEBHOOK_SECRET the endpoint only
+ * accepts posts outside production, which keeps the local mock flow working.
+ */
+function webhookAuthorised(request: Request): boolean {
+  const secret = env.mpesa.webhookSecret
+  if (!secret) return process.env.NODE_ENV !== 'production'
+  const token = new URL(request.url).searchParams.get('token') ?? ''
+  const a = Buffer.from(token)
+  const b = Buffer.from(secret)
+  return a.length === b.length && timingSafeEqual(a, b)
+}
 
 /**
  * POST /api/v1/webhooks/mpesa
@@ -17,6 +33,11 @@ import { getPaymentProvider } from '@/server/adapters'
  * provider's own transaction id is what makes that safe.
  */
 export const POST = handler(async (request: Request) => {
+  if (!webhookAuthorised(request)) {
+    console.warn('[mpesa webhook] rejected: missing or wrong token')
+    return NextResponse.json({ ResultCode: 1, ResultDesc: 'Rejected' }, { status: 401 })
+  }
+
   let body: unknown
   try {
     body = await request.json()

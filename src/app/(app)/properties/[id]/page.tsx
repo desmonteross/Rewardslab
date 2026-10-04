@@ -19,7 +19,7 @@ import {
   users,
 } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
-import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { fmtDate, periodOf } from '@/lib/dates'
 import { one, type SearchParamsPromise } from '@/lib/search-params'
@@ -74,7 +74,7 @@ export default async function PropertyDetailPage({
     .from(properties)
     .innerJoin(landlords, eq(landlords.id, properties.landlordId))
     .leftJoin(users, eq(users.id, properties.managerId))
-    .where(scoped(properties, scope, eq(properties.id, id)))
+    .where(landlordScoped(properties, scope, eq(properties.id, id)))
     .limit(1)
 
   if (!record) notFound()

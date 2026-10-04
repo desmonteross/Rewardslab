@@ -62,6 +62,8 @@ export const env = {
       shortCode: str('MPESA_SHORTCODE', '400200'),
       passkey: process.env.MPESA_PASSKEY ?? '',
       callbackUrl: str('MPESA_CALLBACK_URL', 'http://localhost:3000/api/v1/webhooks/mpesa'),
+      /** Shared secret Safaricom must echo back as ?token= on the callback URL. */
+      webhookSecret: process.env.MPESA_WEBHOOK_SECRET ?? '',
     }
   },
   get erits() {

@@ -1,4 +1,6 @@
 import { authenticate, forbidden, handler, ok, unprocessable } from '@/lib/api'
+import { can } from '@/lib/rbac'
+import { landlordHasTenant } from '@/server/landlord-access'
 import { rentalRecordFor } from '@/server/services/rental-record'
 import { portalTenancyHistory } from '@/server/queries/portal'
 
@@ -19,6 +21,16 @@ export const GET = handler(async (request: Request) => {
   if (!tenantId) throw unprocessable('Supply tenantId, or sign in as a tenant.')
   if (scope.tenantId && requested && requested !== scope.tenantId) {
     throw forbidden('You can only read your own record.')
+  }
+  // Staff reading on behalf of a tenant need the same rights as the tenant
+  // screens, and a landlord only reaches tenants on their own properties.
+  if (!scope.tenantId) {
+    if (!can({ role: scope.role, permissions: scope.permissions }, 'tenants.view')) {
+      throw forbidden('Your role cannot read tenant records.')
+    }
+    if (!(await landlordHasTenant(scope, tenantId))) {
+      throw forbidden('That tenant is not on your properties.')
+    }
   }
 
   const record = await rentalRecordFor(scope, tenantId)

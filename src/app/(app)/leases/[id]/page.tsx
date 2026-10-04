@@ -15,6 +15,7 @@ import {
 } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
 import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordOwnsProperty } from '@/server/landlord-access'
 import { can } from '@/lib/rbac'
 import { cents, formatKES } from '@/lib/money'
 import { fmtDate } from '@/lib/dates'
@@ -58,7 +59,7 @@ export default async function LeaseDetailPage({ params }: { params: Promise<{ id
     .where(scoped(leases, scope, eq(leases.id, id)))
     .limit(1)
 
-  if (!record) notFound()
+  if (!record || !(await landlordOwnsProperty(scope, record.propertyId))) notFound()
   const { lease } = record
 
   const [charges, invoices, paymentRows, moveRows, vacantUnits, documentRows] = await Promise.all([
