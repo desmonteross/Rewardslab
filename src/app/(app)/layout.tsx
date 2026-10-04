@@ -56,7 +56,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       organizationName={session.organizationName ?? 'Platform'}
       userName={session.fullName}
       userRole={ROLE_LABELS[session.role] ?? session.role}
-      permissions={session.permissions}
+      // Platform staff get only the platform area in the command bar too.
+      permissions={platformOnly ? ['platform.admin'] : session.permissions}
       notifications={recent.map((notification) => ({
         id: notification.id,
         title: notification.title,

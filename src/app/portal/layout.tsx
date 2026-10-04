@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { requireSession } from '@/lib/session'
 import { env } from '@/lib/env'
+import { homePathFor } from '@/lib/home-path'
 import { scopeFromSession } from '@/lib/tenancy'
 import { PortalShell } from '@/components/shell/portal-shell'
 import { portalNavCounts, portalTenancy } from '@/server/queries/portal'
@@ -13,7 +14,7 @@ export default async function PortalLayout({ children }: { children: React.React
 
   // Staff have no tenancy of their own, so the portal has nothing to show
   // them — and a tenant has no business outside it.
-  if (session.role !== 'TENANT' || !session.tenantId) redirect('/dashboard')
+  if (session.role !== 'TENANT' || !session.tenantId) redirect(homePathFor(session.role))
 
   const scope = scopeFromSession(session)
   const [tenancy, counts] = await Promise.all([portalTenancy(scope), portalNavCounts(scope)])
