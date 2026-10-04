@@ -5,6 +5,7 @@ import { requireSession } from '@/lib/session'
 import { can, ROLE_LABELS } from '@/lib/rbac'
 import { Card, PageHeader } from '@/components/ui'
 import { GETTING_AROUND, HELP_GROUPS } from '@/components/help-content'
+import { GuideContents } from '@/components/guide-contents'
 
 export const metadata = { title: 'Guides' }
 export const dynamic = 'force-dynamic'
@@ -40,21 +41,7 @@ export default async function HelpPage() {
       />
 
       <div className="grid gap-6 lg:grid-cols-[13rem_minmax(0,1fr)]">
-        <nav aria-label="On this page" className="lg:sticky lg:top-20 lg:self-start">
-          <p className="label mb-2">On this page</p>
-          <ul className="flex flex-wrap gap-2 lg:flex-col lg:gap-0.5">
-            {contents.map((entry) => (
-              <li key={entry.id}>
-                <a
-                  href={`#${entry.id}`}
-                  className="block rounded-lg px-2.5 py-1.5 text-sm text-muted hover:bg-canvas hover:text-ink"
-                >
-                  {entry.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <GuideContents entries={contents} />
 
         <div className="min-w-0 space-y-8">
           <section id="getting-around" className="scroll-mt-20">
