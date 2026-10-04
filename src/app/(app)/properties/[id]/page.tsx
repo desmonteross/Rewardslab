@@ -23,6 +23,7 @@ import { requirePermission } from '@/lib/session'
 import { can } from '@/lib/rbac'
 import { ActionForm } from '@/components/action-form'
 import { createUnitAction } from '../../onboarding-actions'
+import { UnitUpload } from '@/components/unit-upload'
 import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { fmtDate, periodOf } from '@/lib/dates'
@@ -65,6 +66,7 @@ export default async function PropertyDetailPage({
   const scope = scopeFromSession(session)
   const tab = one(query, 'tab') ?? 'overview'
   const justAdded = one(query, 'added') === '1'
+  const addMode = one(query, 'add') === 'upload' ? 'upload' : 'single'
   const period = periodOf(new Date())
 
   const [record] = await db
@@ -226,7 +228,7 @@ export default async function PropertyDetailPage({
       {justAdded && tab === 'units' && unitRows.length === 0 && (
         <div className="mt-4">
           <Notice tone="brand" title={`${property.name} is saved`}>
-            Now add its units below. Each vacant unit gets a “Sign a lease” link once it exists.
+            Now add its units below, one by one or by uploading a spreadsheet. Each vacant unit gets a “Sign a lease” link once it exists.
           </Notice>
         </div>
       )}
@@ -311,7 +313,32 @@ export default async function PropertyDetailPage({
       {tab === 'units' && (
         <div className="space-y-4">
         {can(session, 'units.create') && (
-          <Card title={unitRows.length === 0 ? 'Add the first units' : 'Add units'} description="Every unit in a run gets the same type and rent. Add differing units as separate runs.">
+          <Card
+            title={unitRows.length === 0 ? 'Add the first units' : 'Add units'}
+            description="Type them in one at a time (or as a numbered run), or upload a spreadsheet with all of them."
+          >
+            <div className="mb-4 inline-flex rounded-lg border border-line p-0.5 text-sm" role="tablist">
+              {[
+                { mode: 'single', label: 'One by one' },
+                { mode: 'upload', label: 'Upload a spreadsheet' },
+              ].map((option) => (
+                <Link
+                  key={option.mode}
+                  href={`/properties/${id}?tab=units&add=${option.mode}`}
+                  role="tab"
+                  aria-selected={addMode === option.mode}
+                  className={clsx(
+                    'rounded-md px-3 py-1.5',
+                    addMode === option.mode ? 'bg-brand text-white' : 'text-muted hover:text-ink',
+                  )}
+                >
+                  {option.label}
+                </Link>
+              ))}
+            </div>
+            {addMode === 'upload' ? (
+              <UnitUpload propertyId={id} />
+            ) : (
             <ActionForm action={createUnitAction} label="Add units" pendingLabel="Adding…">
               <input type="hidden" name="propertyId" value={id} />
               <div className="grid gap-3 sm:grid-cols-4">
@@ -359,6 +386,7 @@ export default async function PropertyDetailPage({
                 </label>
               </div>
             </ActionForm>
+            )}
           </Card>
         )}
         <Card title="Occupancy" description="Every unit in this property and its current state.">

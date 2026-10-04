@@ -186,52 +186,73 @@ export async function createUnit(scope: Scope, input: UnitInput) {
 /** Add `count` identical units numbered on from `input.unitNumber`, all or none. */
 export async function createUnits(scope: Scope, input: UnitInput, count: number) {
   if (count < 1 || count > 200) throw new Error('Add between 1 and 200 units at a time.')
-  const numbers = unitNumberRun(input.unitNumber, count)
+  const { propertyId, ...unit } = input
+  return addUnits(
+    scope,
+    propertyId,
+    unitNumberRun(input.unitNumber, count).map((unitNumber) => ({ ...unit, unitNumber })),
+  )
+}
+
+export type UnitRow = Omit<UnitInput, 'propertyId'>
+
+/**
+ * Insert a set of units on one property in a single transaction, so a batch
+ * from the form or an uploaded sheet lands whole or not at all.
+ */
+export async function addUnits(scope: Scope, propertyId: string, rows: UnitRow[]) {
+  if (rows.length === 0) throw new Error('There are no units to add.')
+  const numbers = rows.map((row) => row.unitNumber)
+  const repeated = numbers.find((number, index) => numbers.indexOf(number) !== index)
+  if (repeated) throw new Error(`Unit ${repeated} appears more than once.`)
 
   return db.transaction(async (tx) => {
     const property = await tx
       .select()
       .from(properties)
-      .where(scoped(properties, scope, eq(properties.id, input.propertyId)))
+      .where(scoped(properties, scope, eq(properties.id, propertyId)))
       .limit(1)
-      .then((rows) => rows[0])
+      .then((result) => result[0])
     assertInScope(property, scope, 'property')
 
-    const [clash] = await tx
+    const clashes = await tx
       .select({ unitNumber: units.unitNumber })
       .from(units)
-      .where(scoped(units, scope, eq(units.propertyId, input.propertyId), inArray(units.unitNumber, numbers)))
-      .limit(1)
-    if (clash) throw new Error(`${property.name} already has a unit ${clash.unitNumber}.`)
+      .where(scoped(units, scope, eq(units.propertyId, propertyId), inArray(units.unitNumber, numbers)))
+    if (clashes.length > 0) {
+      const list = clashes.map((row) => row.unitNumber).slice(0, 10).join(', ')
+      throw new Error(`${property.name} already has unit${clashes.length > 1 ? 's' : ''} ${list}.`)
+    }
 
     const created = await tx
       .insert(units)
       .values(
-        numbers.map((unitNumber) => ({
+        rows.map((row) => ({
           organizationId: scope.organizationId,
-          propertyId: input.propertyId,
-          unitNumber,
-          type: input.type,
-          floor: input.floor,
-          bedrooms: input.bedrooms,
-          bathrooms: input.bathrooms,
-          monthlyRent: amount(input.monthlyRentCents),
-          deposit: amount(input.depositCents),
-          serviceCharge: amount(input.serviceChargeCents),
+          propertyId,
+          unitNumber: row.unitNumber,
+          type: row.type,
+          floor: row.floor,
+          bedrooms: row.bedrooms,
+          bathrooms: row.bathrooms,
+          monthlyRent: amount(row.monthlyRentCents),
+          deposit: amount(row.depositCents),
+          serviceCharge: amount(row.serviceChargeCents),
           status: 'VACANT' as const,
         })),
       )
       .returning()
 
     // The property's headline figures are kept in step with its units.
+    const addedRentCents = rows.reduce((sum, row) => sum + row.monthlyRentCents, 0)
     await tx
       .update(properties)
       .set({
-        unitCount: sql`${properties.unitCount} + ${numbers.length}`,
-        expectedMonthlyRent: sql`${properties.expectedMonthlyRent} + ${amount(input.monthlyRentCents * numbers.length)}`,
+        unitCount: sql`${properties.unitCount} + ${rows.length}`,
+        expectedMonthlyRent: sql`${properties.expectedMonthlyRent} + ${amount(addedRentCents)}`,
         updatedAt: new Date(),
       })
-      .where(scoped(properties, scope, eq(properties.id, input.propertyId)))
+      .where(scoped(properties, scope, eq(properties.id, propertyId)))
 
     for (const unit of created) {
       await audit(tx, scope, {

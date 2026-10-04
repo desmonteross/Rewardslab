@@ -6,7 +6,9 @@ import { requirePermission } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { cents } from '@/lib/money'
 import { completeMoveIn } from '@/server/services/leases'
+import { parseUnitSheet } from '@/server/units-import'
 import {
+  addUnits,
   createLandlord,
   createLease,
   createProperty,
@@ -196,5 +198,39 @@ export async function completeMoveInAction(_previous: ActionState, formData: For
     return { ok: true, message: 'Move-in completed. The unit is now occupied.' }
   } catch (error) {
     return failure(error, 'Could not complete the move-in.')
+  }
+}
+
+/**
+ * Bulk upload: every row is checked before anything is saved, so a file with
+ * one bad row adds nothing and says exactly which rows to fix.
+ */
+export async function importUnitsAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
+  try {
+    const scope = scopeFromSession(await requirePermission('units.create'))
+    const propertyId = text(formData, 'propertyId')
+    const file = formData.get('file')
+    if (!(file instanceof File) || file.size === 0) return { ok: false, message: 'Choose a CSV file to upload.' }
+    if (file.size > 1_000_000) return { ok: false, message: 'That file is over 1 MB. Upload at most 500 units at a time.' }
+    if (/\.(xlsx?|ods|numbers)$/i.test(file.name)) {
+      return { ok: false, message: 'Save the sheet as CSV first (File → Save As → CSV), then upload that file.' }
+    }
+
+    const { rows, errors } = parseUnitSheet(await file.text())
+    if (errors.length > 0) {
+      const shown = errors.slice(0, 8).map((error) => `Row ${error.line}: ${error.message}`)
+      const more = errors.length > shown.length ? `\n…and ${errors.length - shown.length} more.` : ''
+      return {
+        ok: false,
+        message: `Nothing was added. Fix ${errors.length === 1 ? 'this row' : `these ${errors.length} rows`} and upload again:\n${shown.join('\n')}${more}`,
+      }
+    }
+
+    const created = await addUnits(scope, propertyId, rows)
+    revalidatePath(`/properties/${propertyId}`)
+    revalidatePath('/units')
+    return { ok: true, message: `${created.length} unit${created.length === 1 ? '' : 's'} added from ${file.name}.` }
+  } catch (error) {
+    return failure(error, 'Could not import the units.')
   }
 }

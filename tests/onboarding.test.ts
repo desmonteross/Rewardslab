@@ -115,7 +115,7 @@ describe('onboarding a tenancy from nothing', () => {
 
     await expect(
       createUnit(scope, { ...unit, propertyId, monthlyRentCents: 1, depositCents: 0, serviceChargeCents: 0 }),
-    ).rejects.toThrow(/already has a unit A1/)
+    ).rejects.toThrow(/already has unit A1/)
   })
 
   it('adds a numbered run of units in one go, and none if any clash', async () => {
@@ -139,7 +139,7 @@ describe('onboarding a tenancy from nothing', () => {
     expect(run.map((unit) => unit.unitNumber)).toEqual(['B1', 'B2', 'B3'])
 
     // B3 already exists, so B3–B4 is refused whole.
-    await expect(createUnits(scope, { ...base, unitNumber: 'B3' }, 2)).rejects.toThrow(/already has a unit B3/)
+    await expect(createUnits(scope, { ...base, unitNumber: 'B3' }, 2)).rejects.toThrow(/already has unit B3/)
     const [after] = await db.select().from(s.properties).where(eq(s.properties.id, propertyId))
     expect(after.unitCount).toBe(4)
     expect(after.expectedMonthlyRent).toBe('55000.00')
