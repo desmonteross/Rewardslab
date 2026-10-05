@@ -80,7 +80,7 @@ describe('listing a vacant unit on Find a Home', () => {
     const listing = await listUnit(scope, unitA)
     expect(listing.status).toBe('LISTED')
     expect(listing.askingRent).toBe('30000.00')
-    expect(listing.headline).toBe('Seeker Court L1, Kilimani')
+    expect(listing.headline).toBe('One Bedroom at Seeker Court, Kilimani')
     expect(listing.syncStatus).toBe('QUEUED')
     expect((await liveListingsByUnit(scope)).has(unitA)).toBe(true)
   })
