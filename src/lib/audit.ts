@@ -30,6 +30,8 @@ export type AuditAction =
   | 'Property Updated'
   | 'Unit Created'
   | 'Unit Updated'
+  | 'Unit Listed'
+  | 'Unit Delisted'
   | 'Landlord Created'
   | 'Landlord Updated'
   | 'Tenant Created'

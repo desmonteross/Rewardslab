@@ -16,6 +16,7 @@ import { audit } from '@/lib/audit'
 import { assertInScope, scoped, type Scope } from '@/lib/tenancy'
 import type { Tx } from '@/db'
 import { nextNumber } from './numbering'
+import { delistOnLetting } from './listings'
 
 /**
  * The next number from the organization's counter that is not already taken.
@@ -335,7 +336,8 @@ export async function createLease(scope: Scope, input: LeaseInput) {
   if (input.months < 1) throw new Error('A lease runs for at least one month.')
   if (input.dueDayOfMonth < 1 || input.dueDayOfMonth > 28) throw new Error('Rent is due on a day from 1 to 28.')
 
-  return db.transaction(async (tx) => {
+  let afterCommit = async () => {}
+  const lease = await db.transaction(async (tx) => {
     const unit = await tx
       .select()
       .from(units)
@@ -413,6 +415,9 @@ export async function createLease(scope: Scope, input: LeaseInput) {
       .set({ status: 'RESERVED', currentLeaseId: created.id, currentTenantId: tenant.id, updatedAt: new Date() })
       .where(scoped(units, scope, eq(units.id, unit.id)))
 
+    // A let unit comes off Find a Home straight away.
+    afterCommit = await delistOnLetting(tx, scope, unit.id, `Let to ${tenant.fullName} (${code})`)
+
     await tx
       .update(tenants)
       .set({ status: 'ACTIVE', updatedAt: new Date() })
@@ -427,4 +432,6 @@ export async function createLease(scope: Scope, input: LeaseInput) {
     })
     return created
   })
+  await afterCommit()
+  return lease
 }

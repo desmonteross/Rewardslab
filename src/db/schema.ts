@@ -552,6 +552,56 @@ export const units = pgTable(
 )
 
 // ---------------------------------------------------------------------------
+// Listings — vacant units advertised on the Find a Home portal
+// ---------------------------------------------------------------------------
+
+export const listingStatusEnum = pgEnum('listing_status', ['LISTED', 'DELISTED'])
+/** Whether the portal has the current state: QUEUED until one is connected. */
+export const listingSyncEnum = pgEnum('listing_sync', ['QUEUED', 'SYNCED', 'FAILED'])
+
+/**
+ * One row per time a unit is put on the market. De-listing closes the row
+ * rather than deleting it, so the history of when a unit was advertised, and
+ * why it came off, survives.
+ */
+export const unitListings = pgTable(
+  'unit_listings',
+  {
+    id: pk(),
+    organizationId: orgRef(),
+    unitId: text('unit_id')
+      .notNull()
+      .references(() => units.id, { onDelete: 'cascade' }),
+    propertyId: text('property_id')
+      .notNull()
+      .references(() => properties.id, { onDelete: 'cascade' }),
+    status: listingStatusEnum('status').notNull().default('LISTED'),
+    headline: text('headline').notNull(),
+    description: text('description').notNull().default(''),
+    askingRent: money('asking_rent').notNull(),
+    availableFrom: ts('available_from').notNull(),
+    syncStatus: listingSyncEnum('sync_status').notNull().default('QUEUED'),
+    syncMessage: text('sync_message'),
+    externalRef: text('external_ref'),
+    listedAt: ts('listed_at').notNull().defaultNow(),
+    listedById: text('listed_by_id'),
+    listedByName: text('listed_by_name'),
+    delistedAt: ts('delisted_at'),
+    delistedById: text('delisted_by_id'),
+    delistedByName: text('delisted_by_name'),
+    delistReason: text('delist_reason'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    index('unit_listings_org_idx').on(t.organizationId),
+    index('unit_listings_unit_idx').on(t.unitId),
+    // A unit can be on the market only once at a time.
+    uniqueIndex('unit_listings_one_live_uq').on(t.unitId).where(sql`status = 'LISTED'`),
+  ],
+)
+
+// ---------------------------------------------------------------------------
 // Tenancy
 // ---------------------------------------------------------------------------
 

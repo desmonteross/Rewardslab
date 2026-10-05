@@ -24,6 +24,7 @@ import { can } from '@/lib/rbac'
 import { ActionForm } from '@/components/action-form'
 import { createUnitAction } from '../../onboarding-actions'
 import { UnitUpload } from '@/components/unit-upload'
+import { liveListingsByUnit } from '@/server/services/listings'
 import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { fmtDate, periodOf } from '@/lib/dates'
@@ -169,6 +170,7 @@ export default async function PropertyDetailPage({
   ])
 
   const occupied = unitRows.filter((unit) => unit.status === 'OCCUPIED').length
+  const listedUnits = await liveListingsByUnit(scope, unitRows.map((unit) => unit.id))
   const collectionRate = percent(cents(stats?.collectedMonth), cents(stats?.billedMonth))
   const href = (next: string) => `/properties/${id}?tab=${next}`
 
@@ -401,9 +403,15 @@ export default async function PropertyDetailPage({
                 <p className="mt-0.5 truncate text-2xs text-muted">{humanise(unit.status)}</p>
                 <p className="mt-1 truncate text-2xs tabular-nums text-faint">{formatKES(unit.monthlyRent)}</p>
                 <p className="truncate text-2xs text-faint">{humanise(unit.type)}</p>
+                {listedUnits.has(unit.id) && <p className="mt-1 text-2xs font-medium text-brand">Listed on Find a Home</p>}
                 {unit.status === 'VACANT' && can(session, 'leases.create') && (
                   <Link href={`/leases/new?unit=${unit.id}`} className="link mt-1 block text-2xs">
                     Sign a lease
+                  </Link>
+                )}
+                {unit.status === 'VACANT' && !listedUnits.has(unit.id) && can(session, 'units.update') && (
+                  <Link href={`/units/listings/new?unit=${unit.id}`} className="link mt-0.5 block text-2xs">
+                    List it
                   </Link>
                 )}
               </div>

@@ -27,6 +27,7 @@ export const NAVIGATION: NavSection[] = [
     items: [
       { label: 'Properties', href: '/properties', icon: 'Building2', permission: 'properties.view' },
       { label: 'Units', href: '/units', icon: 'DoorOpen', permission: 'units.view' },
+      { label: 'Listings', href: '/units/listings', icon: 'Megaphone', permission: 'units.view' },
       { label: 'Landlords', href: '/landlords', icon: 'UserRoundCog', permission: 'landlords.view' },
     ],
   },

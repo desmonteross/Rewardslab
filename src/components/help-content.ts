@@ -90,6 +90,23 @@ export const HELP_GROUPS: HelpGroup[] = [
           'A vacant unit shows a Sign a lease link on its property’s Units tab.',
         ],
       },
+      {
+        id: 'listings',
+        title: 'Listings (Find a Home)',
+        href: '/units/listings',
+        permission: 'units.view',
+        summary: 'Advertise vacant units to house seekers on the Find a Home portal, and take them down again.',
+        steps: [
+          'Open Units → Listings. Ready to list shows every vacant unit that is not yet on the portal.',
+          'Click List, check the headline, asking rent, available date and description, and click List on Find a Home.',
+          'Listed shows what is on the portal now. Click De-list to pull a unit off it.',
+          'Signing a lease on a listed unit de-lists it automatically, so seekers never see a home that is taken.',
+        ],
+        tips: [
+          'Only vacant units can be listed. A property’s Units tab also shows a List it link on vacant units.',
+          'The Find a Home portal is not connected yet. Listings are kept and will be published once it is.',
+        ],
+      },
     ],
   },
   {
