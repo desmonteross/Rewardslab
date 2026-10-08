@@ -1,0 +1,498 @@
+[
+ {
+  "op": "viewport",
+  "w": 1440,
+  "h": 900
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/login"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/00-login.png"
+ },
+ {
+  "op": "login",
+  "email": "admin@prime.co.ke"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/users"
+ },
+ {
+  "op": "js",
+  "code": "(() => { const vals = {\"fullName\":\"Faith Wambui\",\"email\":\"faith.wambui.98194@example.co.ke\"};\n  for (let [name, value] of Object.entries(vals)) {\n    const el = document.querySelector('[name=\"' + name + '\"]'); if (!el) throw new Error('no field ' + name)\n    const proto = el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype\n    if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === value)) { const o = [...el.options].find(o => o.textContent.includes(value)); if (!o) throw new Error('no option ' + value); value = o.value }\n    Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value)\n    el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }))\n  } return true })()"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/a1-invite-manager-form.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Invite a property manager\")",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"fullName\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "[...document.querySelectorAll('[role=status]')].map(e => e.textContent).join(' ').includes('One-time link')",
+  "timeout": 20000
+ },
+ {
+  "op": "js",
+  "code": "[...document.querySelectorAll('[role=status]')].map(e => e.textContent).join(' ').match(/https?:\\/\\/\\S+/)[0]",
+  "store": "managerLink"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/a2-invite-manager-sent.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Invite a property manager\")",
+  "pad": 14
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/landlords"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/b1-landlords-list.png"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/landlords/new"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/b2a-add-landlord-empty.png",
+  "el": "document.querySelector('[name=\"fullName\"]').closest('section.card')",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { const vals = {\"type\":\"COMPANY\",\"fullName\":\"Peter Baraka\",\"companyName\":\"Baraka Holdings Ltd\",\"phone\":\"0712 000 111\",\"email\":\"peter.baraka.98194@example.co.ke\",\"kraPin\":\"P051234567B\",\"payoutMethod\":\"MPESA\",\"mpesaNumber\":\"0712 000 111\"};\n  for (let [name, value] of Object.entries(vals)) {\n    const el = document.querySelector('[name=\"' + name + '\"]'); if (!el) throw new Error('no field ' + name)\n    const proto = el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype\n    if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === value)) { const o = [...el.options].find(o => o.textContent.includes(value)); if (!o) throw new Error('no option ' + value); value = o.value }\n    Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value)\n    el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }))\n  } return true })()"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/b2-add-landlord-form.png",
+  "el": "document.querySelector('[name=\"fullName\"]').closest('section.card')",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"fullName\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "/\\/landlords\\/[a-z0-9]{10,}$/.test(location.pathname)",
+  "timeout": 20000
+ },
+ {
+  "op": "js",
+  "code": "location.pathname.split('/').pop()",
+  "store": "landlordId"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/b3-landlord-saved.png"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/b4-landlord-portal-invite.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Landlord portal\")",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"landlordId\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "[...document.querySelectorAll('[role=status]')].map(e => e.textContent).join(' ').includes('One-time link')",
+  "timeout": 20000
+ },
+ {
+  "op": "js",
+  "code": "[...document.querySelectorAll('[role=status]')].map(e => e.textContent).join(' ').match(/https?:\\/\\/\\S+/)[0]",
+  "store": "landlordLink"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/b5-landlord-invite-sent.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Landlord portal\")",
+  "pad": 14
+ },
+ {
+  "op": "logout"
+ },
+ {
+  "op": "goto",
+  "url": "$managerLink"
+ },
+ {
+  "op": "js",
+  "code": "(() => { const vals = {\"password\":\"Password123\",\"confirm\":\"Password123\"};\n  for (let [name, value] of Object.entries(vals)) {\n    const el = document.querySelector('[name=\"' + name + '\"]'); if (!el) throw new Error('no field ' + name)\n    const proto = el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype\n    if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === value)) { const o = [...el.options].find(o => o.textContent.includes(value)); if (!o) throw new Error('no option ' + value); value = o.value }\n    Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value)\n    el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }))\n  } return true })()"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/a3-manager-accept.png",
+  "el": "document.querySelector('main > div')",
+  "pad": 24
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"password\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "!location.pathname.startsWith('/invite')",
+  "timeout": 20000
+ },
+ {
+  "op": "login",
+  "email": "faith.wambui.98194@example.co.ke"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/properties"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/a4-manager-before-assignment.png"
+ },
+ {
+  "op": "login",
+  "email": "admin@prime.co.ke"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/properties/new?landlord=$landlordId"
+ },
+ {
+  "op": "js",
+  "code": "(() => { const vals = {\"name\":\"Baraka Gardens\",\"type\":\"APARTMENT\",\"county\":\"Nairobi\",\"town\":\"Nairobi\",\"area\":\"Kilimani\",\"address\":\"Argwings Kodhek Road\",\"managerId\":\"Faith Wambui\"};\n  for (let [name, value] of Object.entries(vals)) {\n    const el = document.querySelector('[name=\"' + name + '\"]'); if (!el) throw new Error('no field ' + name)\n    const proto = el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype\n    if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === value)) { const o = [...el.options].find(o => o.textContent.includes(value)); if (!o) throw new Error('no option ' + value); value = o.value }\n    Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value)\n    el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }))\n  } return true })()"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/c1-add-property-form.png",
+  "el": "document.querySelector('[name=\"landlordId\"]').closest('section.card')",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"landlordId\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "location.search.includes('tab=units')",
+  "timeout": 20000
+ },
+ {
+  "op": "js",
+  "code": "location.pathname.split('/').pop()",
+  "store": "propertyId"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/c2-property-saved-units-tab.png"
+ },
+ {
+  "op": "js",
+  "code": "(() => { const vals = {\"unitNumber\":\"B1\",\"count\":\"6\",\"type\":\"ONE_BEDROOM\",\"floor\":\"1\",\"bedrooms\":\"1\",\"bathrooms\":\"1\",\"monthlyRent\":\"28000\",\"deposit\":\"28000\",\"serviceCharge\":\"2000\"};\n  for (let [name, value] of Object.entries(vals)) {\n    const el = document.querySelector('[name=\"' + name + '\"]'); if (!el) throw new Error('no field ' + name)\n    const proto = el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype\n    if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === value)) { const o = [...el.options].find(o => o.textContent.includes(value)); if (!o) throw new Error('no option ' + value); value = o.value }\n    Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value)\n    el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }))\n  } return true })()"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/c3-add-units-form.png",
+  "el": "document.querySelector('[name=\"unitNumber\"]').closest('section.card')",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"unitNumber\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "[...document.querySelectorAll('[role=status]')].map(e => e.textContent).join(' ').includes('units added')",
+  "timeout": 20000
+ },
+ {
+  "op": "sleep",
+  "ms": 800
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/c4-units-added.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Occupancy\")",
+  "pad": 14
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/properties/$propertyId?tab=units&add=upload"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/c5-upload-units-guide.png",
+  "el": "document.querySelector('[name=\"file\"]').closest('section.card')",
+  "pad": 14
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/properties/$propertyId?tab=overview"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/c6-assign-manager.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Property manager\")",
+  "pad": 14
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/c7-property-details.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Property details\")",
+  "pad": 14
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/tenants/new"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d1a-add-tenant-empty.png",
+  "el": "document.querySelector('[name=\"fullName\"]').closest('section.card')",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { const vals = {\"fullName\":\"Grace Njeri\",\"phone\":\"0722 981 949\",\"email\":\"grace.njeri.98194@example.co.ke\",\"nationalId\":\"30123456\",\"kraPin\":\"A012345678Z\",\"emergencyName\":\"John Njeri\",\"emergencyPhone\":\"0733 000 333\"};\n  for (let [name, value] of Object.entries(vals)) {\n    const el = document.querySelector('[name=\"' + name + '\"]'); if (!el) throw new Error('no field ' + name)\n    const proto = el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype\n    if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === value)) { const o = [...el.options].find(o => o.textContent.includes(value)); if (!o) throw new Error('no option ' + value); value = o.value }\n    Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value)\n    el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }))\n  } return true })()"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d1-add-tenant-form.png",
+  "el": "document.querySelector('[name=\"fullName\"]').closest('section.card')",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"fullName\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "location.pathname === '/leases/new'",
+  "timeout": 20000
+ },
+ {
+  "op": "js",
+  "code": "new URLSearchParams(location.search).get('tenant')",
+  "store": "tenantId"
+ },
+ {
+  "op": "js",
+  "code": "(() => { const vals = {\"unitId\":\"Baraka Gardens · B1\",\"months\":\"12\",\"dueDay\":\"5\"};\n  for (let [name, value] of Object.entries(vals)) {\n    const el = document.querySelector('[name=\"' + name + '\"]'); if (!el) throw new Error('no field ' + name)\n    const proto = el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype\n    if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === value)) { const o = [...el.options].find(o => o.textContent.includes(value)); if (!o) throw new Error('no option ' + value); value = o.value }\n    Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value)\n    el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }))\n  } return true })()"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d2-new-lease-form.png",
+  "el": "document.querySelector('[name=\"unitId\"]').closest('section.card')",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"unitId\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "/\\/leases\\/[a-z0-9]{10,}$/.test(location.pathname)",
+  "timeout": 20000
+ },
+ {
+  "op": "sleep",
+  "ms": 500
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d3-lease-signed.png"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/move-ins?status=SCHEDULED"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d4-move-in-scheduled.png",
+  "el": "[...document.querySelectorAll('tr')].find(r => r.textContent.includes(\"Grace Njeri\"))",
+  "pad": 10
+ },
+ {
+  "op": "js",
+  "code": "(() => { [...document.querySelectorAll('tr')].find(r => r.textContent.includes(\"Grace Njeri\")).querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "sleep",
+  "ms": 3000
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/properties/$propertyId?tab=units"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d5-unit-occupied.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Occupancy\")",
+  "pad": 14
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/tenants/$tenantId?tab=portal"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d6-tenant-portal-invite.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Invite to the portal\")",
+  "pad": 14
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"tenantId\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "[...document.querySelectorAll('[role=status]')].map(e => e.textContent).join(' ').includes('One-time link')",
+  "timeout": 20000
+ },
+ {
+  "op": "js",
+  "code": "[...document.querySelectorAll('[role=status]')].map(e => e.textContent).join(' ').match(/https?:\\/\\/\\S+/)[0]",
+  "store": "tenantLink"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d7-tenant-invite-sent.png",
+  "el": "[...document.querySelectorAll('section.card')].find(s => s.querySelector('h2')?.textContent.trim() === \"Invite to the portal\")",
+  "pad": 14
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/units/listings"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/c8-listings.png"
+ },
+ {
+  "op": "logout"
+ },
+ {
+  "op": "goto",
+  "url": "$landlordLink"
+ },
+ {
+  "op": "js",
+  "code": "(() => { const vals = {\"password\":\"Password123\",\"confirm\":\"Password123\"};\n  for (let [name, value] of Object.entries(vals)) {\n    const el = document.querySelector('[name=\"' + name + '\"]'); if (!el) throw new Error('no field ' + name)\n    const proto = el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype\n    if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === value)) { const o = [...el.options].find(o => o.textContent.includes(value)); if (!o) throw new Error('no option ' + value); value = o.value }\n    Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value)\n    el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }))\n  } return true })()"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/b6-landlord-accept.png",
+  "el": "document.querySelector('main > div')",
+  "pad": 24
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"password\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "!location.pathname.startsWith('/invite')",
+  "timeout": 20000
+ },
+ {
+  "op": "login",
+  "email": "peter.baraka.98194@example.co.ke"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/dashboard"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/b7-landlord-dashboard.png"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/properties"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/b8-landlord-properties.png"
+ },
+ {
+  "op": "login",
+  "email": "faith.wambui.98194@example.co.ke"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/properties"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/a5-manager-properties.png"
+ },
+ {
+  "op": "logout"
+ },
+ {
+  "op": "goto",
+  "url": "$tenantLink"
+ },
+ {
+  "op": "js",
+  "code": "(() => { const vals = {\"password\":\"Password123\",\"confirm\":\"Password123\"};\n  for (let [name, value] of Object.entries(vals)) {\n    const el = document.querySelector('[name=\"' + name + '\"]'); if (!el) throw new Error('no field ' + name)\n    const proto = el.tagName === 'SELECT' ? HTMLSelectElement.prototype : el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype\n    if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === value)) { const o = [...el.options].find(o => o.textContent.includes(value)); if (!o) throw new Error('no option ' + value); value = o.value }\n    Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value)\n    el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }))\n  } return true })()"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d8-tenant-accept.png",
+  "el": "document.querySelector('main > div')",
+  "pad": 24
+ },
+ {
+  "op": "js",
+  "code": "(() => { document.querySelector('[name=\"password\"]').form.querySelector('button[type=submit]').click(); return true })()"
+ },
+ {
+  "op": "wait",
+  "expr": "!location.pathname.startsWith('/tenant/accept')",
+  "timeout": 20000
+ },
+ {
+  "op": "login",
+  "email": "grace.njeri.98194@example.co.ke"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/portal"
+ },
+ {
+  "op": "sleep",
+  "ms": 800
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d9-tenant-portal-home.png"
+ },
+ {
+  "op": "logout"
+ },
+ {
+  "op": "goto",
+  "url": "http://localhost:3000/tenant/register"
+ },
+ {
+  "op": "shot",
+  "file": "/Users/bonfacegichohimutero/RentRewards_V3 8 copy/docs/onboarding-guide/img/d10-tenant-self-register.png",
+  "el": "document.querySelector('main > div')",
+  "pad": 24
+ },
+ {
+  "op": "log",
+  "msg": "landlord $landlordId property $propertyId tenant $tenantId"
+ }
+]

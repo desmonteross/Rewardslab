@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RentRewards Onboarding Guide</title>
+<style>
+  :root { --ink:#101412; --muted:#58605c; --faint:#8a918d; --line:#e2e5e3; --brand:#0f7a53; --brand-soft:#e6f4ee; --navy:#0e212f; --lime:#d0f05c; --amber:#b7791f; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:#fff; }
+  body { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; color:var(--ink); font-size:10.5pt; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  #source { display:none; }
+  .page { width:794px; height:1123px; position:relative; overflow:hidden; padding:64px 64px 72px; page-break-after:always; }
+  .page .content { height:100%; overflow:hidden; }
+  .page footer { position:absolute; left:64px; right:64px; bottom:30px; display:flex; justify-content:space-between; font-size:8pt; color:var(--faint); border-top:1px solid var(--line); padding-top:8px; }
+  h1 { font-size:26pt; line-height:1.1; margin:0 0 10px; letter-spacing:-0.02em; }
+  h2 { font-size:17pt; margin:0 0 6px; letter-spacing:-0.01em; }
+  h3 { font-size:11.5pt; margin:14px 0 4px; }
+  p { margin:0 0 8px; }
+  .eyebrow { font-size:8pt; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--brand); margin-bottom:6px; }
+  .lead { color:var(--muted); font-size:11pt; }
+  .muted { color:var(--muted); }
+  .block { margin-bottom:12px; }
+  .section-start { border-top:3px solid var(--brand); padding-top:12px; }
+  table { width:100%; border-collapse:collapse; font-size:9pt; margin:4px 0 6px; }
+  th { text-align:left; background:#f4f6f5; color:var(--muted); font-weight:600; font-size:8pt; text-transform:uppercase; letter-spacing:0.05em; }
+  th, td { border:1px solid var(--line); padding:5px 7px; vertical-align:top; }
+  td.req { font-weight:600; color:var(--brand); white-space:nowrap; }
+  td.opt { color:var(--faint); white-space:nowrap; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size:8.5pt; background:#f4f6f5; padding:1px 4px; border-radius:3px; }
+  .step { display:flex; gap:10px; margin:10px 0 4px; }
+  .num { flex:0 0 24px; height:24px; border-radius:12px; background:var(--brand); color:#fff; font-weight:700; font-size:9.5pt; display:flex; align-items:center; justify-content:center; }
+  .step-body { flex:1; }
+  .step-body strong { display:block; font-size:10.5pt; }
+  .who { display:inline-block; font-size:7.5pt; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; background:var(--brand-soft); color:var(--brand); padding:2px 7px; border-radius:10px; margin-left:6px; vertical-align:1px; }
+  figure { margin:6px 0 4px; }
+  figure img { display:block; max-width:100%; max-height:430px; margin:0 auto; border:1px solid var(--line); border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+  figure.small img { max-height:330px; }
+  figure.tiny img { max-height:200px; }
+  figcaption { text-align:center; font-size:8pt; color:var(--faint); margin-top:4px; }
+  .note { border-left:3px solid var(--amber); background:#fdf8ee; padding:7px 10px; font-size:9pt; color:#5c4a1f; border-radius:0 4px 4px 0; margin:6px 0; }
+  .tip { border-left:3px solid var(--brand); background:var(--brand-soft); padding:7px 10px; font-size:9pt; border-radius:0 4px 4px 0; margin:6px 0; }
+  ul { margin:4px 0 8px; padding-left:18px; } li { margin:2px 0; }
+  .cover { background:var(--navy); color:#fff; padding:0; }
+  .page.cover .content { height:100%; }
+  .cover-page { height:100%; margin:0; }
+  .cover .inner { padding:96px 72px; height:100%; display:flex; flex-direction:column; }
+  .badge { width:56px; height:56px; border-radius:14px; background:#13293a; display:flex; align-items:center; justify-content:center; }
+  .cover h1 { font-size:36pt; margin-top:48px; color:#fff; }
+  .cover .sub { font-size:14pt; color:rgba(255,255,255,0.75); max-width:520px; }
+  .cover .meta { margin-top:auto; font-size:9.5pt; color:rgba(255,255,255,0.6); border-top:1px solid rgba(255,255,255,0.15); padding-top:14px; }
+  .cover .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:28px; }
+  .cover .chip { border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:5px 12px; font-size:9.5pt; color:rgba(255,255,255,0.85); }
+  .toc li { display:flex; justify-content:space-between; border-bottom:1px dotted var(--line); padding:4px 0; list-style:none; }
+  .toc { padding:0; }
+  .diagram { width:100%; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .card { border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .card h4 { margin:0 0 4px; font-size:10pt; }
+</style>
+</head>
+<body>
+<div id="pages"></div>
+
+<div id="source">
+
+<!-- ============================== COVER -->
+<div class="block cover-page" data-cover>
+  <div class="inner">
+    <div class="badge"><svg viewBox="0 0 100 100" width="28" height="28"><path d="M0.0 0.0L64.882 0.0A43.713 43.713 0 0 1 100.728 44.868L100.728 50.147L74.985 50.147L74.985 43.324A21.316 21.316 0 0 0 53.669 24.985L24.985 24.985ZM0.0 36.838L36.838 36.838L100.0 100.0L62.088 100.0Z" fill="#d0f05c"/></svg></div>
+    <h1>Onboarding Guide</h1>
+    <p class="sub">How property managers, landlords, properties and tenants are brought onto RentRewards: who onboards whom, what each person supplies, and every screen along the way.</p>
+    <div class="chips"><span class="chip">Property managers</span><span class="chip">Landlords</span><span class="chip">Properties &amp; units</span><span class="chip">Tenants &amp; leases</span></div>
+    <div class="meta">RentRewards v3.1 · Reference document · October 2026<br>Screenshots taken from the RentRewards application using sample data (names, phone numbers and emails are fictional).</div>
+  </div>
+</div>
+
+<!-- ============================== CONTENTS -->
+<div class="block" data-break>
+  <div class="eyebrow">Contents</div>
+  <h1>What this guide covers</h1>
+  <ul class="toc">
+    <li><span>1. How onboarding fits together</span><span>Who onboards whom</span></li>
+    <li><span>2. Before you start</span><span>Signing in and roles</span></li>
+    <li><span>3. Onboarding a property manager</span><span>Company admin → manager</span></li>
+    <li><span>4. Onboarding a landlord</span><span>Admin or manager → landlord</span></li>
+    <li><span>5. Onboarding a property and its units</span><span>Admin or manager</span></li>
+    <li><span>6. Onboarding a tenant</span><span>Admin or manager → tenant</span></li>
+    <li><span>7. Invitations: the rules</span><span>Links, expiry, revoking</span></li>
+    <li><span>8. Quick reference</span><span>Checklists and who sees what</span></li>
+    <li><span>Appendix: unit spreadsheet format</span><span>CSV columns</span></li>
+  </ul>
+</div>
+
+<!-- ============================== 1. OVERVIEW -->
+<div class="block section-start" data-break>
+  <div class="eyebrow">Section 1</div>
+  <h2>How onboarding fits together</h2>
+  <p class="lead">Everything in RentRewards hangs off one chain. Each link has to exist before the next can be added, and each person is brought in by someone who already has access.</p>
+</div>
+<div class="block">
+  <svg class="diagram" viewBox="0 0 666 300" font-family="-apple-system, Helvetica, Arial" font-size="11">
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0f7a53"/></marker></defs>
+    <rect x="248" y="6" width="170" height="44" rx="8" fill="#0e212f"/><text x="333" y="25" fill="#fff" text-anchor="middle" font-weight="700">Company admin</text><text x="333" y="40" fill="#d0f05c" text-anchor="middle" font-size="9">Set up when the company joins</text>
+    <rect x="8" y="98" width="190" height="44" rx="8" fill="#e6f4ee" stroke="#0f7a53"/><text x="103" y="117" text-anchor="middle" font-weight="700">Property manager</text><text x="103" y="132" text-anchor="middle" font-size="9" fill="#58605c">Invited by the admin</text>
+    <rect x="238" y="98" width="190" height="44" rx="8" fill="#e6f4ee" stroke="#0f7a53"/><text x="333" y="117" text-anchor="middle" font-weight="700">Landlord</text><text x="333" y="132" text-anchor="middle" font-size="9" fill="#58605c">Added by admin or manager, then invited</text>
+    <rect x="468" y="98" width="190" height="44" rx="8" fill="#e6f4ee" stroke="#0f7a53"/><text x="563" y="117" text-anchor="middle" font-weight="700">Property</text><text x="563" y="132" text-anchor="middle" font-size="9" fill="#58605c">Belongs to one landlord</text>
+    <rect x="468" y="178" width="190" height="44" rx="8" fill="#e6f4ee" stroke="#0f7a53"/><text x="563" y="197" text-anchor="middle" font-weight="700">Units</text><text x="563" y="212" text-anchor="middle" font-size="9" fill="#58605c">One by one, a run, or a spreadsheet</text>
+    <rect x="238" y="178" width="190" height="44" rx="8" fill="#e6f4ee" stroke="#0f7a53"/><text x="333" y="197" text-anchor="middle" font-weight="700">Tenant + lease</text><text x="333" y="212" text-anchor="middle" font-size="9" fill="#58605c">Lease on a vacant unit, then move-in</text>
+    <rect x="238" y="252" width="190" height="44" rx="8" fill="#0e212f"/><text x="333" y="271" text-anchor="middle" fill="#fff" font-weight="700">Tenant portal</text><text x="333" y="286" text-anchor="middle" fill="#d0f05c" font-size="9">Invited by admin or manager</text>
+    <path d="M300 50 L130 96" stroke="#0f7a53" stroke-width="1.5" fill="none" marker-end="url(#arr)"/><text x="160" y="70" font-size="9" fill="#0f7a53">invites</text>
+    <path d="M333 50 L333 96" stroke="#0f7a53" stroke-width="1.5" fill="none" marker-end="url(#arr)"/><text x="338" y="78" font-size="9" fill="#0f7a53">adds &amp; invites</text>
+    <path d="M428 120 L466 120" stroke="#0f7a53" stroke-width="1.5" fill="none" marker-end="url(#arr)"/><text x="433" y="113" font-size="9" fill="#0f7a53">owns</text>
+    <path d="M198 120 C 260 160, 440 150, 470 128" stroke="#0f7a53" stroke-width="1.2" stroke-dasharray="4 3" fill="none" marker-end="url(#arr)"/><text x="250" y="160" font-size="9" fill="#0f7a53">assigned to manage</text>
+    <path d="M563 142 L563 176" stroke="#0f7a53" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+    <path d="M468 200 L430 200" stroke="#0f7a53" stroke-width="1.5" fill="none" marker-end="url(#arr)"/><text x="434" y="193" font-size="9" fill="#0f7a53">leased</text>
+    <path d="M333 222 L333 250" stroke="#0f7a53" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  </svg>
+</div>
+<div class="block">
+  <h3>Who onboards whom</h3>
+  <table>
+    <tr><th>Who is onboarded</th><th>Who does it</th><th>Where in the app</th><th>How they get access</th></tr>
+    <tr><td><strong>Property manager</strong></td><td>Company admin</td><td>Administration → Users</td><td>Invitation link; sets own password</td></tr>
+    <tr><td><strong>Landlord</strong> (record)</td><td>Company admin or property manager</td><td>Portfolio → Landlords → Add landlord</td><td>—</td></tr>
+    <tr><td><strong>Landlord</strong> (portal login)</td><td>Company admin or property manager</td><td>Landlord page → Landlord portal</td><td>Invitation link; sets own password</td></tr>
+    <tr><td><strong>Property</strong></td><td>Company admin or property manager</td><td>Portfolio → Properties → Add property</td><td>—</td></tr>
+    <tr><td><strong>Units</strong></td><td>Company admin or property manager</td><td>Property page → Units tab</td><td>—</td></tr>
+    <tr><td><strong>Manager ↔ property</strong></td><td>Company admin</td><td>Property page → Overview → Property manager</td><td>Assigned manager sees the property at once</td></tr>
+    <tr><td><strong>Tenant</strong> (record + lease)</td><td>Company admin or property manager</td><td>Tenancy → Tenants → Add tenant</td><td>—</td></tr>
+    <tr><td><strong>Tenant</strong> (portal login)</td><td>Company admin or property manager, <em>or the tenant</em></td><td>Tenant page → Portal tab, or the public sign-up page</td><td>Invitation link, or self-registration</td></tr>
+  </table>
+  <div class="tip">Recommended order: <strong>property managers → landlords → properties → units → tenants &amp; leases → move-in → portal invitations.</strong> Each step needs the one before it: a property needs its landlord, a lease needs a vacant unit, and a tenant needs a lease before the portal has anything to show them.</div>
+</div>
+
+<!-- ============================== 2. BEFORE YOU START -->
+<div class="block section-start" data-break>
+  <div class="eyebrow">Section 2</div>
+  <h2>Before you start</h2>
+  <p class="lead">Everyone signs in on the same page. What they see afterwards depends on their role.</p>
+  <figure class="small"><img src="shots/00-login.jpg"><figcaption>The sign-in page. Staff, landlords and tenants all use it.</figcaption></figure>
+</div>
+<div class="block">
+  <h3>Roles that take part in onboarding</h3>
+  <table>
+    <tr><th>Role</th><th>Can onboard</th><th>Sees</th></tr>
+    <tr><td><strong>Company admin</strong></td><td>Everything: managers, landlords, properties, units, tenants, invitations, manager assignments</td><td>The whole organization</td></tr>
+    <tr><td><strong>Property manager</strong></td><td>Landlords, properties, units, tenants, leases, move-ins, landlord and tenant invitations</td><td>Only properties assigned to them (and anything on them)</td></tr>
+    <tr><td><strong>Landlord</strong></td><td>Nobody (view only)</td><td>Only properties they own</td></tr>
+    <tr><td><strong>Tenant</strong></td><td>Themselves, by self-registration (if allowed)</td><td>Their own tenancy in the tenant portal</td></tr>
+  </table>
+  <div class="note">Fields marked <strong>Required</strong> in the tables below must be filled before a form will save. Everything else can be added now or left blank.</div>
+</div>
+
+<!-- ============================== 3. PROPERTY MANAGER -->
+<div class="block section-start" data-break>
+  <div class="eyebrow">Section 3 · Onboarding a property manager</div>
+  <h2>Property manager</h2>
+  <p class="lead">Done by: <strong>Company admin</strong>. A property manager runs day-to-day operations for the properties assigned to them.</p>
+  <h3>Details the admin supplies</h3>
+  <table>
+    <tr><th>Field</th><th></th><th>Notes</th></tr>
+    <tr><td>Full name</td><td class="req">Required</td><td>Shown on their account and on properties they manage.</td></tr>
+    <tr><td>Email</td><td class="req">Required</td><td>Becomes their sign-in. Must not already belong to another RentRewards login.</td></tr>
+  </table>
+  <h3>Details the manager supplies</h3>
+  <table>
+    <tr><th>Field</th><th></th><th>Notes</th></tr>
+    <tr><td>Password (and confirmation)</td><td class="req">Required</td><td>At least 8 characters, including a letter and a number.</td></tr>
+  </table>
+</div>
+<div class="block">
+  <div class="step"><div class="num">1</div><div class="step-body"><strong>Open Administration → Users and fill in “Invite a property manager” <span class="who">Admin</span></strong>Enter the manager’s full name and email, then click <em>Send invitation</em>.</div></div>
+  <figure><img src="shots/a1-invite-manager-form.jpg"><figcaption>Invite a property manager, filled in with sample details.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">2</div><div class="step-body"><strong>Share the one-time link <span class="who">Admin</span></strong>RentRewards emails the invitation. Until email delivery is connected, the link is also shown here once so you can send it yourself (WhatsApp, SMS or email). The pending invitation is listed with its status and can be revoked.</div></div>
+  <figure><img src="shots/a2-invite-manager-sent.jpg"><figcaption>Invitation sent: the link (valid 72 hours) and the pending invitation.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">3</div><div class="step-body"><strong>The manager opens the link and sets a password <span class="who">Manager</span></strong>The page names the company that invited them and explains what they will see. The email address is fixed to the invitation.</div></div>
+  <figure class="small"><img src="shots/a3-manager-accept.jpg"><figcaption>Accepting a property manager invitation.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">4</div><div class="step-body"><strong>Until properties are assigned, the manager’s workspace is empty <span class="who">Manager</span></strong>A new manager signs straight in but sees no properties yet. This is expected.</div></div>
+  <figure><img src="shots/a4-manager-before-assignment.jpg"><figcaption>A new manager before any property is assigned to them.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">5</div><div class="step-body"><strong>Assign the manager to properties <span class="who">Admin</span></strong>Open each property the manager will run, go to its <em>Overview</em> tab, choose them under <em>Property manager</em> and click <em>Save</em>. The manager can also be chosen when the property is first added (Section 5). A property with no manager is seen only by company admins.</div></div>
+  <figure class="tiny"><img src="shots/c6-assign-manager.jpg"><figcaption>Assigning a property manager on the property’s Overview tab.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">6</div><div class="step-body"><strong>The manager now sees only their properties <span class="who">Manager</span></strong>Their Properties, Units, Tenants, Leases, Rent, Payments, Listings and Maintenance screens are limited to the properties assigned to them. Anything they add themselves is assigned to them automatically.</div></div>
+  <figure><img src="shots/a5-manager-properties.jpg"><figcaption>The manager’s Properties list after assignment: only Baraka Gardens.</figcaption></figure>
+</div>
+
+<!-- ============================== 4. LANDLORD -->
+<div class="block section-start" data-break>
+  <div class="eyebrow">Section 4 · Onboarding a landlord</div>
+  <h2>Landlord</h2>
+  <p class="lead">Done by: <strong>Company admin or property manager</strong>. Onboarding a landlord has two parts: the landlord <em>record</em> (who owns properties and how they are paid), and optionally a <em>portal login</em> so they can follow their own properties.</p>
+  <h3>Details supplied when adding the landlord</h3>
+  <table>
+    <tr><th>Field</th><th></th><th>Notes</th></tr>
+    <tr><td>Type</td><td class="req">Required</td><td>Individual or Company. Decides the KRA taxpayer type.</td></tr>
+    <tr><td>Full name</td><td class="req">Required</td><td>The owner, or the contact person for a company.</td></tr>
+    <tr><td>Company name</td><td class="opt">If a company</td><td>Shown instead of the person’s name where the landlord is listed.</td></tr>
+    <tr><td>Phone</td><td class="req">Required</td><td>Main contact number.</td></tr>
+    <tr><td>Email</td><td class="opt">Needed to invite</td><td>Required later if the landlord is to get a portal login.</td></tr>
+    <tr><td>KRA PIN</td><td class="opt">Recommended</td><td>Needed for KRA eRITS rental income returns. Flagged as missing until added.</td></tr>
+    <tr><td>National ID</td><td class="opt">Optional</td><td>For individuals.</td></tr>
+    <tr><td>Payout method</td><td class="req">Required</td><td>M-Pesa or Bank: where settlements are paid.</td></tr>
+    <tr><td>M-Pesa number</td><td class="req">If M-Pesa</td><td>The number settlements are sent to.</td></tr>
+    <tr><td>Bank name, account name, account number</td><td class="req">If Bank</td><td>Bank name and account number are required for bank payouts.</td></tr>
+  </table>
+  <h3>Details the landlord supplies (portal login)</h3>
+  <table>
+    <tr><th>Field</th><th></th><th>Notes</th></tr>
+    <tr><td>Password (and confirmation)</td><td class="req">Required</td><td>At least 8 characters, including a letter and a number.</td></tr>
+  </table>
+</div>
+<div class="block">
+  <div class="step"><div class="num">1</div><div class="step-body"><strong>Open Portfolio → Landlords and click “Add landlord” <span class="who">Admin / Manager</span></strong></div></div>
+  <figure><img src="shots/b1-landlords-list.jpg"><figcaption>The Landlords list (filtered to the sample landlord), with Add landlord at the top right.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">2</div><div class="step-body"><strong>Fill in the landlord’s details and payout <span class="who">Admin / Manager</span></strong>Choose the type, enter the name, phone and email, KRA PIN and ID if available, then the payout method with its M-Pesa number or bank details. Click <em>Save landlord</em>.</div></div>
+  <figure class="small"><img src="shots/b2a-add-landlord-empty.jpg"><figcaption>The Add landlord form.</figcaption></figure>
+  <figure class="small"><img src="shots/b2-add-landlord-form.jpg"><figcaption>Filled in for a sample company landlord paid by M-Pesa.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">3</div><div class="step-body"><strong>The landlord’s page opens <span class="who">Admin / Manager</span></strong>It shows the portfolio summary, owner details and payout. From here you can <em>Add property</em> for this landlord (Section 5) and invite them to the portal.</div></div>
+  <figure><img src="shots/b3-landlord-saved.jpg"><figcaption>A newly added landlord.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">4</div><div class="step-body"><strong>Invite the landlord to the landlord portal <span class="who">Admin / Manager</span></strong>On the landlord’s page, the <em>Landlord portal</em> card has the email pre-filled from their record. Check it and click <em>Send invitation</em>.</div></div>
+  <figure class="tiny"><img src="shots/b4-landlord-portal-invite.jpg"><figcaption>The Landlord portal card before inviting.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">5</div><div class="step-body"><strong>Share the one-time link <span class="who">Admin / Manager</span></strong>The link is valid for 72 hours and works once. The invitation is listed with who sent it and when, and can be revoked.</div></div>
+  <figure class="small"><img src="shots/b5-landlord-invite-sent.jpg"><figcaption>Invitation sent to the landlord.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">6</div><div class="step-body"><strong>The landlord opens the link and sets a password <span class="who">Landlord</span></strong>The page explains that they will see only the properties they own.</div></div>
+  <figure class="small"><img src="shots/b6-landlord-accept.jpg"><figcaption>Accepting a landlord portal invitation.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">7</div><div class="step-body"><strong>The landlord signs in to their own portfolio <span class="who">Landlord</span></strong>Their dashboard, properties, tenants, rent, payments, expenses, maintenance, settlements and statements cover only the properties recorded under their landlord record. They can view but not change records. Once they accept, the Landlord portal card shows their login and last sign-in.</div></div>
+  <figure><img src="shots/b7-landlord-dashboard.jpg"><figcaption>The landlord’s dashboard.</figcaption></figure>
+  <figure><img src="shots/b8-landlord-properties.jpg"><figcaption>The landlord’s Properties list: only the property they own.</figcaption></figure>
+</div>
+
+<!-- ============================== 5. PROPERTY -->
+<div class="block section-start" data-break>
+  <div class="eyebrow">Section 5 · Onboarding a property and its units</div>
+  <h2>Property and units</h2>
+  <p class="lead">Done by: <strong>Company admin or property manager</strong>. A property always belongs to one landlord, so add the landlord first (Section 4).</p>
+  <h3>Details supplied for the property</h3>
+  <table>
+    <tr><th>Field</th><th></th><th>Notes</th></tr>
+    <tr><td>Landlord</td><td class="req">Required</td><td>The owner. Pre-selected when you start from the landlord’s page.</td></tr>
+    <tr><td>Name</td><td class="req">Required</td><td>For example “Baraka Gardens”.</td></tr>
+    <tr><td>Type</td><td class="req">Required</td><td>Apartment, residential, commercial, mixed use, bedsitter complex, maisonette, hostel, office, retail, industrial or other.</td></tr>
+    <tr><td>County</td><td class="req">Required</td><td></td></tr>
+    <tr><td>Town</td><td class="req">Required</td><td></td></tr>
+    <tr><td>Area</td><td class="opt">Optional</td><td>Neighbourhood, e.g. Kilimani. Shown on listings.</td></tr>
+    <tr><td>Address</td><td class="opt">Optional</td><td>Street or plot.</td></tr>
+    <tr><td>Property manager</td><td class="opt">Optional</td><td>Who runs it. A manager adding a property is assigned automatically.</td></tr>
+    <tr><td>KRA PIN</td><td class="opt">If different</td><td>Only if the property files under a different PIN from the landlord.</td></tr>
+  </table>
+  <h3>Details supplied for units</h3>
+  <table>
+    <tr><th>Field</th><th></th><th>Notes</th></tr>
+    <tr><td>Unit number</td><td class="req">Required</td><td>The door number tenants pay against, e.g. B1. Unique within the property.</td></tr>
+    <tr><td>How many</td><td class="opt">Default 1</td><td>More than 1 adds a numbered run: B1 with 6 adds B1 to B6.</td></tr>
+    <tr><td>Type</td><td class="opt">Default One Bedroom</td><td>Bedsitter, studio, one to four bedroom, maisonette, shop, office space, hostel room, other.</td></tr>
+    <tr><td>Floor</td><td class="opt">Default 0</td><td>Ground floor is 0.</td></tr>
+    <tr><td>Bedrooms / bathrooms</td><td class="opt">Default 1 / 1</td><td></td></tr>
+    <tr><td>Monthly rent (KES)</td><td class="req">Required</td><td>Becomes the default rent on new leases.</td></tr>
+    <tr><td>Deposit (KES)</td><td class="opt">Default 0</td><td>Default deposit on new leases.</td></tr>
+    <tr><td>Service charge (KES)</td><td class="opt">Default 0</td><td>Monthly, billed with rent.</td></tr>
+  </table>
+</div>
+<div class="block">
+  <div class="step"><div class="num">1</div><div class="step-body"><strong>Click “Add property” (Properties list, landlord page or dashboard) <span class="who">Admin / Manager</span></strong>Fill in the property’s details and, if known, its property manager. Click <em>Save property</em>.</div></div>
+  <figure class="small"><img src="shots/c1-add-property-form.jpg"><figcaption>The Add property form, filled in.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">2</div><div class="step-body"><strong>You land on the property’s Units tab <span class="who">Admin / Manager</span></strong>A note confirms the property is saved and prompts you to add units. Choose <em>One by one</em> or <em>Upload a spreadsheet</em>.</div></div>
+  <figure><img src="shots/c2-property-saved-units-tab.jpg"><figcaption>Straight after saving: the Units tab with the add-units form.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">3a</div><div class="step-body"><strong>Add units one by one, or as a numbered run <span class="who">Admin / Manager</span></strong>Enter the first unit number and how many. Every unit in a run gets the same type and rent; add units that differ as separate runs. Click <em>Add units</em>. If any unit number already exists, nothing is added.</div></div>
+  <figure class="small"><img src="shots/c3-add-units-form.jpg"><figcaption>Adding six one-bedroom units, B1 to B6.</figcaption></figure>
+  <figure class="tiny"><img src="shots/c4-units-added.jpg"><figcaption>The units appear as Vacant, each with a “Sign a lease” link.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">3b</div><div class="step-body"><strong>Or upload a spreadsheet <span class="who">Admin / Manager</span></strong>Download the template, fill in one row per unit, save as CSV and upload. Every row is checked first: if any row has a problem nothing is added, and the message lists the rows to fix. The full column guide is in the Appendix.</div></div>
+  <figure><img src="shots/c5-upload-units-guide.jpg"><figcaption>Upload a spreadsheet: template, upload and the on-screen format guide.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">4</div><div class="step-body"><strong>Check the property details and its manager <span class="who">Admin</span></strong>The Overview tab shows the landlord, manager and address. Company admins can change the property manager here at any time (Section 3, step 5).</div></div>
+  <figure class="small"><img src="shots/c7-property-details.jpg"><figcaption>Property details on the Overview tab.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">5</div><div class="step-body"><strong>Optional: list vacant units on Find a Home <span class="who">Admin / Manager</span></strong>Units → Listings shows every vacant unit that is not yet advertised. <em>List</em> puts it on the Find a Home portal; signing a lease takes it off automatically.</div></div>
+  <figure><img src="shots/c8-listings.jpg"><figcaption>Units → Listings.</figcaption></figure>
+</div>
+
+<!-- ============================== 6. TENANT -->
+<div class="block section-start" data-break>
+  <div class="eyebrow">Section 6 · Onboarding a tenant</div>
+  <h2>Tenant</h2>
+  <p class="lead">Done by: <strong>Company admin or property manager</strong>, with the tenant completing their own portal sign-up. Onboarding a tenant is four steps: the tenant record, the lease, the move-in, and the portal invitation.</p>
+  <h3>Details supplied for the tenant</h3>
+  <table>
+    <tr><th>Field</th><th></th><th>Notes</th></tr>
+    <tr><td>Full name</td><td class="req">Required</td><td></td></tr>
+    <tr><td>Phone</td><td class="req">Required</td><td>M-Pesa payments from this number are matched to the tenant automatically. Must not already belong to another tenant.</td></tr>
+    <tr><td>Email</td><td class="opt">Needed to invite</td><td>Required to send a tenant portal invitation.</td></tr>
+    <tr><td>National ID</td><td class="opt">Optional</td><td></td></tr>
+    <tr><td>KRA PIN</td><td class="opt">Optional</td><td></td></tr>
+    <tr><td>Emergency contact and phone</td><td class="opt">Optional</td><td></td></tr>
+  </table>
+  <h3>Details supplied for the lease</h3>
+  <table>
+    <tr><th>Field</th><th></th><th>Notes</th></tr>
+    <tr><td>Tenant</td><td class="req">Required</td><td>Pre-selected after adding a tenant.</td></tr>
+    <tr><td>Vacant unit</td><td class="req">Required</td><td>Only vacant units are offered.</td></tr>
+    <tr><td>Start date</td><td class="req">Required</td><td>Defaults to today.</td></tr>
+    <tr><td>Length (months)</td><td class="opt">Default 12</td><td></td></tr>
+    <tr><td>Rent due on day</td><td class="opt">Default 5</td><td>A day from 1 to 28.</td></tr>
+    <tr><td>Monthly rent, deposit, service charge</td><td class="opt">Default: the unit’s</td><td>Leave blank to use the unit’s own figures.</td></tr>
+  </table>
+  <h3>Details the tenant supplies (portal)</h3>
+  <table>
+    <tr><th>Field</th><th></th><th>Notes</th></tr>
+    <tr><td>Password (and confirmation)</td><td class="req">Required</td><td>When accepting an invitation.</td></tr>
+    <tr><td>Organization, tenant code, phone, email, password</td><td class="req">Required</td><td>Only when self-registering instead of using an invitation.</td></tr>
+  </table>
+</div>
+<div class="block">
+  <div class="step"><div class="num">1</div><div class="step-body"><strong>Open Tenancy → Tenants and click “Add tenant” <span class="who">Admin / Manager</span></strong>Enter the tenant’s details. Click <em>Save and create lease</em>.</div></div>
+  <figure class="small"><img src="shots/d1a-add-tenant-empty.jpg"><figcaption>The Add tenant form.</figcaption></figure>
+  <figure class="small"><img src="shots/d1-add-tenant-form.jpg"><figcaption>Filled in with a sample tenant.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">2</div><div class="step-body"><strong>Sign the lease on a vacant unit <span class="who">Admin / Manager</span></strong>The new lease form opens with the tenant already chosen. Pick the vacant unit and check the start date, length and due day. Leave rent, deposit and service charge blank to use the unit’s figures. Click <em>Sign lease</em>. The unit becomes Reserved and a move-in is scheduled.</div></div>
+  <figure class="small"><img src="shots/d2-new-lease-form.jpg"><figcaption>New lease for the tenant on unit B1.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">3</div><div class="step-body"><strong>Review the lease <span class="who">Admin / Manager</span></strong>The lease page shows the terms, deposit held and billing. From here you can raise this month’s invoice, renew, transfer or end the lease.</div></div>
+  <figure><img src="shots/d3-lease-signed.jpg"><figcaption>The signed lease.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">4</div><div class="step-body"><strong>Complete the move-in when the tenant takes the keys <span class="who">Admin / Manager</span></strong>Tenancy → Move-ins lists the scheduled move-in. Click <em>Complete</em>. The unit then shows as Occupied.</div></div>
+  <figure class="tiny"><img src="shots/d4-move-in-scheduled.jpg"><figcaption>The scheduled move-in with its Complete button.</figcaption></figure>
+  <figure class="tiny"><img src="shots/d5-unit-occupied.jpg"><figcaption>After completing the move-in, B1 is Occupied.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">5</div><div class="step-body"><strong>Invite the tenant to the tenant portal <span class="who">Admin / Manager</span></strong>Open the tenant, go to the <em>Portal</em> tab, check the email and click <em>Send invitation</em>. Share the one-time link (valid 72 hours).</div></div>
+  <div class="grid2">
+    <figure class="small"><img src="shots/d6-tenant-portal-invite.jpg"><figcaption>Invite to the portal.</figcaption></figure>
+    <figure class="small"><img src="shots/d7-tenant-invite-sent.jpg"><figcaption>Invitation sent.</figcaption></figure>
+  </div>
+</div>
+<div class="block">
+  <div class="step"><div class="num">6</div><div class="step-body"><strong>The tenant opens the link and sets a password <span class="who">Tenant</span></strong>The page confirms the company and the tenant’s name and tenant code.</div></div>
+  <figure class="small"><img src="shots/d8-tenant-accept.jpg"><figcaption>Accepting a tenant portal invitation.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">7</div><div class="step-body"><strong>The tenant is in their portal <span class="who">Tenant</span></strong>They see what they owe, pay by M-Pesa, download receipts and statements, report repairs, and follow their reward points and Rental Passport.</div></div>
+  <figure><img src="shots/d9-tenant-portal-home.jpg"><figcaption>The tenant portal home.</figcaption></figure>
+</div>
+<div class="block">
+  <div class="step"><div class="num">Alt</div><div class="step-body"><strong>Alternative: the tenant registers themselves <span class="who">Tenant</span></strong>Where the company allows it, a tenant can sign up without an invitation at <code>/tenant/register</code>, using their tenant code and the phone number already on their record. The tenant record and lease must already exist.</div></div>
+  <figure class="small"><img src="shots/d10-tenant-self-register.jpg"><figcaption>Tenant self-registration.</figcaption></figure>
+</div>
+
+<!-- ============================== 7. INVITATIONS -->
+<div class="block section-start" data-break>
+  <div class="eyebrow">Section 7</div>
+  <h2>Invitations: the rules</h2>
+  <p class="lead">Property managers, landlords and tenants all join through the same kind of invitation.</p>
+  <ul>
+    <li><strong>One-time link.</strong> Each invitation is a unique link. It works once; after the person sets their password it stops working.</li>
+    <li><strong>72 hours.</strong> A link expires 72 hours after it is sent. Send a new one if it runs out.</li>
+    <li><strong>Newest wins.</strong> Sending a new invitation to the same person cancels any earlier link.</li>
+    <li><strong>Revoke.</strong> A pending invitation can be revoked from where it was sent, without sending another.</li>
+    <li><strong>One login per email.</strong> An email address can belong to only one RentRewards login. Each landlord and each tenant can have one portal login.</li>
+    <li><strong>Email delivery.</strong> Invitations are emailed. Until email delivery is connected, the person sending it also sees the link once so they can share it themselves.</li>
+    <li><strong>Passwords.</strong> At least 8 characters, including a letter and a number. RentRewards stores only a secure hash of the link and of the password.</li>
+  </ul>
+  <table>
+    <tr><th>Invitation</th><th>Sent from</th><th>Sent by</th><th>Lands on after accepting</th></tr>
+    <tr><td>Property manager</td><td>Administration → Users</td><td>Company admin</td><td>Dashboard (assigned properties only)</td></tr>
+    <tr><td>Landlord</td><td>Landlord page → Landlord portal</td><td>Company admin, property manager</td><td>Dashboard (owned properties only)</td></tr>
+    <tr><td>Tenant</td><td>Tenant page → Portal tab</td><td>Company admin, property manager</td><td>Tenant portal</td></tr>
+  </table>
+</div>
+
+<!-- ============================== 8. QUICK REFERENCE -->
+<div class="block section-start" data-break>
+  <div class="eyebrow">Section 8</div>
+  <h2>Quick reference</h2>
+  <div class="grid2">
+    <div class="card"><h4>Onboarding a property manager</h4><ul><li>Users → Invite a property manager (name, email)</li><li>Share the link; they set a password</li><li>Assign them on each property’s Overview</li></ul></div>
+    <div class="card"><h4>Onboarding a landlord</h4><ul><li>Landlords → Add landlord (type, name, phone, payout)</li><li>Add email and KRA PIN</li><li>Landlord page → Landlord portal → Send invitation</li></ul></div>
+    <div class="card"><h4>Onboarding a property</h4><ul><li>Add property (landlord, name, type, county, town)</li><li>Units tab: one by one, a run, or a spreadsheet</li><li>Assign the property manager</li><li>Optional: list vacant units</li></ul></div>
+    <div class="card"><h4>Onboarding a tenant</h4><ul><li>Tenants → Add tenant (name, phone, email)</li><li>Sign the lease on a vacant unit</li><li>Move-ins → Complete</li><li>Tenant → Portal tab → Send invitation</li></ul></div>
+  </div>
+  <h3>Who sees what after onboarding</h3>
+  <table>
+    <tr><th>Login</th><th>Sees</th><th>Cannot see</th></tr>
+    <tr><td>Company admin</td><td>Everything in the company</td><td>Other companies</td></tr>
+    <tr><td>Property manager</td><td>Properties assigned to them, and their units, tenants, leases, rent, payments, listings and maintenance</td><td>Properties assigned to other managers or to nobody</td></tr>
+    <tr><td>Landlord</td><td>Properties they own, with collections, arrears, tenants, expenses, maintenance, settlements and statements</td><td>Other landlords’ properties, company-wide reports and the audit log</td></tr>
+    <tr><td>Tenant</td><td>Their own tenancy: balance, payments, receipts, statements, repairs, points and Rental Passport</td><td>Anything about other tenants or the property’s finances</td></tr>
+  </table>
+  <h3>Common problems</h3>
+  <table>
+    <tr><th>Problem</th><th>Fix</th></tr>
+    <tr><td>“That email address already has a RentRewards login.”</td><td>Use a different email, or ask the person to sign in with the existing one.</td></tr>
+    <tr><td>Invitation link “no longer valid”</td><td>It expired, was used, or was replaced. Send a new invitation.</td></tr>
+    <tr><td>A property manager cannot see a property</td><td>Assign them on the property’s Overview tab.</td></tr>
+    <tr><td>Can’t invite a landlord or tenant</td><td>Add an email address to their record first.</td></tr>
+    <tr><td>No unit offered when signing a lease</td><td>Only vacant units are offered. Add units, or end the current lease.</td></tr>
+    <tr><td>A unit upload added nothing</td><td>Fix the rows listed in the message and upload the whole file again.</td></tr>
+  </table>
+</div>
+
+<!-- ============================== APPENDIX -->
+<div class="block section-start" data-break>
+  <div class="eyebrow">Appendix</div>
+  <h2>Unit spreadsheet format</h2>
+  <p class="lead">Used by Upload a spreadsheet on a property’s Units tab. Download the template there for a ready-made file.</p>
+  <table>
+    <tr><th>Column heading</th><th></th><th>What goes in it</th><th>Example</th></tr>
+    <tr><td><code>unit_number</code></td><td class="req">Required</td><td>Door number. Unique within the property.</td><td>A1</td></tr>
+    <tr><td><code>monthly_rent</code></td><td class="req">Required</td><td>Rent in KES. Commas and “KES” are ignored.</td><td>25000</td></tr>
+    <tr><td><code>type</code></td><td class="opt">Optional</td><td>Unit type code or name. Blank means One Bedroom.</td><td>ONE_BEDROOM</td></tr>
+    <tr><td><code>floor</code></td><td class="opt">Optional</td><td>Whole number. Ground floor is 0.</td><td>0</td></tr>
+    <tr><td><code>bedrooms</code></td><td class="opt">Optional</td><td>Whole number. Blank means 1.</td><td>1</td></tr>
+    <tr><td><code>bathrooms</code></td><td class="opt">Optional</td><td>Whole number. Blank means 1.</td><td>1</td></tr>
+    <tr><td><code>deposit</code></td><td class="opt">Optional</td><td>Deposit in KES. Blank means 0.</td><td>25000</td></tr>
+    <tr><td><code>service_charge</code></td><td class="opt">Optional</td><td>Monthly service charge in KES. Blank means 0.</td><td>2000</td></tr>
+  </table>
+  <h3>Unit types</h3>
+  <p class="muted">BEDSITTER, STUDIO, ONE_BEDROOM, TWO_BEDROOM, THREE_BEDROOM, FOUR_BEDROOM, MAISONETTE, SHOP, OFFICE_SPACE, HOSTEL_ROOM, OTHER (the names, e.g. “One Bedroom”, also work).</p>
+  <h3>Rules</h3>
+  <ul>
+    <li>The first row must be the column headings. Order does not matter; extra columns are ignored. Common headings such as “Unit No” or “Rent” are recognised.</li>
+    <li>Each unit number may appear once and must not already exist on the property.</li>
+    <li>Up to 500 units per file. Every unit is added as Vacant.</li>
+    <li>Excel files are not read directly: save as CSV first.</li>
+    <li>If any row has a problem, nothing is added and the message lists every row to fix.</li>
+  </ul>
+  <h3>Example</h3>
+  <pre style="font-family:Menlo,monospace;font-size:8.5pt;background:#f4f6f5;padding:8px 10px;border-radius:4px;margin:0">unit_number,monthly_rent,type,floor,bedrooms,bathrooms,deposit,service_charge
+A1,25000,ONE_BEDROOM,0,1,1,25000,2000
+A2,25000,ONE_BEDROOM,0,1,1,25000,2000
+B1,38000,TWO_BEDROOM,1,2,2,38000,2500
+S1,12000,BEDSITTER,0,0,1,,</pre>
+</div>
+
+</div>
+
+<script>
+window.addEventListener('load', () => {
+// Paginate: pour the blocks into fixed A4 pages, starting a new page when a
+// block marked data-break starts or when the next block would overflow.
+(function () {
+  const W = 794, H = 1123
+  const holder = document.getElementById('pages')
+  const blocks = [...document.getElementById('source').children]
+  let page, content, count = 0
+  const pages = []
+  function newPage(cover) {
+    page = document.createElement('div')
+    page.className = 'page' + (cover ? ' cover' : '')
+    content = document.createElement('div')
+    content.className = 'content'
+    page.appendChild(content)
+    holder.appendChild(page)
+    pages.push(page)
+  }
+  const queue = blocks.slice()
+  const overflow = () => content.scrollHeight > content.clientHeight + 1
+  while (queue.length) {
+    const block = queue.shift()
+    if (block.hasAttribute('data-cover')) { newPage(true); content.appendChild(block); newPage(false); continue }
+    if (block.hasAttribute('data-break') && content.children.length > 0) newPage(false)
+    content.appendChild(block)
+    if (!overflow()) continue
+    if (content.children.length > 1) { content.removeChild(block); newPage(false); content.appendChild(block) }
+    if (overflow() && block.children.length > 1) {
+      // Too tall for any page on its own: split it into its parts.
+      content.removeChild(block)
+      const parts = [...block.children].map((child, i) => {
+        const wrap = document.createElement('div')
+        wrap.className = 'block'
+        if (i === 0 && block.classList.contains('section-start')) wrap.classList.add('section-start')
+        wrap.appendChild(child)
+        return wrap
+      })
+      queue.unshift(...parts)
+    }
+  }
+  pages.forEach((p, i) => {
+    if (p.classList.contains('cover')) return
+    const f = document.createElement('footer')
+    f.innerHTML = '<span>RentRewards · Onboarding Guide</span><span>Page ' + (i + 1) + ' of ' + pages.length + '</span>'
+    p.appendChild(f)
+  })
+  document.body.dataset.pages = pages.length
+})()
+})
+</script>
+</body>
+</html>
