@@ -11,13 +11,20 @@
 //  portal is connected yet, it stays QUEUED.
 // ===========================================================================
 
-import { and, eq } from 'drizzle-orm'
+import { and, desc, eq } from 'drizzle-orm'
 import { db, type Tx } from '@/db'
 import { properties, unitListings, units } from '@/db/schema'
 import { amount, cents } from '@/lib/money'
 import { audit } from '@/lib/audit'
 import { assertInScope, scoped, type Scope } from '@/lib/tenancy'
 import { getListingProvider, type ListingSyncResult } from '@/server/adapters'
+
+const typeLabel = (value: string) =>
+  value
+    .toLowerCase()
+    .split('_')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
 
 export interface ListUnitInput {
   headline?: string | null
@@ -64,7 +71,8 @@ export async function listUnit(scope: Scope, unitId: string, input: ListUnitInpu
         organizationId: scope.organizationId,
         unitId,
         propertyId: unit.propertyId,
-        headline: input.headline?.trim() || `${row.propertyName} ${unit.unitNumber}, ${row.area ?? row.town}`,
+        // The default headline leaves out the unit number: it is shown publicly.
+        headline: input.headline?.trim() || `${typeLabel(unit.type)} at ${row.propertyName}, ${row.area ?? row.town}`,
         description: input.description?.trim() ?? '',
         askingRent: amount(askingRentCents),
         availableFrom: input.availableFrom ?? new Date(),
@@ -198,4 +206,42 @@ export async function liveListingsByUnit(scope: Scope, unitIds?: string[]) {
     .where(and(scoped(unitListings, scope, eq(unitListings.status, 'LISTED'))))
   const wanted = unitIds ? new Set(unitIds) : null
   return new Map(rows.filter((row) => !wanted || wanted.has(row.unitId)).map((row) => [row.unitId, row]))
+}
+
+export interface PublicListing {
+  id: string
+  headline: string
+  area: string
+  town: string
+  unitType: string
+  bedrooms: number
+  bathrooms: number
+  askingRent: string
+  availableFrom: Date
+}
+
+/**
+ * Listed homes for the public landing page, across every organization. Only
+ * what a house seeker needs: no unit number, landlord, tenant or address.
+ */
+export async function publicListings(limit = 6): Promise<PublicListing[]> {
+  const rows = await db
+    .select({
+      id: unitListings.id,
+      headline: unitListings.headline,
+      area: properties.area,
+      town: properties.town,
+      unitType: units.type,
+      bedrooms: units.bedrooms,
+      bathrooms: units.bathrooms,
+      askingRent: unitListings.askingRent,
+      availableFrom: unitListings.availableFrom,
+    })
+    .from(unitListings)
+    .innerJoin(units, eq(units.id, unitListings.unitId))
+    .innerJoin(properties, eq(properties.id, unitListings.propertyId))
+    .where(and(eq(unitListings.status, 'LISTED'), eq(units.status, 'VACANT')))
+    .orderBy(desc(unitListings.listedAt))
+    .limit(limit)
+  return rows.map((row) => ({ ...row, area: row.area ?? row.town }))
 }
