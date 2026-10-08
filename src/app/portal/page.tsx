@@ -22,7 +22,7 @@ import {
   Wallet,
   Wrench,
 } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { formatKES } from '@/lib/money'
@@ -64,7 +64,7 @@ function monthsBetween(from: Date, to: Date): number {
 }
 
 export default async function PortalHomePage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const scope = scopeFromSession(session)
 
   const [{ tenancy, rent, record }, points, tickets, receipts, announcements] = await Promise.all([
@@ -153,7 +153,7 @@ export default async function PortalHomePage() {
         <PortalTile
           label="Reward points"
           value={points.total.toLocaleString()}
-          sub={`${points.available.toLocaleString()} available to redeem`}
+          sub="Boosts your chances of owner offers"
           icon={<Sparkles className="h-4 w-4" />}
           tone="brand"
           href="/portal/rewards"

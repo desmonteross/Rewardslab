@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ChevronRight, Plus } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { Card, EmptyState, PageHeader, StatusBadge, humanise } from '@/components/ui'
@@ -17,7 +17,7 @@ function progress(status: string): number {
 }
 
 export default async function PortalMaintenancePage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const scope = scopeFromSession(session)
   const tickets = await portalTickets(scope)
 

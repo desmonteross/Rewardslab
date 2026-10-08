@@ -1,5 +1,5 @@
 import { authorize, forbidden, handler, notFound } from '@/lib/api'
-import { findReport, toCsv, type ReportFilters } from '@/server/reports'
+import { canRunReport, findReport, toCsv, type ReportFilters } from '@/server/reports'
 
 /**
  * GET /api/v1/reports/:slug/export?format=csv
@@ -11,6 +11,7 @@ export const GET = handler(async (request: Request, context: { params: Promise<{
 
   const report = findReport(slug)
   if (!report) throw notFound('That report does not exist.')
+  if (!canRunReport(scope, report)) throw forbidden('Your role cannot run this report.')
 
   const url = new URL(request.url)
   const format = url.searchParams.get('format') ?? 'csv'

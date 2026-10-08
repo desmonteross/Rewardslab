@@ -16,10 +16,17 @@ import {
   rentInvoices,
   tenants,
   units,
+  unitTypeEnum,
   users,
 } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
-import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { can } from '@/lib/rbac'
+import { ActionForm } from '@/components/action-form'
+import { createUnitAction } from '../../onboarding-actions'
+import { assignManagerAction } from '@/app/invite-actions'
+import { UnitUpload } from '@/components/unit-upload'
+import { liveListingsByUnit } from '@/server/services/listings'
+import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { fmtDate, periodOf } from '@/lib/dates'
 import { one, type SearchParamsPromise } from '@/lib/search-params'
@@ -60,6 +67,8 @@ export default async function PropertyDetailPage({
   const session = await requirePermission('properties.view')
   const scope = scopeFromSession(session)
   const tab = one(query, 'tab') ?? 'overview'
+  const justAdded = one(query, 'added') === '1'
+  const addMode = one(query, 'add') === 'upload' ? 'upload' : 'single'
   const period = periodOf(new Date())
 
   const [record] = await db
@@ -74,7 +83,7 @@ export default async function PropertyDetailPage({
     .from(properties)
     .innerJoin(landlords, eq(landlords.id, properties.landlordId))
     .leftJoin(users, eq(users.id, properties.managerId))
-    .where(scoped(properties, scope, eq(properties.id, id)))
+    .where(landlordScoped(properties, scope, eq(properties.id, id)))
     .limit(1)
 
   if (!record) notFound()
@@ -162,6 +171,15 @@ export default async function PropertyDetailPage({
   ])
 
   const occupied = unitRows.filter((unit) => unit.status === 'OCCUPIED').length
+  const listedUnits = await liveListingsByUnit(scope, unitRows.map((unit) => unit.id))
+  const canAssignManager = can(session, 'users.manage')
+  const managerOptions = canAssignManager
+    ? await db
+        .select({ id: users.id, name: users.fullName, role: users.role })
+        .from(users)
+        .where(scoped(users, scope, eq(users.isActive, true), sql`${users.role} in ('PROPERTY_MANAGER', 'ORG_ADMIN')`))
+        .orderBy(asc(users.fullName))
+    : []
   const collectionRate = percent(cents(stats?.collectedMonth), cents(stats?.billedMonth))
   const href = (next: string) => `/properties/${id}?tab=${next}`
 
@@ -173,12 +191,21 @@ export default async function PropertyDetailPage({
         description={`${property.code} · ${humanise(property.type)} · ${property.area ?? property.town}, ${property.county}`}
         actions={
           <>
-            <Link href={`/landlords/${record.landlordId}`} className="btn-secondary">
+            {can(session, 'landlords.view') && (
+              <Link href={`/landlords/${record.landlordId}`} className="btn-secondary">
               Landlord
             </Link>
-            <Link href={`/rent?property=${id}`} className="btn-primary">
+            )}
+            {can(session, 'units.create') && (
+              <Link href={href('units')} className="btn-secondary">
+                Add units
+              </Link>
+            )}
+            {can(session, 'rent.view') && (
+              <Link href={`/rent?property=${id}`} className="btn-primary">
               Rent collection
             </Link>
+            )}
           </>
         }
       />
@@ -208,6 +235,26 @@ export default async function PropertyDetailPage({
         <MoneyKpi label="Collected" amount={stats?.collectedMonth ?? 0} tone="positive" sub={`${formatPercent(collectionRate)} of billed`} />
         <MoneyKpi label="Outstanding" amount={stats?.outstanding ?? 0} tone={cents(stats?.outstanding) > 0 ? 'warning' : 'positive'} />
       </div>
+
+      {justAdded && tab === 'units' && unitRows.length === 0 && (
+        <div className="mt-4">
+          <Notice tone="brand" title={`${property.name} is saved`}>
+            Now add its units below, one by one or by uploading a spreadsheet. Each vacant unit gets a “Sign a lease” link once it exists.
+          </Notice>
+        </div>
+      )}
+
+      {!justAdded && unitRows.length === 0 && tab !== 'units' && can(session, 'units.create') && (
+        <div className="mt-4">
+          <Notice tone="warning" title="This property has no units yet">
+            Tenants can only be given a lease on a unit.{' '}
+            <Link href={href('units')} className="link">
+              Add units
+            </Link>
+            .
+          </Notice>
+        </div>
+      )}
 
       <div className="mt-6">
         <SectionTabs
@@ -271,11 +318,117 @@ export default async function PropertyDetailPage({
               ]}
             />
           </Card>
+
+          {canAssignManager && (
+            <Card
+              className="lg:col-span-3"
+              title="Property manager"
+              description="The manager assigned here is the only property manager who sees this property, its units, tenants, rent and repairs."
+            >
+              <ActionForm action={assignManagerAction} label="Save" pendingLabel="Saving…" className="flex flex-wrap items-end gap-3 space-y-0">
+                <input type="hidden" name="propertyId" value={id} />
+                <label className="block min-w-[16rem] text-xs font-medium text-muted">
+                  Manager
+                  <select name="managerId" className="field mt-1" defaultValue={property.managerId ?? ''}>
+                    <option value="">Unassigned</option>
+                    {managerOptions.map((manager) => (
+                      <option key={manager.id} value={manager.id}>
+                        {manager.name}
+                        {manager.role === 'ORG_ADMIN' ? ' (admin)' : ''}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </ActionForm>
+              <p className="mt-2 text-2xs text-faint">
+                New managers are invited from Administration → Users.
+              </p>
+            </Card>
+          )}
         </div>
       )}
 
       {tab === 'units' && (
+        <div className="space-y-4">
+        {can(session, 'units.create') && (
+          <Card
+            title={unitRows.length === 0 ? 'Add the first units' : 'Add units'}
+            description="Type them in one at a time (or as a numbered run), or upload a spreadsheet with all of them."
+          >
+            <div className="mb-4 inline-flex rounded-lg border border-line p-0.5 text-sm" role="tablist">
+              {[
+                { mode: 'single', label: 'One by one' },
+                { mode: 'upload', label: 'Upload a spreadsheet' },
+              ].map((option) => (
+                <Link
+                  key={option.mode}
+                  href={`/properties/${id}?tab=units&add=${option.mode}`}
+                  role="tab"
+                  aria-selected={addMode === option.mode}
+                  className={clsx(
+                    'rounded-md px-3 py-1.5',
+                    addMode === option.mode ? 'bg-brand text-white' : 'text-muted hover:text-ink',
+                  )}
+                >
+                  {option.label}
+                </Link>
+              ))}
+            </div>
+            {addMode === 'upload' ? (
+              <UnitUpload propertyId={id} />
+            ) : (
+            <ActionForm action={createUnitAction} label="Add units" pendingLabel="Adding…">
+              <input type="hidden" name="propertyId" value={id} />
+              <div className="grid gap-3 sm:grid-cols-4">
+                <label className="block text-xs font-medium text-muted">
+                  Unit number
+                  <input name="unitNumber" className="field mt-1" placeholder="A1" required autoFocus={justAdded} />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  How many
+                  <input name="count" type="number" min="1" max="200" className="field mt-1" defaultValue="1" />
+                  <span className="mt-1 block text-2xs text-faint">More than 1 adds a run: A1, A2, A3…</span>
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Type
+                  <select name="type" className="field mt-1" defaultValue="ONE_BEDROOM">
+                    {unitTypeEnum.enumValues.map((value) => (
+                      <option key={value} value={value}>
+                        {humanise(value)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Floor
+                  <input name="floor" type="number" min="0" className="field mt-1" defaultValue="0" />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Bedrooms / bathrooms
+                  <span className="mt-1 flex gap-2">
+                    <input name="bedrooms" type="number" min="0" className="field" defaultValue="1" aria-label="Bedrooms" />
+                    <input name="bathrooms" type="number" min="0" className="field" defaultValue="1" aria-label="Bathrooms" />
+                  </span>
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Monthly rent (KES)
+                  <input name="monthlyRent" type="number" min="1" step="1" className="field mt-1" required />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Deposit (KES)
+                  <input name="deposit" type="number" min="0" step="1" className="field mt-1" defaultValue="0" />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Service charge (KES)
+                  <input name="serviceCharge" type="number" min="0" step="1" className="field mt-1" defaultValue="0" />
+                </label>
+              </div>
+            </ActionForm>
+            )}
+          </Card>
+        )}
         <Card title="Occupancy" description="Every unit in this property and its current state.">
+          {unitRows.length === 0 && <EmptyState title="No units yet" description="Units you add appear here." />}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
             {unitRows.map((unit) => (
               <div
@@ -286,10 +439,22 @@ export default async function PropertyDetailPage({
                 <p className="mt-0.5 truncate text-2xs text-muted">{humanise(unit.status)}</p>
                 <p className="mt-1 truncate text-2xs tabular-nums text-faint">{formatKES(unit.monthlyRent)}</p>
                 <p className="truncate text-2xs text-faint">{humanise(unit.type)}</p>
+                {listedUnits.has(unit.id) && <p className="mt-1 text-2xs font-medium text-brand">Listed on Find a Home</p>}
+                {unit.status === 'VACANT' && can(session, 'leases.create') && (
+                  <Link href={`/leases/new?unit=${unit.id}`} className="link mt-1 block text-2xs">
+                    Sign a lease
+                  </Link>
+                )}
+                {unit.status === 'VACANT' && !listedUnits.has(unit.id) && can(session, 'units.update') && (
+                  <Link href={`/units/listings/new?unit=${unit.id}`} className="link mt-0.5 block text-2xs">
+                    List it
+                  </Link>
+                )}
               </div>
             ))}
           </div>
         </Card>
+        </div>
       )}
 
       {tab === 'tenants' && (

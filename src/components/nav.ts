@@ -27,6 +27,7 @@ export const NAVIGATION: NavSection[] = [
     items: [
       { label: 'Properties', href: '/properties', icon: 'Building2', permission: 'properties.view' },
       { label: 'Units', href: '/units', icon: 'DoorOpen', permission: 'units.view' },
+      { label: 'Listings', href: '/units/listings', icon: 'Megaphone', permission: 'units.view' },
       { label: 'Landlords', href: '/landlords', icon: 'UserRoundCog', permission: 'landlords.view' },
     ],
   },
@@ -85,6 +86,14 @@ export const NAVIGATION: NavSection[] = [
   {
     label: 'Platform',
     items: [{ label: 'SaaS Admin', href: '/admin', icon: 'ShieldCheck', permission: 'platform.admin' }],
+  },
+  {
+    // Last, and open to every staff role (all of them can see the dashboard).
+    label: 'Help',
+    items: [
+      { label: 'Guides', href: '/help', icon: 'BookOpenText', permission: 'dashboard.view' },
+      { label: 'FAQs', href: '/help/faq', icon: 'CircleHelp', permission: 'dashboard.view' },
+    ],
   },
 ]
 

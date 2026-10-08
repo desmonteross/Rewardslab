@@ -4,6 +4,7 @@ import { asc, eq, gte, ilike, lte, or, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { leases, properties, tenants, units, unitStatusEnum, unitTypeEnum } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
+import { can } from '@/lib/rbac'
 import { landlordScoped, scopeFromSession } from '@/lib/tenancy'
 import { amount, cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { one, pageOf, withParams, PAGE_SIZE, type SearchParamsPromise } from '@/lib/search-params'
@@ -43,6 +44,11 @@ export default async function UnitsPage({ searchParams }: { searchParams: Search
   const floor = one(params, 'floor')
   const minRent = one(params, 'minRent')
   const maxRent = one(params, 'maxRent')
+  const listing = one(params, 'listing')
+
+  // Spelled out rather than interpolated: Drizzle renders an interpolated
+  // column as a bare "id", which would bind to the subquery's own table.
+  const listedSql = sql<boolean>`exists (select 1 from unit_listings ul where ul.unit_id = units.id and ul.status = 'LISTED')`
 
   const where = landlordScoped(
     properties,
@@ -54,6 +60,8 @@ export default async function UnitsPage({ searchParams }: { searchParams: Search
     floor ? eq(units.floor, Number(floor)) : undefined,
     minRent ? gte(units.monthlyRent, amount(Number(minRent) * 100)) : undefined,
     maxRent ? lte(units.monthlyRent, amount(Number(maxRent) * 100)) : undefined,
+    listing === 'listed' ? listedSql : undefined,
+    listing === 'unlisted' ? sql`not ${listedSql}` : undefined,
   )
 
   const selection = {
@@ -74,6 +82,7 @@ export default async function UnitsPage({ searchParams }: { searchParams: Search
     tenantName: tenants.fullName,
     leaseId: leases.id,
     leaseEnd: leases.endDate,
+    listed: listedSql,
   }
 
   const base = db
@@ -124,14 +133,36 @@ export default async function UnitsPage({ searchParams }: { searchParams: Search
         title="Units"
         description="Occupancy across the portfolio, unit by unit."
         actions={
-          <ViewSwitch
-            name="view"
-            fallback="grid"
-            options={[
-              { value: 'grid', label: 'Occupancy' },
-              { value: 'table', label: 'Table' },
-            ]}
-          />
+          <>
+            <Link href="/units/listings" className="btn-secondary">
+              Listings
+            </Link>
+            <ViewSwitch
+              name="view"
+              fallback="grid"
+              options={[
+                { value: 'grid', label: 'Occupancy' },
+                { value: 'table', label: 'Table' },
+              ]}
+            />
+            {can(session, 'units.create') && propertyOptions.length > 0 && (
+              // Units live on a property, so this picks the property and
+              // opens its Units tab with the add form.
+              <form action="/units/add" className="flex gap-2">
+                <select name="property" className="field" defaultValue="" required aria-label="Property to add units to">
+                  <option value="">Add units to…</option>
+                  {propertyOptions.map((row) => (
+                    <option key={row.id} value={row.id}>
+                      {row.name}
+                    </option>
+                  ))}
+                </select>
+                <button type="submit" className="btn-primary">
+                  Add units
+                </button>
+              </form>
+            )}
+          </>
         }
       />
 
@@ -149,6 +180,14 @@ export default async function UnitsPage({ searchParams }: { searchParams: Search
           { name: 'property', label: 'All properties', options: propertyOptions.map((row) => ({ value: row.id, label: row.name })) },
           { name: 'status', label: 'All statuses', options: unitStatusEnum.enumValues.map((value) => ({ value, label: humanise(value) })) },
           { name: 'type', label: 'All unit types', options: unitTypeEnum.enumValues.map((value) => ({ value, label: humanise(value) })) },
+          {
+            name: 'listing',
+            label: 'Listed or not',
+            options: [
+              { value: 'listed', label: 'Listed on Find a Home' },
+              { value: 'unlisted', label: 'Not listed' },
+            ],
+          },
           { name: 'floor', label: 'All floors', options: Array.from({ length: 12 }, (_, index) => ({ value: String(index), label: index === 0 ? 'Ground floor' : `Floor ${index}` })) },
           {
             name: 'minRent',
@@ -200,7 +239,10 @@ export default async function UnitsPage({ searchParams }: { searchParams: Search
                           aria-hidden
                         />
                       </div>
-                      <p className="mt-0.5 truncate text-2xs text-muted">{humanise(unit.status)}</p>
+                      <p className="mt-0.5 truncate text-2xs text-muted">
+                        {humanise(unit.status)}
+                        {unit.listed && <span className="ml-1 font-medium text-brand">· Listed</span>}
+                      </p>
                       <p className="mt-1 truncate text-2xs tabular-nums text-faint">
                         {formatKES(unit.monthlyRent)}
                       </p>
@@ -235,7 +277,10 @@ export default async function UnitsPage({ searchParams }: { searchParams: Search
                 header: 'Unit',
                 render: (row) => (
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-ink">{row.unitNumber}</p>
+                    <p className="truncate text-sm font-medium text-ink">
+                      {row.unitNumber}
+                      {row.listed && <span className="ml-1.5 text-2xs font-medium text-brand">Listed</span>}
+                    </p>
                     <p className="truncate text-2xs text-faint">{row.propertyName}</p>
                   </div>
                 ),

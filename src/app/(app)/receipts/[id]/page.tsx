@@ -4,7 +4,8 @@ import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { landlords, organizations, payments, properties, receipts, rentInvoices, tenants, units } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
-import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { can } from '@/lib/rbac'
+import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { formatKES } from '@/lib/money'
 import { fmtDate, fmtDateTime } from '@/lib/dates'
 import { Card, PageHeader, StatusBadge, humanise } from '@/components/ui'
@@ -50,7 +51,7 @@ export default async function ReceiptDetailPage({ params }: { params: Promise<{ 
     .innerJoin(payments, eq(payments.id, receipts.paymentId))
     .innerJoin(organizations, eq(organizations.id, receipts.organizationId))
     .leftJoin(rentInvoices, eq(rentInvoices.id, receipts.invoiceId))
-    .where(scoped(receipts, scope, eq(receipts.id, id)))
+    .where(landlordScoped(receipts, scope, eq(receipts.id, id)))
     .limit(1)
 
   if (!record) notFound()
@@ -177,6 +178,7 @@ export default async function ReceiptDetailPage({ params }: { params: Promise<{ 
         </div>
 
         <div className="space-y-4 no-print">
+          {can(session, 'receipts.issue') && (
           <Card title="Send to tenant" description="Delivers the receipt through the configured notification provider.">
             <ActionForm action={emailReceiptAction} label="Send by email" pendingLabel="Sending…">
               <input type="hidden" name="receiptId" value={id} />
@@ -193,6 +195,7 @@ export default async function ReceiptDetailPage({ params }: { params: Promise<{ 
               </ActionForm>
             </div>
           </Card>
+          )}
 
           <Card title="Related records">
             <ul className="space-y-2 text-sm">

@@ -22,7 +22,7 @@ import {
 } from '@/db/schema'
 import { cents, percent } from '@/lib/money'
 import { periodOf, recentPeriods } from '@/lib/dates'
-import { landlordScoped, scoped, type Scope } from '@/lib/tenancy'
+import { landlordScoped, portfolioTenantFilter, scoped, type Scope } from '@/lib/tenancy'
 
 const SUM = (column: unknown) => sql<string>`coalesce(sum(${column}), 0)`
 const COUNT = sql<number>`count(*)::int`
@@ -62,7 +62,7 @@ export async function portfolioSummary(scope: Scope): Promise<PortfolioSummary> 
   const [tenantCount] = await db
     .select({ count: COUNT })
     .from(tenants)
-    .where(scoped(tenants, scope, eq(tenants.status, 'ACTIVE')))
+    .where(scoped(tenants, scope, eq(tenants.status, 'ACTIVE'), portfolioTenantFilter(scope)))
 
   const [leaseCount] = await db
     .select({ count: COUNT })
@@ -269,7 +269,7 @@ export async function moneySummary(scope: Scope, when: Date = new Date()): Promi
       balance: sql<string>`coalesce(sum(case when ${ledgerEntries.entryType} = 'CREDIT' then ${ledgerEntries.amount} else -${ledgerEntries.amount} end), 0)`,
     })
     .from(ledgerEntries)
-    .where(scoped(ledgerEntries, scope, eq(ledgerEntries.account, 'LANDLORD_PAYABLE')))
+    .where(landlordScoped(ledgerEntries, scope, eq(ledgerEntries.account, 'LANDLORD_PAYABLE')))
 
   const [commissionMonth] = await db
     .select({ total: SUM(commissions.commissionAmount) })
@@ -305,7 +305,7 @@ export async function moneySummary(scope: Scope, when: Date = new Date()): Promi
   const [unmatched] = await db
     .select({ total: SUM(payments.grossAmount), count: COUNT })
     .from(payments)
-    .where(scoped(payments, scope, eq(payments.status, 'UNMATCHED')))
+    .where(landlordScoped(payments, scope, eq(payments.status, 'UNMATCHED')))
 
   const [pending] = await db
     .select({

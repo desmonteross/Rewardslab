@@ -350,7 +350,10 @@ export async function processSettlement(scope: Scope, settlementId: string) {
   assertInScope(settlement, scope, 'settlement')
 
   if (settlement.status === 'SETTLED') return { settlement, alreadySettled: true }
-  if (settlement.status !== 'SCHEDULED' && settlement.status !== 'PENDING') {
+  // SCHEDULED means approved. FAILED is a retry of an approved batch whose
+  // payout was refused, and nothing was posted for it. PENDING has not been
+  // approved yet, so it cannot be paid out.
+  if (settlement.status !== 'SCHEDULED' && settlement.status !== 'FAILED') {
     throw new Error(`Settlement ${settlement.reference} cannot be processed from ${settlement.status}.`)
   }
 

@@ -16,7 +16,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   // modules have no data to show them — they get the SaaS admin area only.
   const platformOnly = session.role === 'SUPER_ADMIN' && !session.organizationId
 
-  const sections = NAVIGATION.filter((section) => (platformOnly ? section.label === 'Platform' : true))
+  const sections = NAVIGATION.filter((section) =>
+    platformOnly ? section.label === 'Platform' || section.label === 'Help' : true,
+  )
     .map((section) => ({
       ...section,
       items: section.items.filter((item) => can(session, item.permission as Permission)),
@@ -56,7 +58,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       organizationName={session.organizationName ?? 'Platform'}
       userName={session.fullName}
       userRole={ROLE_LABELS[session.role] ?? session.role}
-      permissions={session.permissions}
+      // Platform staff get only the platform area in the command bar too.
+      permissions={platformOnly ? ['platform.admin'] : session.permissions}
       notifications={recent.map((notification) => ({
         id: notification.id,
         title: notification.title,

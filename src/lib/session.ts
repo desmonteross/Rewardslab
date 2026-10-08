@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { SESSION_COOKIE, createSessionToken, verifySessionToken, type SessionPayload } from './auth'
 import { can, type Permission } from './rbac'
 import { env } from './env'
+import { homePathFor } from './home-path'
 
 export type Session = SessionPayload
 
@@ -20,9 +21,23 @@ export async function requireSession(): Promise<Session> {
   return session
 }
 
+/**
+ * For tenant portal pages. The portal layout already redirects anyone else,
+ * but Next renders a page alongside its layout, so the page must not assume
+ * a tenancy either: a staff session would otherwise throw on its first query.
+ */
+export async function requireTenantSession(): Promise<Session> {
+  const session = await requireSession()
+  if (session.role !== 'TENANT' || !session.tenantId) redirect(homePathFor(session.role))
+  return session
+}
+
 /** For pages: 403 unless the session holds the permission. */
 export async function requirePermission(permission: Permission): Promise<Session> {
   const session = await requireSession()
+  // Platform staff are not bound to an organization, so every company screen
+  // would fail to scope. Send them to the platform area instead of crashing.
+  if (!session.organizationId && permission !== 'platform.admin') redirect(homePathFor(session.role))
   if (!can(session, permission)) redirect('/forbidden')
   return session
 }

@@ -1,0 +1,1763 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RentRewards PMS — Property management built for Kenya</title>
+  <meta name="description" content="Run your entire rental portfolio from one place. Collect rent, manage leases, automate operations and reward great tenants. Powered by AXENT Technologies.">
+  <meta name="theme-color" content="#f6f3ec">
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB4bWxuczpjMnBhPSJodHRwOi8vYzJwYS5vcmcvbWFuaWZlc3QiPjxtZXRhZGF0YT48YzJwYTptYW5pZmVzdD5BQUFXZ21wMWJXSUFBQUFlYW5WdFpHTXljR0VBRVFBUWdBQUFxZ0E0bTNFRFl6SndZUUFBQUJaY2FuVnRZZ0FBQUVkcWRXMWtZekp0WVFBUkFCQ0FBQUNxQURpYmNRTjFjbTQ2WXpKd1lUcGhObUV3T1daa1lTMW1abVJsTFRRd05ETXRPRFpoTUMxbU5qRmhNekV5WXpsaE56TUFBQUFEbDJwMWJXSUFBQUFwYW5WdFpHTXlZWE1BRVFBUWdBQUFxZ0E0bTNFRFl6SndZUzVoYzNObGNuUnBiMjV6QUFBQUFMeHFkVzFpQUFBQVJHcDFiV1JqWW05eUFCRUFFSUFBQUtvQU9KdHhFMk15Y0dFdWFXNW5jbVZrYVdWdWRDNTJNd0FBQUFBWVl6SnphQzRXbDJQNTlYeURTbm1xUVdNN0NtRUFBQUJ3WTJKdmNxTnBaR002Wm05eWJXRjBiV2x0WVdkbEwzTjJaeXQ0Yld4cWFXNXpkR0Z1WTJWSlJIZ3NlRzF3T21scFpEcGtNRFExWmpWaE5TMWxPRE01TFRSaU56VXRPR1l5TnkxaVlqazNZalkxTUdFMFpEWnNjbVZzWVhScGIyNXphR2x3YUhCaGNtVnVkRTltQUFBQjRtcDFiV0lBQUFCQmFuVnRaR05pYjNJQUVRQVFnQUFBcWdBNG0zRVRZekp3WVM1aFkzUnBiMjV6TG5ZeUFBQUFBQmhqTW5Ob01nbFp5YUpyem50Wk9WNlh3VFExd2dBQUFabGpZbTl5b21kaFkzUnBiMjV6Z3FKbVlXTjBhVzl1YTJNeWNHRXViM0JsYm1Wa2FuQmhjbUZ0WlhSbGNuT2hhMmx1WjNKbFpHbGxiblJ6Z2FKamRYSnNlQzF6Wld4bUkycDFiV0ptUFdNeWNHRXVZWE56WlhKMGFXOXVjeTlqTW5CaExtbHVaM0psWkdsbGJuUXVkak5rYUdGemFGZ2d1S2Rlc3d5SUsyRHF4K0ZGOWllTGx2QUNadUlHNXk2TmkwTW1uQmpaYkxPa1ptRmpkR2x2Ym5nZFkyOXRMbUZ1ZEdoeWIzQnBZeTVqYkdGMVpHVXVjSEp2ZG1sa1pXUnFjR0Z5WVcxbGRHVnljNkY0SDJOdmJTNWhiblJvY205d2FXTXViM0pwWjJsdUxXTnZibVpwWkdWdVkyVm5kVzVyYm05M2JtdGtaWE5qY21sd2RHbHZibmhtUTJ4aGRXUmxJSEJ5YjNacFpHVmtJSFJvYVhNZ1ptbHNaU0JoZENCMGFHVWdjbVZ4ZFdWemRDQnZaaUJoSUhWelpYSWdZVzVrSUcxaGVTQm9ZWFpsSUdOeVpXRjBaV1FnYjNJZ2JXOWthV1pwWldRZ2RHaGxJR1pwYkdVZ1kyOXVkR1Z1ZEhNdWJYTnZablIzWVhKbFFXZGxiblNoWkc1aGJXVm1RMnhoZFdSbGNtRnNiRUZqZEdsdmJuTkpibU5zZFdSbFpQVUFBQURJYW5WdFlnQUFBRUJxZFcxa1kySnZjZ0FSQUJDQUFBQ3FBRGliY1JOak1uQmhMbWhoYzJndVpHRjBZUUFBQUFBWVl6SnphSzZBcmJyRHd3TmN4b0NoejdaZGpVZ0FBQUNBWTJKdmNxVmpZV3huWm5Ob1lUSTFObU53WVdSTkFBQUFBQUFBQUFBQUFBQUFBR1JvWVhOb1dDQ2I2Zkg5TXZqUTJFeHE5amtDNnlTaEhqOTJmOXpWWjBTakQ4dlpsR2lUbDJSdVlXMWxibXAxYldKbUlHMWhibWxtWlhOMGFtVjRZMngxYzJsdmJuT0JvbVZ6ZEdGeWRCaDlabXhsYm1kMGFCa2VCQUFBQWo1cWRXMWlBQUFBSjJwMWJXUmpNbU5zQUJFQUVJQUFBS29BT0p0eEEyTXljR0V1WTJ4aGFXMHVkaklBQUFBQ0QyTmliM0tsWTJGc1oyWnphR0V5TlRacGMybG5ibUYwZFhKbGVFMXpaV3htSTJwMWJXSm1QUzlqTW5CaEwzVnlianBqTW5CaE9tRTJZVEE1Wm1SaExXWm1aR1V0TkRBME15MDRObUV3TFdZMk1XRXpNVEpqT1dFM015OWpNbkJoTG5OcFoyNWhkSFZ5WldwcGJuTjBZVzVqWlVsRWVDeDRiWEE2YVdsa09tUTRNRGcxTmpjd0xXUmtObUV0TkdSbE5DMDRaVE15TFdOaE1XSmxPVGN3TnpjM09YSmpjbVZoZEdWa1gyRnpjMlZ5ZEdsdmJuT0RvbU4xY214NExYTmxiR1lqYW5WdFltWTlZekp3WVM1aGMzTmxjblJwYjI1ekwyTXljR0V1YVc1bmNtVmthV1Z1ZEM1Mk0yUm9ZWE5vV0NDNHAxNnpESWdyWU9ySDRVWDJKNHVXOEFKbTRnYm5MbzJMUXlhY0dObHNzNkpqZFhKc2VDcHpaV3htSTJwMWJXSm1QV015Y0dFdVlYTnpaWEowYVc5dWN5OWpNbkJoTG1GamRHbHZibk11ZGpKa2FHRnphRmdnTkFPcWthMExzNGV1ejdFQkZNUkMzWlA0RVRGVDQzOStkSVZCQlVVVDNxaWlZM1Z5YkhncGMyVnNaaU5xZFcxaVpqMWpNbkJoTG1GemMyVnlkR2x2Ym5Ndll6SndZUzVvWVhOb0xtUmhkR0ZrYUdGemFGZ2dpOTFGd1RBclBCQlJxd1kyZjZFSnpwV0FXMmMzM25xNWVGV0VTRUh4TG5sMFkyeGhhVzFmWjJWdVpYSmhkRzl5WDJsdVptK2paRzVoYldWdlFXNTBhSEp2Y0dsaklFWnBiR1Z6WjNabGNuTnBiMjVsTVM0d0xqQnJjM0JsWTFabGNuTnBiMjVsTWk0MExqQUFBQkE0YW5WdFlnQUFBQ2hxZFcxa1l6Smpjd0FSQUJDQUFBQ3FBRGliY1FOak1uQmhMbk5wWjI1aGRIVnlaUUFBQUJBSVkySnZjdEtFV1FJU29nRW1HQ0ZaQWdvd2dnSUdNSUlCamFBREFnRUNBaFJBNWFBSzdzSTUwTDY0Zy9vR1FnVTlaMVVUQURBS0JnZ3Foa2pPUFFRREF6QkpNUmN3RlFZRFZRUUtFdzVCYm5Sb2NtOXdhV01zSUZCQ1F6RXVNQ3dHQTFVRUF4TWxRVzUwYUhKdmNHbGpJRU52Ym5SbGJuUWdRM0psWkdWdWRHbGhiSE1nVW05dmRDQkRRVEFlRncweU5qQTRNRGN4T0RRek5UWmFGdzB5T0RBNE1EWXhPVFF6TlRaYU1FUXhGekFWQmdOVkJBb1REa0Z1ZEdoeWIzQnBZeXdnVUVKRE1Ta3dKd1lEVlFRREV5QkJiblJvY205d2FXTWdRMnhoZFdSbElFTnZiblJsYm5RZ1UybG5ibWx1WnpCWk1CTUdCeXFHU000OUFnRUdDQ3FHU000OUF3RUhBMElBQkpoNkNtdkxVQmdGRk5VMHZVS2xPVnRFNmRqZDE3TDVTdXdYMExlbUZpc0JNM2RrZC8zY3lqeEZBM1FvNVM0NmZYMC9paFkwVlo3bWZiOUtGNzAzdDVPaldEQldNQTRHQTFVZER3RUIvd1FFQXdJSGdEQVZCZ05WSFNVRURqQU1CZ29yQmdFRUFZUG9YZ0lCTUF3R0ExVWRFd0VCL3dRQ01BQXdId1lEVlIwakJCZ3dGb0FVemxIaUJJRk9aRnNqK09QRXo1bytuTUhYWE1Jd0NnWUlLb1pJemowRUF3TURad0F3WkFJd01YTWRGSjRCZXRMTFZZN09SdUU5bm9xYmJBWk9abi9hQXJYeVR3RkFaZktyUHp4RjJ2UG9KTmYxK1VDZGcxWEdBakJ3WDF6ZDlXR3FZa3FtTDVTRnF3MVF5U2pyMXpKZnBKTTkrMXJkRHdTUExNT1BPakt1aVhqb1UvcFVVZUc5UndtaFkzQmhaRmtObmdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFQWllRSXNJKzF5VkUrN2t2M3dReC9wK2J1MUFqRCtVdDU4Q2I3L0hhaHlZcmFLdG01ZG1QL0pKYUp0Z2ZYN3ArblhzczhKNHpNOE1FSVVvekVDMDNPSVpvK1k9PC9jMnBhOm1hbmlmZXN0PjwvbWV0YWRhdGE+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHJ4PSIyMCIgZmlsbD0iIzBlMjEyZiIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIyIDIyKSBzY2FsZSguNTYpIj48cGF0aCBkPSJNMC4wIDAuMEw2NC44ODIgMC4wQTQzLjcxMyA0My43MTMgMCAwIDEgMTAwLjcyOCA0NC44NjhMMTAwLjcyOCA1MC4xNDdMNzQuOTg1IDUwLjE0N0w3NC45ODUgNDMuMzI0QTIxLjMxNiAyMS4zMTYgMCAwIDAgNTMuNjY5IDI0Ljk4NUwyNC45ODUgMjQuOTg1Wk0wLjAgMzYuODM4TDM2LjgzOCAzNi44MzhMMTAwLjAgMTAwLjBMNjIuMDg4IDEwMC4wWiIgZmlsbD0iI2QwZjA1YyIvPjwvZz48L3N2Zz4K" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Bodoni+Moda:opsz,wght@6..96,500&family=Inter:wght@400;450;500;550;600;650;700&display=swap">
+  <style>/* ==========================================================================
+   RentRewards PMS — landing page prototype
+   Design system: warm paper (80%) · navy ink (15%) · emerald (5%)
+   ========================================================================== */
+
+:root {
+  --paper: #f6f3ec;
+  --paper-2: #efeadf;
+  --surface: #fdfcf9;
+  --ink: #0e212f;          /* brand navy */
+  --ink-2: #1a3347;
+  --text: #17232d;
+  --muted: #566370;
+  --faint: #86919b;
+  --line: #ddd7c8;
+  --line-soft: #e9e4d7;
+
+  --green: #0f7a53;        /* emerald, 5.2:1 on paper */
+  --green-ink: #0b5c3e;
+  --green-soft: #dff3ea;
+  --green-bright: #4cc38a; /* on dark */
+  --lime: #d0f05c;         /* logo only */
+
+  --ok: #0b6b3a;   --ok-bg: #e0f3e8;
+  --warn: #8a5a00; --warn-bg: #fbefd2;
+  --bad: #a52a1f;  --bad-bg: #fbe5e2;
+  --info: #1d5aa6; --info-bg: #e3edf9;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+  --wrap: 1240px;
+  --gutter: clamp(20px, 4vw, 40px);
+  --section: clamp(72px, 10vw, 136px);
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: clamp(1.0625rem, 1.05rem + .15vw, 1.1875rem);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg { display: block; max-width: 100%; }
+h1, h2, h3, h4, p, ul, ol, figure, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+section[id], footer[id] { scroll-margin-top: 72px; }
+
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+.on-dark :focus-visible, .dark :focus-visible { outline-color: var(--green-bright); }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 100;
+  background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 6px; text-decoration: none;
+}
+.skip:focus { top: 12px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.wrap { width: 100%; max-width: calc(var(--wrap) + var(--gutter) * 2); margin-inline: auto; padding-inline: var(--gutter); }
+.section { padding-block: var(--section); }
+.dark { background: var(--ink); color: #e9eef2; }
+.rule-top { border-top: 1px solid var(--line); }
+
+/* 12 / 8 / 4 column grid */
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2.4vw, 32px); }
+@media (max-width: 1023px) { .grid { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
+@media (max-width: 767px)  { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* ---------- type ---------- */
+.eyebrow {
+  font-size: .75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--green); display: inline-flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 20px; height: 1px; background: currentColor; }
+.dark .eyebrow { color: var(--green-bright); }
+.h1 {
+  font-size: clamp(2.75rem, 1.4rem + 5.2vw, 4.75rem);
+  line-height: 1.02; letter-spacing: -.035em; font-weight: 650; color: var(--ink);
+}
+.h2 {
+  font-size: clamp(2.125rem, 1.2rem + 3.3vw, 3.5rem);
+  line-height: 1.06; letter-spacing: -.03em; font-weight: 650; color: var(--ink); text-wrap: balance;
+}
+.h3 { font-size: clamp(1.375rem, 1.1rem + 1vw, 1.875rem); line-height: 1.18; letter-spacing: -.02em; font-weight: 620; color: var(--ink); }
+.dark .h2, .dark .h3 { color: #fff; }
+.accent { color: var(--green); }
+.dark .accent { color: var(--green-bright); }
+.lead { font-size: clamp(1.125rem, 1.05rem + .4vw, 1.3125rem); line-height: 1.5; color: var(--muted); max-width: 40em; }
+.dark .lead { color: #b7c3cd; }
+.muted { color: var(--muted); }
+.small { font-size: .875rem; }
+.xs { font-size: .75rem; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 48px; padding: 0 22px; border-radius: 8px; border: 1px solid transparent;
+  font-weight: 600; font-size: 1rem; text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: background-color .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease), transform .18s var(--ease);
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--ink); color: #fff; }
+.btn-primary:hover { background: #07151f; }
+.btn-ghost { background: transparent; color: var(--ink); border-color: #b9b3a3; }
+.btn-ghost:hover { border-color: var(--ink); background: rgba(14, 33, 47, .04); }
+.dark .btn-primary { background: var(--green-bright); color: #052619; }
+.dark .btn-primary:hover { background: #7ad8a9; }
+.dark .btn-ghost { color: #fff; border-color: #4a6073; }
+.dark .btn-ghost:hover { border-color: #fff; background: rgba(255, 255, 255, .06); }
+.btn-sm { min-height: 40px; padding: 0 16px; font-size: .9375rem; }
+.link { font-weight: 600; color: var(--green-ink); text-decoration: none; display: inline-flex; gap: 8px; align-items: center; border-bottom: 1px solid transparent; }
+.link:hover { border-bottom-color: currentColor; }
+.dark .link { color: var(--green-bright); }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(246, 243, 236, .92); backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid transparent; transition: border-color .2s;
+}
+.site-header.is-stuck { border-bottom-color: var(--line); }
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 68px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; }
+.brand-badge { width: 36px; height: 36px; border-radius: 8px; background: var(--ink); display: grid; place-items: center; flex: none; }
+.brand-badge svg { width: 19px; height: 19px; color: var(--lime); }
+.brand-text { line-height: 1.15; }
+.brand-name { display: block; font-weight: 700; letter-spacing: -.02em; color: var(--ink); font-size: 1.0625rem; }
+.brand-sub { display: block; font-size: .6875rem; color: var(--muted); letter-spacing: .01em; white-space: nowrap; }
+.nav-links { display: flex; gap: 4px; }
+.nav-links a { padding: 10px 14px; border-radius: 6px; text-decoration: none; font-size: .9375rem; font-weight: 500; color: var(--ink-2); }
+.nav-links a:hover { background: rgba(14, 33, 47, .06); }
+.nav-right { display: flex; align-items: center; gap: 8px; }
+.nav-right .signin { padding: 10px 14px; font-weight: 500; font-size: .9375rem; text-decoration: none; color: var(--ink-2); border-radius: 6px; }
+.nav-right .signin:hover { background: rgba(14, 33, 47, .06); }
+.menu-btn { display: none; width: 44px; height: 44px; border: 1px solid var(--line); background: transparent; border-radius: 8px; cursor: pointer; place-items: center; }
+.menu-btn span, .menu-btn span::before, .menu-btn span::after { display: block; width: 18px; height: 2px; background: var(--ink); border-radius: 2px; content: ''; position: relative; transition: transform .2s var(--ease), opacity .2s; }
+.menu-btn span::before { position: absolute; top: -6px; }
+.menu-btn span::after { position: absolute; top: 6px; }
+.menu-btn[aria-expanded='true'] span { background: transparent; }
+.menu-btn[aria-expanded='true'] span::before { transform: translateY(6px) rotate(45deg); }
+.menu-btn[aria-expanded='true'] span::after { transform: translateY(-6px) rotate(-45deg); }
+.mobile-menu { display: none; border-top: 1px solid var(--line); background: var(--paper); padding: 8px var(--gutter) 24px; }
+.mobile-menu a { display: block; padding: 16px 0; font-size: 1.125rem; font-weight: 550; text-decoration: none; border-bottom: 1px solid var(--line-soft); color: var(--ink); }
+.mobile-menu .btn { width: 100%; margin-top: 18px; text-align: center; border-bottom: 0; }
+.mobile-menu .btn-primary { color: #fff; }
+.mobile-menu .contact-line { margin-top: 16px; color: var(--muted); font-size: .9375rem; }
+@media (max-width: 1023px) {
+  .nav-links, .nav-right .signin, .nav-right .btn { display: none; }
+  .menu-btn { display: grid; }
+  .mobile-menu.is-open { display: block; }
+}
+
+/* ---------- hero ---------- */
+.hero { padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(56px, 7vw, 96px); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 45fr) minmax(0, 55fr); gap: clamp(32px, 4vw, 64px); align-items: center; }
+.hero-copy .eyebrow { margin-bottom: 22px; }
+.hero-copy .h1 { margin-bottom: 24px; }
+.hero-copy .tagline { font-size: clamp(1.1875rem, 1.1rem + .4vw, 1.375rem); font-weight: 560; color: var(--ink); letter-spacing: -.01em; margin-bottom: 16px; line-height: 1.35; }
+.hero-copy .lead { margin-bottom: 32px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.context-row { margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: .9375rem; font-weight: 550; color: var(--ink-2); }
+.context-row li { display: flex; align-items: center; gap: 9px; }
+.context-row svg { width: 16px; height: 16px; color: var(--green); }
+.context-note { margin-top: 12px; font-size: .8125rem; color: var(--muted); }
+@media (max-width: 1023px) { .hero-grid { grid-template-columns: 1fr; } }
+
+/* ---------- product UI frame (all dashboards are real HTML/SVG) ---------- */
+.ui {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: 0 1px 0 rgba(14, 33, 47, .03), 0 24px 48px -28px rgba(14, 33, 47, .28);
+  overflow: hidden; color: var(--text); font-size: .875rem; line-height: 1.45;
+}
+.ui-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line-soft); background: #faf8f3; flex-wrap: wrap; }
+.ui-title { display: flex; align-items: center; gap: 10px; font-weight: 650; color: var(--ink); }
+.ui-title .mk { width: 22px; height: 22px; border-radius: 5px; background: var(--ink); display: grid; place-items: center; flex: none; }
+.ui-title .mk svg { width: 12px; height: 12px; color: var(--lime); }
+.ui-body { padding: 16px; }
+.demo-tag { font-size: .6875rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); border: 1px dashed #b9b3a3; border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+.ui select, .ui input[type='search'], .ui input[type='text'] {
+  font: inherit; font-size: .8125rem; min-height: 34px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--text); padding: 0 10px;
+}
+.ui select { padding-right: 28px; }
+.ui input[type='search'] { min-width: 0; }
+.ui button { cursor: pointer; }
+.ui-btn { min-height: 34px; padding: 0 12px; border: 1px solid var(--line); background: #fff; border-radius: 6px; font-size: .8125rem; font-weight: 550; color: var(--ink-2); }
+.ui-btn:hover:not(:disabled) { border-color: var(--ink-2); }
+.ui-btn:disabled { opacity: .45; cursor: default; }
+
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line-soft); border-radius: 8px; overflow: hidden; margin-bottom: 14px; background: #fff; }
+.kpi { padding: 12px 14px; border-right: 1px solid var(--line-soft); min-width: 0; }
+.kpi:last-child { border-right: 0; }
+.kpi .l { font-size: .6875rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.kpi .v { font-size: 1.375rem; font-weight: 650; letter-spacing: -.02em; color: var(--ink); margin-top: 2px; font-variant-numeric: tabular-nums; }
+.kpi .s { font-size: .75rem; color: var(--muted); }
+@media (max-width: 560px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(2) { border-right: 0; }
+  .kpi:nth-child(-n+2) { border-bottom: 1px solid var(--line-soft); }
+}
+.panel-title { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-weight: 600; color: var(--ink); margin-bottom: 8px; font-size: .8125rem; }
+.panel-title span { font-weight: 400; color: var(--muted); font-size: .75rem; }
+.chart { position: relative; }
+.chart svg { width: 100%; height: auto; overflow: visible; }
+.chart text { font-family: var(--font); font-size: 11px; fill: var(--muted); }
+.hero-split { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 18px; }
+@media (max-width: 640px) { .hero-split { grid-template-columns: 1fr; } }
+
+.tx-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; padding: 9px 0; border-top: 1px solid var(--line-soft); align-items: center; }
+.tx-list li:first-child { border-top: 0; }
+.tx-list .who { font-weight: 550; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tx-list .sub { grid-column: 1; color: var(--muted); font-size: .75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tx-list .amt { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+.tx-list .st { grid-column: 2; justify-self: end; }
+
+/* status badges: icon + text so colour is never the only signal */
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: .75rem; font-weight: 600; padding: 2px 8px 2px 6px; border-radius: 999px; white-space: nowrap; }
+.badge svg { width: 12px; height: 12px; flex: none; }
+.b-ok { color: var(--ok); background: var(--ok-bg); }
+.b-warn { color: var(--warn); background: var(--warn-bg); }
+.b-bad { color: var(--bad); background: var(--bad-bg); }
+.b-info { color: var(--info); background: var(--info-bg); }
+.b-mute { color: var(--muted); background: #ece7da; }
+
+/* ---------- proof strip ---------- */
+.proof { border-block: 1px solid var(--line); background: var(--paper-2); }
+.proof-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.proof-item { padding: clamp(24px, 3vw, 40px) clamp(16px, 2.4vw, 32px); border-left: 1px solid var(--line); }
+.proof-item:first-child { border-left: 0; padding-left: 0; }
+.proof-item .v { font-size: clamp(2rem, 1.3rem + 2.6vw, 3.25rem); line-height: 1; letter-spacing: -.035em; font-weight: 650; color: var(--ink); font-variant-numeric: tabular-nums; }
+.proof-item .l { margin-top: 10px; font-weight: 600; color: var(--ink); font-size: 1rem; }
+.proof-item .d { margin-top: 2px; color: var(--muted); font-size: .875rem; }
+.proof-note { padding: 0 0 18px; font-size: .8125rem; color: var(--muted); }
+.proof-note b { color: var(--ink-2); font-weight: 600; }
+@media (max-width: 767px) {
+  .proof-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .proof-item:nth-child(3) { border-left: 0; padding-left: 0; }
+  .proof-item:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+
+/* ---------- difference (typography-led) ---------- */
+.difference { padding-block: clamp(96px, 14vw, 200px); }
+.diff-grid { align-items: end; row-gap: 48px; }
+.diff-statement { grid-column: 1 / span 8; }
+.diff-statement .big { font-size: clamp(2.75rem, 1rem + 7.4vw, 7rem); line-height: .98; letter-spacing: -.045em; font-weight: 650; color: var(--ink); }
+.diff-statement .big + .big { color: var(--green); margin-top: .06em; }
+.diff-copy { grid-column: 9 / span 4; }
+.diff-copy p + p { margin-top: 18px; }
+.diff-copy .conn { margin-top: 28px; border-top: 1px solid var(--ink); }
+.diff-copy .conn li { display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: .9375rem; font-weight: 550; color: var(--ink); }
+.diff-copy .conn li span { color: var(--muted); font-weight: 400; }
+@media (max-width: 1023px) { .diff-statement, .diff-copy { grid-column: 1 / -1; } }
+
+/* ---------- payment journey ---------- */
+.journey-head { max-width: 46rem; margin-bottom: clamp(40px, 5vw, 72px); }
+.journey-head .h2 { margin: 14px 0 18px; }
+.journey-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+.pay-chip { display: inline-flex; align-items: baseline; gap: 12px; padding: 10px 16px; border: 1px solid var(--ink); border-radius: 8px; margin-bottom: 28px; background: #fff; }
+.pay-chip b { font-size: 1.5rem; letter-spacing: -.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.pay-chip span { font-size: .8125rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+.steps { position: relative; }
+.steps::before { content: ''; position: absolute; left: 19px; top: 20px; bottom: 20px; width: 2px; background: var(--line); }
+.steps .fill { position: absolute; left: 19px; top: 20px; width: 2px; background: var(--green); height: 0; transition: height .5s var(--ease); }
+.step { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; padding: 0 0 6px; width: 100%; text-align: left; background: none; border: 0; cursor: pointer; align-items: start; border-radius: 8px; }
+.step .dot { width: 40px; height: 40px; border-radius: 50%; background: var(--paper); border: 2px solid var(--line); display: grid; place-items: center; font-weight: 650; font-size: .8125rem; color: var(--muted); z-index: 1; transition: all .25s var(--ease); font-variant-numeric: tabular-nums; }
+.step .t { padding: 8px 0 18px; }
+.step .t b { display: block; font-size: 1.0625rem; font-weight: 600; color: var(--muted); letter-spacing: -.01em; transition: color .25s; }
+.step .t span { display: block; font-size: .9375rem; color: var(--faint); max-height: 0; overflow: hidden; opacity: 0; transition: max-height .35s var(--ease), opacity .3s, margin .3s; }
+.step.is-done .dot { border-color: var(--green); color: var(--green); background: var(--green-soft); }
+.step.is-done .t b { color: var(--ink); }
+.step.is-on .dot { background: var(--green); border-color: var(--green); color: #fff; box-shadow: 0 0 0 5px var(--green-soft); }
+.step.is-on .t b { color: var(--ink); }
+.step.is-on .t span, .step.is-done .t span { max-height: 4.5em; opacity: 1; margin-top: 2px; color: var(--muted); }
+.journey-ctl { margin-top: 12px; display: flex; gap: 10px; align-items: center; }
+.journey-ctl .small { color: var(--muted); }
+
+.effects { position: sticky; top: 96px; }
+.effects .ui-body { padding: 0; }
+.eff { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding: 12px 16px; border-bottom: 1px solid var(--line-soft); align-items: center; opacity: .38; transition: opacity .35s var(--ease), background-color .5s; }
+.eff:last-child { border-bottom: 0; }
+.eff .k { font-weight: 600; color: var(--ink); }
+.eff .d { grid-column: 1; color: var(--muted); font-size: .8125rem; }
+.eff .vv { grid-column: 2; grid-row: 1 / span 2; text-align: right; font-weight: 650; font-variant-numeric: tabular-nums; color: var(--ink); }
+.eff .vv small { display: block; font-weight: 500; color: var(--muted); font-size: .75rem; }
+.eff.is-in { opacity: 1; }
+.eff.is-new { background: var(--green-soft); }
+.eff-foot { padding: 12px 16px; background: #faf8f3; border-top: 1px solid var(--line-soft); font-size: .75rem; color: var(--muted); }
+@media (max-width: 899px) { .journey-grid { grid-template-columns: 1fr; } .effects { position: static; } }
+
+/* ---------- explorer ---------- */
+.explorer-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+.explorer-head .h2 { margin-top: 14px; max-width: 14em; }
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; margin-bottom: clamp(28px, 4vw, 48px); }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: none; min-height: 48px; padding: 0 20px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; font-weight: 600; font-size: 1rem; color: var(--muted); cursor: pointer; transition: color .15s, border-color .15s; white-space: nowrap; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected='true'] { color: var(--ink); border-bottom-color: var(--green); }
+.tabpanel { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 5vw, 72px); align-items: start; animation: rise .3s var(--ease); }
+.tabpanel .copy .h3 { margin-bottom: 14px; }
+.tabpanel .copy p { color: var(--muted); }
+.tabpanel .copy ul { margin-top: 22px; border-top: 1px solid var(--line); }
+.tabpanel .copy li { padding: 11px 0; border-bottom: 1px solid var(--line-soft); font-size: .9688rem; color: var(--ink-2); font-weight: 520; display: flex; gap: 12px; }
+.tabpanel .copy li::before { content: ''; width: 6px; height: 6px; margin-top: .65em; background: var(--green); border-radius: 50%; flex: none; }
+.tabpanel .status-note { margin-top: 18px; font-size: .8125rem; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (max-width: 1023px) { .tabpanel { grid-template-columns: 1fr; } }
+
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+.toolbar .grow { flex: 1 1 160px; min-width: 0; }
+.toolbar input { width: 100%; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line-soft); border-radius: 8px; background: #fff; }
+table.t { width: 100%; border-collapse: collapse; min-width: 560px; }
+table.t th { text-align: left; font-size: .6875rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; padding: 10px 12px; background: #faf8f3; border-bottom: 1px solid var(--line-soft); white-space: nowrap; }
+table.t td { padding: 11px 12px; border-bottom: 1px solid var(--line-soft); white-space: nowrap; }
+table.t tr:last-child td { border-bottom: 0; }
+table.t tbody tr:hover { background: #faf8f3; }
+table.t td.r, table.t th.r { text-align: right; }
+table.t td.n { font-variant-numeric: tabular-nums; font-weight: 550; color: var(--ink); }
+table.t tr.is-sel { background: var(--green-soft); }
+table.t tr[data-row] { cursor: pointer; }
+.pager { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; font-size: .8125rem; color: var(--muted); flex-wrap: wrap; }
+.pager .btns { display: flex; gap: 6px; }
+.empty { padding: 28px; text-align: center; color: var(--muted); }
+
+.bar { height: 6px; background: #ece7da; border-radius: 3px; overflow: hidden; min-width: 60px; }
+.bar i { display: block; height: 100%; background: var(--green); border-radius: 3px; }
+.occ { display: flex; align-items: center; gap: 8px; }
+.occ .bar { width: 64px; }
+
+.unitgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 6px; margin-top: 10px; }
+.unit { border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; background: #fff; font-size: .75rem; line-height: 1.25; }
+.unit b { display: block; font-size: .8125rem; color: var(--ink); }
+.unit.o { border-color: #b8dfca; background: var(--ok-bg); }
+.unit.w { border-color: #ecc98a; background: var(--warn-bg); }
+.unit.v { border-style: dashed; background: transparent; color: var(--muted); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .75rem; color: var(--muted); margin-top: 10px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; border: 1px solid var(--line); }
+
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font-size: .8125rem; font-weight: 550; color: var(--ink-2); cursor: pointer; }
+.chip[aria-pressed='true'] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.kanban { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.kcol h4 { font-size: .6875rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 650; margin-bottom: 8px; display: flex; justify-content: space-between; }
+.kcard { display: block; width: 100%; text-align: left; border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 10px; margin-bottom: 8px; font-size: .8125rem; }
+.kcard:hover, .kcard[aria-pressed='true'] { border-color: var(--ink); }
+.kcard .id { color: var(--muted); font-size: .6875rem; font-variant-numeric: tabular-nums; }
+.kcard b { display: block; color: var(--ink); margin: 2px 0 4px; font-weight: 600; }
+.kcard .m { color: var(--muted); font-size: .75rem; }
+.thread { margin-top: 12px; border: 1px solid var(--line-soft); border-radius: 8px; background: #fff; padding: 12px 14px; }
+.thread h5 { margin: 0 0 8px; font-size: .8125rem; color: var(--ink); }
+.thread li { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 10px; padding: 6px 0; border-top: 1px solid var(--line-soft); font-size: .8125rem; }
+.thread li:first-child { border-top: 0; }
+.thread li time { color: var(--muted); font-variant-numeric: tabular-nums; }
+@media (max-width: 767px) { .kanban { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 479px) { .kanban { grid-template-columns: 1fr; } }
+
+.journal { border: 1px solid var(--line-soft); border-radius: 8px; background: #fff; margin-bottom: 10px; overflow: hidden; }
+.journal header { display: flex; justify-content: space-between; gap: 10px; padding: 9px 12px; background: #faf8f3; border-bottom: 1px solid var(--line-soft); font-weight: 600; color: var(--ink); font-size: .8125rem; flex-wrap: wrap; }
+.journal table { width: 100%; border-collapse: collapse; }
+.journal td { padding: 8px 12px; border-top: 1px solid var(--line-soft); }
+.journal td.n { text-align: right; font-variant-numeric: tabular-nums; width: 96px; }
+.journal tr.cr td:first-child { padding-left: 30px; color: var(--muted); }
+.journal tfoot td { font-weight: 650; color: var(--ink); background: #faf8f3; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; }
+.seg button { min-height: 34px; padding: 0 14px; border: 0; background: transparent; font-weight: 600; font-size: .8125rem; color: var(--muted); }
+.seg button[aria-pressed='true'] { background: var(--ink); color: #fff; }
+
+.banner { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 8px; background: var(--warn-bg); color: #5f3d00; font-size: .8125rem; margin-bottom: 12px; border: 1px solid #ecd9a6; }
+.banner svg { width: 16px; height: 16px; flex: none; margin-top: 2px; }
+.list-rows li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 0; border-top: 1px solid var(--line-soft); align-items: center; }
+.list-rows li:first-child { border-top: 0; }
+.list-rows .sub { color: var(--muted); font-size: .75rem; }
+
+/* ---------- intelligence (dark) ---------- */
+.intel-head { max-width: 46rem; margin-bottom: clamp(36px, 5vw, 64px); }
+.intel-head .h2 { margin: 14px 0 18px; }
+.ui.on-dark { background: #0b1a26; border-color: #25394b; box-shadow: none; color: #d6dfe6; }
+.ui.on-dark .ui-bar { background: #0e202f; border-color: #25394b; }
+.ui.on-dark .ui-title { color: #fff; }
+.ui.on-dark .demo-tag { color: #9fb0bd; border-color: #3a5063; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid #25394b; border-radius: 8px; overflow: hidden; }
+.tile { padding: 14px 16px; border-right: 1px solid #25394b; border-bottom: 1px solid #25394b; min-width: 0; }
+.tile:nth-child(4n) { border-right: 0; }
+.tile:nth-last-child(-n+4) { border-bottom: 0; }
+.tile .l { font-size: .6875rem; text-transform: uppercase; letter-spacing: .06em; color: #8fa2b1; font-weight: 600; }
+.tile .v { font-size: 1.5rem; font-weight: 650; letter-spacing: -.02em; color: #fff; font-variant-numeric: tabular-nums; margin-top: 2px; }
+.tile .s { font-size: .75rem; color: #8fa2b1; }
+@media (max-width: 767px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile:nth-child(4n) { border-right: 1px solid #25394b; }
+  .tile:nth-child(2n) { border-right: 0; }
+  .tile:nth-last-child(-n+4) { border-bottom: 1px solid #25394b; }
+  .tile:nth-last-child(-n+2) { border-bottom: 0; }
+}
+.charts { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+.cbox { border: 1px solid #25394b; border-radius: 8px; padding: 16px; min-width: 0; }
+.cbox .panel-title { color: #fff; }
+.cbox .panel-title span { color: #8fa2b1; }
+.c-7 { grid-column: span 7; } .c-5 { grid-column: span 5; } .c-4 { grid-column: span 4; } .c-12 { grid-column: span 12; }
+@media (max-width: 1023px) { .c-7, .c-5, .c-4 { grid-column: span 12; } }
+.on-dark .chart text { fill: #8fa2b1; }
+.lg { display: flex; gap: 16px; font-size: .75rem; color: #9fb0bd; margin-top: 8px; flex-wrap: wrap; }
+.lg i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.hbar { display: grid; grid-template-columns: 150px minmax(0, 1fr) 56px; gap: 10px; align-items: center; padding: 6px 0; font-size: .8125rem; }
+.hbar .nm { color: #d6dfe6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hbar .trk { height: 8px; border-radius: 4px; background: #1b3144; overflow: hidden; display: flex; }
+.hbar .trk i { height: 100%; }
+.hbar .vl { text-align: right; font-variant-numeric: tabular-nums; color: #fff; font-weight: 600; }
+.expiry li { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; gap: 10px; padding: 8px 0; border-top: 1px solid #1b3144; font-size: .8125rem; align-items: center; }
+.expiry li:first-child { border-top: 0; }
+.expiry time { color: #fff; font-weight: 650; font-variant-numeric: tabular-nums; }
+.expiry .sub { color: #8fa2b1; font-size: .75rem; }
+.tip { position: absolute; z-index: 5; pointer-events: none; background: #fff; color: var(--ink); border-radius: 6px; padding: 8px 10px; font-size: .75rem; line-height: 1.4; box-shadow: 0 6px 20px rgba(0, 0, 0, .25); white-space: nowrap; opacity: 0; transition: opacity .12s; }
+.tip.is-on { opacity: 1; }
+.tip b { display: block; }
+
+/* ---------- lifecycle ---------- */
+.life-head { max-width: 46rem; margin-bottom: clamp(36px, 5vw, 64px); }
+.life-head .h2 { margin: 14px 0 18px; }
+.stages { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); position: relative; margin-bottom: clamp(28px, 4vw, 48px); }
+.stages::before { content: ''; position: absolute; left: 0; right: 0; top: 19px; height: 2px; background: var(--line); }
+.stage { position: relative; background: none; border: 0; padding: 0 4px 0 0; text-align: left; cursor: pointer; display: block; }
+.stage .d { width: 40px; height: 40px; border-radius: 50%; background: var(--paper); border: 2px solid var(--line); display: grid; place-items: center; font-weight: 650; font-size: .8125rem; color: var(--muted); position: relative; z-index: 1; transition: all .2s var(--ease); }
+.stage .n { display: block; margin-top: 12px; font-weight: 600; font-size: .9375rem; color: var(--muted); line-height: 1.25; transition: color .2s; }
+.stage:hover .d { border-color: var(--green); }
+.stage.is-past .d { border-color: var(--green); background: var(--green-soft); color: var(--green); }
+.stage.is-on .d { background: var(--green); border-color: var(--green); color: #fff; box-shadow: 0 0 0 5px var(--green-soft); }
+.stage.is-on .n, .stage.is-past .n { color: var(--ink); }
+.stage-panel { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); padding-top: clamp(24px, 3vw, 40px); border-top: 1px solid var(--ink); animation: rise .3s var(--ease); }
+.stage-panel h3 { margin-bottom: 14px; }
+.stage-panel .acts li { padding: 12px 0; border-top: 1px solid var(--line-soft); color: var(--ink-2); display: flex; gap: 12px; }
+.stage-panel .acts li::before { content: ''; width: 6px; height: 6px; background: var(--green); border-radius: 50%; margin-top: .7em; flex: none; }
+.stage-panel .who { margin-top: 18px; font-size: .875rem; color: var(--muted); }
+.stage-panel .who b { color: var(--ink); font-weight: 600; }
+@media (max-width: 899px) {
+  .stages { grid-template-columns: 1fr; padding-left: 0; }
+  .stages::before { left: 19px; right: auto; top: 20px; bottom: 20px; width: 2px; height: auto; }
+  .stage { display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: center; padding: 0 0 14px; min-height: 48px; }
+  .stage .n { margin-top: 0; }
+  .stage-panel { grid-template-columns: 1fr; }
+}
+
+/* ---------- tenant ---------- */
+.tenant { background: var(--paper-2); border-block: 1px solid var(--line); }
+.tenant-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(32px, 6vw, 112px); align-items: center; }
+.tenant-copy .h2 { margin: 14px 0 22px; max-width: 11em; }
+.facts { margin-top: 36px; border-top: 1px solid var(--ink); }
+.facts div { display: grid; grid-template-columns: 11em minmax(0, 1fr); gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.facts dt { font-weight: 650; color: var(--ink); }
+.facts dd { color: var(--muted); }
+.disclaimer { margin-top: 22px; font-size: .875rem; color: var(--muted); max-width: 36em; padding-left: 14px; border-left: 2px solid var(--green); }
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.phone { width: min(100%, 340px); border-radius: 38px; background: var(--ink); padding: 10px; box-shadow: 0 30px 60px -30px rgba(14, 33, 47, .5); }
+.screen { background: var(--surface); border-radius: 30px; overflow: hidden; min-height: 640px; display: flex; flex-direction: column; font-size: .8125rem; position: relative; }
+.p-status { display: flex; justify-content: space-between; padding: 12px 22px 4px; font-size: .6875rem; font-weight: 650; color: var(--ink); }
+.p-head { padding: 10px 18px 12px; display: flex; justify-content: space-between; align-items: center; }
+.p-head b { font-size: 1rem; color: var(--ink); letter-spacing: -.01em; display: block; line-height: 1.2; }
+.p-head small { color: var(--muted); }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--green-soft); color: var(--green-ink); display: grid; place-items: center; font-weight: 700; font-size: .75rem; }
+.p-body { padding: 0 14px 14px; flex: 1; overflow: hidden; }
+.p-nav { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line-soft); background: #faf8f3; }
+.p-nav button { min-height: 48px; border: 0; background: none; font-weight: 600; font-size: .75rem; color: var(--muted); border-top: 2px solid transparent; margin-top: -1px; }
+.p-nav button[aria-pressed='true'] { color: var(--ink); border-top-color: var(--green); }
+.p-card { border: 1px solid var(--line-soft); border-radius: 12px; background: #fff; padding: 14px; margin-bottom: 10px; }
+.p-card .lbl { font-size: .625rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 650; }
+.score { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+.ring { width: 78px; height: 78px; flex: none; }
+.ring text { font-family: var(--font); }
+.score b { font-size: 1.125rem; color: var(--ink); display: block; line-height: 1.2; }
+.score span { color: var(--muted); }
+.stats3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 12px; border-top: 1px solid var(--line-soft); padding-top: 10px; }
+.stats3 div b { display: block; font-size: 1rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.stats3 div span { font-size: .6875rem; color: var(--muted); line-height: 1.25; display: block; }
+.pts { display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px; }
+.pts b { font-size: 1.75rem; letter-spacing: -.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.actions6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.actions6 button { min-height: 62px; border: 1px solid var(--line); background: #fff; border-radius: 10px; font-size: .75rem; font-weight: 600; color: var(--ink); display: flex; flex-direction: column; gap: 6px; align-items: center; justify-content: center; padding: 8px 4px; }
+.actions6 button:hover { border-color: var(--ink); }
+.actions6 svg { width: 18px; height: 18px; color: var(--green); }
+.factor { padding: 9px 0; border-top: 1px solid var(--line-soft); }
+.factor:first-child { border-top: 0; }
+.factor .r { display: flex; justify-content: space-between; gap: 8px; font-weight: 600; color: var(--ink); }
+.factor .r span { font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
+.factor .bar { margin: 6px 0 4px; height: 5px; }
+.factor small { color: var(--muted); font-size: .6875rem; line-height: 1.35; display: block; }
+.ledger-rows li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; padding: 8px 0; border-top: 1px solid var(--line-soft); }
+.ledger-rows li:first-child { border-top: 0; }
+.ledger-rows small { color: var(--muted); font-size: .6875rem; grid-column: 1; }
+.ledger-rows b { font-variant-numeric: tabular-nums; color: var(--ok); text-align: right; grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+@media (max-width: 899px) {
+  .tenant-grid { grid-template-columns: 1fr; }
+  .facts div { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* ---------- three experiences ---------- */
+.exp-head { max-width: 46rem; margin-bottom: clamp(40px, 5vw, 72px); }
+.exp-head .h2 { margin-top: 14px; }
+.exp { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 88px); align-items: center; padding: clamp(40px, 5vw, 72px) 0; border-top: 1px solid var(--line); }
+.exp:nth-of-type(even) { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.exp:nth-of-type(even) .exp-copy { order: 2; }
+.exp .role { font-size: .75rem; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+.exp .h3 { font-size: clamp(2rem, 1.2rem + 2.6vw, 3rem); letter-spacing: -.03em; margin-bottom: 18px; }
+.exp .caps { color: var(--muted); margin-bottom: 26px; }
+.exp .caps b { color: var(--ink); font-weight: 600; }
+.exp .caps span { color: var(--line); padding: 0 .35em; }
+@media (max-width: 899px) { .exp, .exp:nth-of-type(even) { grid-template-columns: 1fr; } .exp:nth-of-type(even) .exp-copy { order: 0; } }
+
+.tree { font-size: .8125rem; }
+.tree ul { margin-left: 14px; padding-left: 14px; border-left: 1px solid var(--line); }
+.tree > ul { margin-left: 0; padding-left: 0; border-left: 0; }
+.tree li { position: relative; padding: 4px 0; }
+.tree ul li::before { content: ''; position: absolute; left: -14px; top: 17px; width: 10px; border-top: 1px solid var(--line); }
+.tree .node { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.tree .node b { color: var(--ink); font-weight: 600; }
+.tree .node .m { color: var(--muted); }
+.tree button.node { background: none; border: 0; padding: 4px 0; text-align: left; cursor: pointer; }
+.tree .caret { width: 14px; height: 14px; transition: transform .15s; color: var(--muted); flex: none; }
+.tree button[aria-expanded='true'] .caret { transform: rotate(90deg); }
+.pill-plan { font-size: .6875rem; font-weight: 650; color: var(--info); background: var(--info-bg); border-radius: 4px; padding: 2px 7px; letter-spacing: .02em; }
+
+/* ---------- Kenya ---------- */
+.kenya-head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px; align-items: end; margin-bottom: clamp(32px, 4vw, 56px); }
+.kenya-head .h2 { margin-top: 14px; }
+.rails { border-top: 1px solid var(--ink); }
+.rail { display: grid; grid-template-columns: 200px minmax(0, 1fr) minmax(0, 1.4fr) auto; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.rail .nm { font-weight: 700; letter-spacing: -.01em; color: var(--ink); font-size: 1.125rem; }
+.rail .use { color: var(--ink-2); font-weight: 520; }
+.rail .nt { color: var(--muted); font-size: .9375rem; }
+.status { font-size: .75rem; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; white-space: nowrap; display: inline-flex; gap: 6px; align-items: center; }
+.s-live { background: var(--ok-bg); color: var(--ok); }
+.s-proto { background: var(--info-bg); color: var(--info); }
+.s-ready { background: var(--warn-bg); color: var(--warn); }
+.s-plan { background: #ece7da; color: var(--muted); }
+.status-legend { margin-top: 28px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.status-legend dt { margin-bottom: 6px; }
+.status-legend dd { font-size: .875rem; color: var(--muted); }
+@media (max-width: 899px) {
+  .kenya-head { grid-template-columns: 1fr; gap: 18px; }
+  .rail { grid-template-columns: 1fr auto; gap: 6px 12px; padding: 18px 0; }
+  .rail .use, .rail .nt { grid-column: 1 / -1; }
+  .rail .st { grid-row: 1; grid-column: 2; }
+  .status-legend { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 479px) { .status-legend { grid-template-columns: 1fr; } }
+
+/* ---------- compliance ---------- */
+.comp-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 88px); align-items: start; }
+.comp-grid .h2 { margin: 14px 0 22px; }
+.comp-grid .term { margin-top: 26px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font-size: .9375rem; }
+.comp-grid .term b { color: var(--ink); }
+.prep { counter-reset: p; border-top: 1px solid var(--ink); }
+.prep li { counter-increment: p; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.prep li::before { content: counter(p, decimal-leading-zero); font-size: .75rem; font-weight: 700; color: var(--green); padding-top: .35em; font-variant-numeric: tabular-nums; }
+.prep li b { display: block; color: var(--ink); font-weight: 600; }
+.prep li span { color: var(--muted); font-size: .9375rem; }
+@media (max-width: 1023px) { .comp-grid { grid-template-columns: 1fr; } }
+.ret-row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line-soft); }
+.ret-row:first-of-type { border-top: 0; }
+.ret-row b { font-variant-numeric: tabular-nums; color: var(--ink); }
+
+/* ---------- audiences + testimonial slot ---------- */
+.aud-head { max-width: 40rem; margin-bottom: clamp(32px, 4vw, 56px); }
+.aud-head .h2 { margin-top: 14px; }
+.aud { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); }
+.aud > div { border-top: 1px solid var(--ink); padding-top: 18px; }
+.aud h3 { font-size: 1.25rem; letter-spacing: -.01em; margin-bottom: 8px; font-weight: 650; color: var(--ink); }
+.aud p { color: var(--muted); font-size: 1rem; }
+@media (max-width: 767px) { .aud { grid-template-columns: 1fr; } }
+.testimonials { margin-top: clamp(40px, 5vw, 64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.quote { border-top: 1px solid var(--ink); padding-top: 16px; }
+.quote blockquote { margin: 0; font-size: 1.25rem; line-height: 1.4; letter-spacing: -.01em; color: var(--ink); font-weight: 520; }
+.quote figcaption { margin-top: 14px; font-size: .875rem; color: var(--muted); }
+.quote figcaption b { color: var(--ink); font-weight: 600; }
+
+/* ---------- final CTA / footer ---------- */
+.final { padding-block: clamp(88px, 12vw, 168px); }
+.final .h2 { font-size: clamp(2.5rem, 1rem + 6.2vw, 5.5rem); letter-spacing: -.04em; line-height: 1; }
+.final .h2 span { color: #8fa2b1; display: block; }
+.final .lead { margin: 28px 0 36px; }
+.final .contact { margin-top: 28px; color: #b7c3cd; }
+.final .contact a { color: #fff; font-weight: 650; text-decoration: none; border-bottom: 1px solid #4a6073; }
+.final .contact a:hover { border-bottom-color: #fff; }
+.footer { background: var(--ink); color: #b7c3cd; border-top: 1px solid #25394b; padding: clamp(48px, 6vw, 80px) 0 32px; }
+.footer .brand-name { color: #fff; }
+.footer .brand-sub { color: #9fb0bd; }
+.foot-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(4, minmax(0, 1fr)); gap: 32px; }
+.foot-grid h2 { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: #8fa2b1; font-weight: 650; margin-bottom: 14px; }
+.foot-grid ul li + li { margin-top: 8px; }
+.foot-grid a { text-decoration: none; font-size: .9375rem; color: #d6dfe6; }
+.foot-grid a:hover { color: #fff; text-decoration: underline; }
+.foot-grid .about { font-size: .9375rem; margin-top: 16px; max-width: 22em; }
+.foot-base { margin-top: 48px; padding-top: 24px; border-top: 1px solid #25394b; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: .875rem; }
+.foot-base b { color: #fff; letter-spacing: .01em; font-weight: 600; }
+@media (max-width: 1023px) { .foot-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .foot-grid > :first-child { grid-column: 1 / -1; } }
+@media (max-width: 599px) { .foot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------- demo dialog ---------- */
+dialog { border: 0; border-radius: 12px; padding: 0; width: min(92vw, 480px); background: var(--surface); color: var(--text); box-shadow: 0 30px 80px rgba(0, 0, 0, .35); }
+dialog::backdrop { background: rgba(14, 33, 47, .6); }
+.dlg { padding: 28px; }
+.dlg h2 { font-size: 1.5rem; letter-spacing: -.02em; color: var(--ink); margin-bottom: 6px; }
+.dlg p { color: var(--muted); font-size: .9375rem; margin-bottom: 18px; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: 600; font-size: .875rem; color: var(--ink); margin-bottom: 6px; }
+.field input, .field select { width: 100%; min-height: 46px; border: 1px solid #b9b3a3; border-radius: 8px; padding: 0 12px; font: inherit; background: #fff; color: var(--text); }
+.field .err { color: var(--bad); font-size: .8125rem; margin-top: 4px; }
+.dlg .row { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.dlg .fine { font-size: .8125rem; margin: 14px 0 0; }
+
+/* ---------- reveal + motion ---------- */
+.rv { opacity: 0; transform: translateY(14px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+.rv.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .rv { opacity: 1; transform: none; }
+}
+@media print { .site-header, .mobile-menu { display: none; } }
+.exp-copy, .exp > div { min-width: 0; } .exp .caps { overflow-wrap: anywhere; }
+.h1, .h2 { text-wrap: balance; } .hero-copy .h1 { font-size: clamp(3rem, 2.2rem + 2.6vw, 4.5rem); }
+
+/* ---------- hero: wordmark over photograph ---------- */
+.hero-sevra { padding-top: clamp(12px, 2vw, 24px); padding-bottom: clamp(36px, 5vw, 64px); }
+.hs-stage { --hero-photo: url("https://images.unsplash.com/photo-1757359056339-22968344cce6?fm=jpg&q=70&w=2200&auto=format&fit=crop&ixlib=rb-4.1.0"); position: relative; isolation: isolate; overflow: hidden; border-radius: 6px; min-height: clamp(640px, 56vw, 820px); background: linear-gradient(180deg, #c9d6df 0%, #e4dccb 45%, #4d5a52 100%); color: #fff; }
+.hs-photo { position: absolute; inset: 0; z-index: -2; background-image: var(--hero-photo); background-size: cover; background-position: center 62%; }
+.hs-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(246,243,236,.35) 0%, rgba(246,243,236,0) 32%, rgba(14,33,47,0) 52%, rgba(14,33,47,.72) 100%); }
+.hs-mark { position: absolute; left: 0; right: 0; top: clamp(-6px, .5vw, 8px); margin: 0; text-align: center; font-family: 'Bodoni Moda', 'Playfair Display', Didot, 'Times New Roman', serif; font-weight: 500; font-size: clamp(3.5rem, 15.2vw, 13.5rem); line-height: 1.02; letter-spacing: -.035em; background: linear-gradient(180deg, #0e212f 8%, #0f5a40 48%, #9ccf6a 100%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; white-space: nowrap; user-select: none; }
+.hs-chip { position: absolute; left: clamp(18px, 2.5vw, 34px); top: 50%; display: grid; gap: 4px; padding: 14px 16px; width: min(260px, 60%); border-radius: 14px; background: rgba(255,255,255,.88); color: var(--ink); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: .8125rem; box-shadow: 0 14px 34px -18px rgba(14,33,47,.6); }
+.hs-chip .demo-tag { justify-self: start; margin-bottom: 4px; }
+.hs-chip b { font-size: 1.25rem; font-weight: 650; letter-spacing: -.02em; }
+.hs-chip .bar { display: block; height: 6px; border-radius: 3px; background: rgba(14,33,47,.12); overflow: hidden; margin-top: 6px; }
+.hs-chip .bar u { display: block; height: 100%; background: var(--green); border-radius: 3px; text-decoration: none; }
+.hs-bottom { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 clamp(20px, 6vw, 120px) clamp(22px, 3vw, 36px); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.hs-glyph { width: 44px; height: 44px; margin-bottom: 14px; border-radius: 50%; display: grid; place-items: center; background: rgba(14,33,47,.55); }
+.hs-glyph svg { width: 40px; height: 40px; }
+.hs-h1 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: clamp(2.25rem, 1.4rem + 3.4vw, 4.5rem); line-height: 1.02; letter-spacing: -.015em; margin: 0 0 14px; max-width: 18ch; color: #fff; text-wrap: balance; text-shadow: 0 2px 30px rgba(14,33,47,.45); }
+.hs-sub { margin: 0 0 22px; font-size: clamp(1rem, .95rem + .25vw, 1.1875rem); font-weight: 500; color: rgba(255,255,255,.94); max-width: 46ch; }
+.hs-cta { justify-content: center; }
+.hs-scroll { margin-top: 26px; width: min(480px, 100%); display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.45); color: #fff; text-decoration: none; font-size: .875rem; }
+.hs-scroll svg { width: 18px; height: 18px; }
+.hs-scroll:hover { border-bottom-color: #fff; }
+.hs-scroll:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.hs-notch { position: absolute; right: 8%; bottom: 0; width: 120px; height: 44px; background: var(--paper); }
+.hs-notch::before, .hs-notch::after { content: ""; position: absolute; bottom: 0; width: 44px; height: 44px; }
+.hs-notch::before { left: -44px; background: radial-gradient(circle at 0 0, transparent 43px, var(--paper) 44px); }
+.hs-notch::after { right: -44px; background: radial-gradient(circle at 100% 0, transparent 43px, var(--paper) 44px); }
+.hs-ctx { margin-top: 22px; border-top: 0; padding-top: 0; }
+@media (max-width: 860px) {
+  .hs-stage { min-height: 720px; }
+  .hs-mark { font-size: 15.5vw; top: 6px; }
+  .hs-chip { top: 24%; left: 16px; width: min(240px, 70%); }
+  .hs-notch { display: none; }
+  .hs-bottom { padding-bottom: 22px; }
+}
+.btn-light { background: #fff; color: var(--ink); }
+.btn-light:hover { background: var(--paper); }
+.btn-glass { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.btn-glass:hover { background: rgba(255,255,255,.26); }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- SVG symbols reused across the page -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-check" viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 4.5V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 16 16"><path d="M8 2.2l6.2 11H1.8L8 2.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 6.5v3M8 11.6v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-half" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 2a6 6 0 010 12z" fill="currentColor"/></symbol>
+    <symbol id="i-q" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6.3 6.4a1.8 1.8 0 113 1.3c-.7.5-1.3.8-1.3 1.6M8 11.5v.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-caret" viewBox="0 0 16 16"><path d="M6 3.5L10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pay" viewBox="0 0 20 20"><rect x="2.5" y="5" width="15" height="10.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 8.5h15" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 20 20"><path d="M5.5 2.5h6l3.5 3.5v11.5h-9.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 11h4.5M8 14h4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-list" viewBox="0 0 20 20"><path d="M6.5 5.5h9M6.5 10h9M6.5 14.5h9M3.5 5.5h.1M3.5 10h.1M3.5 14.5h.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 20 20"><path d="M10 2.8l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L2.8 8l5-.7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 20 20"><path d="M12.5 3.5a4 4 0 00-3.8 5.2L3.5 13.9a1.7 1.7 0 002.4 2.4l5.2-5.2a4 4 0 005.2-3.8l-2.4 2.4-2-.5-.5-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-key" viewBox="0 0 20 20"><circle cx="6.8" cy="12.8" r="3.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.2 10.4L16.5 3.5M13.5 6.3l2 2M15.5 4.5l1.5 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 16 16"><path d="M8 1.8l5 1.8v4c0 3-2 5.2-5 6.6-3-1.4-5-3.6-5-6.6v-4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M5.6 8l1.7 1.7 3.2-3.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mark" viewBox="0 0 100 100"><path d="M0.0 0.0L64.882 0.0A43.713 43.713 0 0 1 100.728 44.868L100.728 50.147L74.985 50.147L74.985 43.324A21.316 21.316 0 0 0 53.669 24.985L24.985 24.985ZM0.0 36.838L36.838 36.838L100.0 100.0L62.088 100.0Z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<header class="site-header" id="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="RentRewards, powered by AXENT Technologies">
+        <span class="brand-badge"><svg aria-hidden="true"><use href="#i-mark"/></svg></span>
+        <span class="brand-text">
+          <span class="brand-name">RentRewards</span>
+          <span class="brand-sub">Powered by AXENT Technologies</span>
+        </span>
+      </a>
+      <div class="nav-links">
+        <a href="#explorer">Product</a>
+        <a href="#experiences">Solutions</a>
+        <a href="#contact">Pricing</a>
+        <a href="#footer">Resources</a>
+        <a href="#footer">About</a>
+      </div>
+      <div class="nav-right">
+        <a class="signin" href="#contact" data-signin>Sign In</a>
+        <a class="btn btn-primary btn-sm" href="#contact" data-demo>Book a Demo</a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span></button>
+      </div>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#explorer">Product</a>
+    <a href="#experiences">Solutions</a>
+    <a href="#contact">Pricing</a>
+    <a href="#footer">Resources</a>
+    <a href="#footer">About</a>
+    <a href="#contact" data-signin>Sign In</a>
+    <a class="btn btn-primary" href="#contact" data-demo>Book a Demo</a>
+    <p class="contact-line">Call or WhatsApp <a href="tel:+254713207247" style="display:inline;border:0;padding:0;font-size:inherit;font-weight:600">0713 207 247</a></p>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ 1. HERO ============ -->
+<section class="hero hero-sevra" aria-labelledby="hero-h">
+  <div class="wrap">
+    <div class="hs-stage" id="hero-card">
+      <!-- Placeholder photo: Michael Brown (@vettexan) on Unsplash, free under the Unsplash License.
+           Replace by setting --hero-photo on .hs-stage, e.g. url(assets/hero.jpg) -->
+      <div class="hs-photo" role="img" aria-label="Modern timber and glass home at dusk, placeholder photograph"></div>
+      <div class="hs-shade" aria-hidden="true"></div>
+
+      <p class="hs-mark" aria-hidden="true">RentRewards</p>
+
+      <div class="hs-chip" id="hs-chip" aria-label="Demonstration collection figures">
+        <span class="demo-tag">Demonstration data</span>
+        <b id="hs-chip-v"></b>
+        <span id="hs-chip-s"></span>
+        <i class="bar"><u id="hs-chip-b"></u></i>
+      </div>
+
+      <div class="hs-bottom">
+        <span class="hs-glyph" aria-hidden="true"><svg viewBox="0 0 100 100"><g transform="translate(22 22) scale(.56)"><path d="M0.0 0.0L64.882 0.0A43.713 43.713 0 0 1 100.728 44.868L100.728 50.147L74.985 50.147L74.985 43.324A21.316 21.316 0 0 0 53.669 24.985L24.985 24.985ZM0.0 36.838L36.838 36.838L100.0 100.0L62.088 100.0Z" fill="#d0f05c"/></g></svg></span>
+        <h1 class="hs-h1" id="hero-h">Run your entire rental portfolio from one place.</h1>
+        <p class="hs-sub">Collect rent. Manage leases. Automate operations. Reward great tenants.</p>
+        <div class="cta-row hs-cta">
+          <a class="btn btn-light" href="#contact" data-demo>Book a Demo</a>
+          <a class="btn btn-glass" href="#explorer">Explore the Platform</a>
+        </div>
+        <a class="hs-scroll" href="#difference"><span>Scroll Down</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m0 0-5-5m5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+      <span class="hs-notch" aria-hidden="true"></span>
+    </div>
+    <ul class="context-row hs-ctx" aria-label="Built for Kenya">
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>Built for Kenya</li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>M-PESA ready*</li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>KRA eRITS ready*</li>
+    </ul>
+    <p class="context-note hc-note">*Integration-ready. The prototype runs against simulated providers; see <a href="#kenya">integration status</a>. Placeholder photograph: <a href="https://unsplash.com/photos/modern-luxury-home-with-large-windows-at-dusk-G48h926L2qo">Michael Brown on Unsplash</a>.</p>
+  </div>
+</section>
+
+<!-- ============ 2. PROOF STRIP ============ -->
+<section class="proof" aria-label="Example portfolio metrics">
+  <div class="wrap">
+    <div class="proof-grid" id="proof"></div>
+    <p class="proof-note"><b>Example portfolio, August 2026.</b> Five properties and 48 units of demonstration data. These are not RentRewards customer or company statistics.</p>
+  </div>
+</section>
+
+<!-- ============ 3. DIFFERENCE ============ -->
+<section class="difference" id="difference" aria-labelledby="diff-h">
+  <div class="wrap">
+    <p class="eyebrow rv">The RentRewards difference</p>
+    <div class="grid diff-grid" style="margin-top:28px">
+      <h2 class="diff-statement rv" id="diff-h">
+        <span class="big" style="display:block">Rent shouldn’t just be collected.</span>
+        <span class="big" style="display:block">It should create value.</span>
+      </h2>
+      <div class="diff-copy rv">
+        <p>Most systems stop at “paid” or “unpaid”. In RentRewards a confirmed payment is the start of a chain: the same event keeps every part of the operation current, with no re-keying.</p>
+        <ul class="conn" aria-label="What one payment connects">
+          <li>Property operations <span>collections, arrears</span></li>
+          <li>Landlord visibility <span>what is owed</span></li>
+          <li>Tenant experience <span>receipts, statements</span></li>
+          <li>Accounting <span>balanced journals</span></li>
+          <li>Compliance <span>rental income records</span></li>
+          <li>Rewards <span>points with reasons</span></li>
+          <li>Rental history <span>the Rental Profile</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. PAYMENT → SETTLEMENT ============ -->
+<section class="section rule-top" id="journey" aria-labelledby="journey-h">
+  <div class="wrap">
+    <div class="journey-head rv">
+      <p class="eyebrow">One payment, whole ecosystem</p>
+      <h2 class="h2" id="journey-h">From payment to settlement. Automatically.</h2>
+      <p class="lead">Follow a single rent payment. Each step runs without anyone keying it in, and the panel on the right shows what changed.</p>
+    </div>
+    <div class="journey-grid">
+      <div>
+        <div class="pay-chip"><span>Sample payment</span><b>KES 25,000</b></div>
+        <div class="steps" id="steps" role="list" aria-label="Payment workflow"><span class="fill" id="steps-fill" aria-hidden="true"></span></div>
+        <div class="journey-ctl">
+          <button class="btn btn-ghost btn-sm" type="button" id="journey-replay">Replay</button>
+          <span class="small">Select any step to jump to it.</span>
+        </div>
+      </div>
+      <aside class="ui effects" aria-label="Records updated by this payment" aria-live="polite">
+        <div class="ui-bar"><div class="ui-title">What changed</div><span class="demo-tag">Example</span></div>
+        <div class="ui-body" id="effects"></div>
+        <p class="eff-foot">Illustrative figures: James Mwangi, Riverside Apartments, September rent, paid on time. Commission shown at an example rate of 1%. Points follow the live rules: 1 point per KES 100, a streak bonus, held 30 days before they can be spent.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. PRODUCT EXPLORER ============ -->
+<section class="section rule-top" id="explorer" aria-labelledby="exp-h">
+  <div class="wrap">
+    <div class="explorer-head rv">
+      <div>
+        <p class="eyebrow">The platform</p>
+        <h2 class="h2" id="exp-h">Everything you need to manage rentals.</h2>
+      </div>
+      <p class="lead" style="max-width:26em">Six working views of the same data. Switch between them, filter, search and open records.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Product areas" id="tabs"></div>
+    <div id="tabpanel" role="tabpanel" tabindex="0"></div>
+  </div>
+</section>
+
+<!-- ============ 6. PORTFOLIO INTELLIGENCE ============ -->
+<section class="section dark on-dark" id="intelligence" aria-labelledby="intel-h">
+  <div class="wrap">
+    <div class="intel-head rv">
+      <p class="eyebrow">Portfolio intelligence</p>
+      <h2 class="h2" id="intel-h">See your portfolio like a business.</h2>
+      <p class="lead">Expected against collected, occupancy by property, where arrears sit and which leases end next, all drawn from the same invoices and payments, so the figures always agree.</p>
+    </div>
+    <div class="ui on-dark rv" id="intel-ui" aria-label="Portfolio analytics, demonstration data">
+      <div class="ui-bar">
+        <div class="ui-title"><span class="mk"><svg aria-hidden="true"><use href="#i-mark"/></svg></span>Portfolio analytics</div>
+        <div style="display:flex;gap:8px;align-items:center"><span class="demo-tag">Demonstration data · as at 2 Sep 2026</span></div>
+      </div>
+      <div class="ui-body">
+        <div class="tiles" id="tiles"></div>
+        <div class="charts">
+          <div class="cbox c-7">
+            <div class="panel-title">Expected vs collected rent <span>Mar–Aug 2026, KES thousands</span></div>
+            <div class="chart" id="ch-monthly"></div>
+            <div class="lg"><span><i style="background:#3a566c"></i>Expected</span><span><i style="background:#4cc38a"></i>Collected</span></div>
+          </div>
+          <div class="cbox c-5">
+            <div class="panel-title">Occupancy by property <span>occupied / units</span></div>
+            <div id="ch-occ"></div>
+          </div>
+          <div class="cbox c-5">
+            <div class="panel-title">Arrears by property <span>KES thousands</span></div>
+            <div id="ch-arrears"></div>
+            <div class="lg"><span><i style="background:#e0a23a"></i>This month</span><span><i style="background:#c8553d"></i>Carried over</span></div>
+          </div>
+          <div class="cbox c-7">
+            <div class="panel-title">Upcoming lease expiries <span>next 90 days</span></div>
+            <div class="chart" id="ch-exp"></div>
+            <ul class="expiry" id="expiry-list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. LIFECYCLE ============ -->
+<section class="section" id="lifecycle" aria-labelledby="life-h">
+  <div class="wrap">
+    <div class="life-head rv">
+      <p class="eyebrow">The tenancy, end to end</p>
+      <h2 class="h2" id="life-h">Your rental operations, connected.</h2>
+      <p class="lead">Pick a stage to see what RentRewards does at that point, and who sees it.</p>
+    </div>
+    <div class="stages" id="stages" role="tablist" aria-label="Rental lifecycle"></div>
+    <div id="stage-panel" role="tabpanel" tabindex="0"></div>
+  </div>
+</section>
+
+<!-- ============ 8. TENANT EXPERIENCE ============ -->
+<section class="section tenant" id="tenant" aria-labelledby="tenant-h">
+  <div class="wrap tenant-grid">
+    <div class="tenant-copy">
+      <p class="eyebrow rv">For tenants</p>
+      <h2 class="h2 rv" id="tenant-h">Good tenants should be worth knowing.</h2>
+      <p class="lead rv">A tenant gets more than somewhere to pay rent: receipts the moment they pay, a record of how they have paid, and points they earn for paying on time.</p>
+      <dl class="facts rv">
+        <div><dt>Rental Profile</dt><dd>A score out of 100 built from payment behaviour only: how often rent cleared on time, how late when late, what is outstanding, the longest unbroken run and length of tenancy. Every point is explained.</dd></div>
+        <div><dt>Reward points</dt><dd>One point for every KES 100 of rent, full rate when paid on time, a bonus for an unbroken streak. Points are held for 30 days before they can be spent.</dd></div>
+        <div><dt>Receipts and statements</dt><dd>Every receipt and the full statement download as PDF, ready to hand to a future landlord.</dd></div>
+      </dl>
+      <p class="disclaimer rv"><b>Rental Profile Score, not a credit score.</b> It uses only the tenant’s payment history inside RentRewards, and it is not a credit reference bureau product. Redemption of points is coming soon.</p>
+    </div>
+    <div class="phone-wrap rv">
+      <div class="phone" aria-label="Tenant portal, mobile view, demonstration data">
+        <div class="screen" id="phone"></div>
+      </div>
+      <p class="xs muted" style="text-align:center;max-width:300px">Tenant portal, mobile web. Demonstration tenant. A native tenant app is planned for a later phase.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. THREE EXPERIENCES ============ -->
+<section class="section" id="experiences" aria-labelledby="three-h">
+  <div class="wrap">
+    <div class="exp-head rv">
+      <p class="eyebrow">Who it is for</p>
+      <h2 class="h2" id="three-h">One platform. Three better experiences.</h2>
+    </div>
+    <div id="three"></div>
+  </div>
+</section>
+
+<!-- ============ 10. BUILT FOR KENYA ============ -->
+<section class="section dark on-dark" id="kenya" aria-labelledby="kenya-h">
+  <div class="wrap">
+    <div class="kenya-head">
+      <div>
+        <p class="eyebrow rv">Integrations</p>
+        <h2 class="h2 rv" id="kenya-h">Built around the way Kenya pays and rents.</h2>
+      </div>
+      <p class="lead rv">Each connection carries an honest status, so you know what runs today and what is still to come.</p>
+    </div>
+    <div class="rails rv" id="rails" style="border-top-color:#4a6073"></div>
+    <dl class="status-legend rv" id="status-legend"></dl>
+  </div>
+</section>
+
+<!-- ============ 11. KRA COMPLIANCE ============ -->
+<section class="section" id="compliance" aria-labelledby="comp-h">
+  <div class="wrap comp-grid">
+    <div>
+      <p class="eyebrow rv">Compliance</p>
+      <h2 class="h2 rv" id="comp-h">Compliance shouldn’t require another spreadsheet.</h2>
+      <p class="lead rv">RentRewards organises the records that rental income tax filing depends on, so preparing a return starts from data that is already in order.</p>
+      <ol class="prep rv" aria-label="How a return is prepared">
+        <li><div><b>Property tax profiles</b><span>Each landlord and property carries its KRA details and taxpayer type.</span></div></li>
+        <li><div><b>Rental income records</b><span>Confirmed payments become income records automatically.</span></div></li>
+        <li><div><b>Monthly tax periods</b><span>Records roll into a period you can review before anything is sent.</span></div></li>
+        <li><div><b>Compliance exceptions</b><span>Missing PINs and unmatched payments are flagged for fixing first.</span></div></li>
+        <li><div><b>Submission preparation</b><span>A reviewed period is prepared for filing.</span></div></li>
+        <li><div><b>Audit history</b><span>Who prepared, changed and submitted what, and when.</span></div></li>
+      </ol>
+      <p class="term rv"><b>KRA eRITS</b>: the Electronic Rental Income Tax System. RentRewards prepares and organises the records; it does not use any undocumented KRA interface, and in the prototype submissions are simulated and labelled as such.</p>
+    </div>
+    <div class="ui rv" id="comp-ui" aria-label="Rental income tax return preparation, demonstration data"></div>
+  </div>
+</section>
+
+<!-- ============ 12. SOCIAL PROOF (no invented claims) ============ -->
+<section class="section rule-top" id="audience" aria-labelledby="aud-h">
+  <div class="wrap">
+    <div class="aud-head rv">
+      <p class="eyebrow">Our audience</p>
+      <h2 class="h2" id="aud-h">Built for the people who keep rental properties running.</h2>
+    </div>
+    <div class="aud rv">
+      <div><h3>Property managers</h3><p>Who need to know who has paid, which units are empty and which tickets are open, without opening five spreadsheets.</p></div>
+      <div><h3>Landlords</h3><p>Who want to see income, expenses and what is owed to them, without having to ask.</p></div>
+      <div><h3>Tenants</h3><p>Who want a receipt the moment they pay, a clear statement, and credit for paying on time.</p></div>
+    </div>
+    <!-- Reusable testimonial slot. Stays empty until verified testimonials exist.
+         Call RentRewards.mountTestimonials(el, items) from script.js with items that have
+         { quote, name, role, organisation, verified: true }. Unverified items are never rendered. -->
+    <div class="testimonials" id="testimonials" hidden></div>
+    <template id="testimonial-template">
+      <figure class="quote"><blockquote></blockquote><figcaption><b data-name></b> · <span data-role></span>, <span data-org></span></figcaption></figure>
+    </template>
+  </div>
+</section>
+
+<!-- ============ 13. FINAL CTA ============ -->
+<section class="final dark on-dark" id="contact" aria-labelledby="final-h">
+  <div class="wrap">
+    <p class="eyebrow rv">Get started</p>
+    <h2 class="h2 rv" id="final-h" style="margin-top:20px">Less chasing rent.<span>More time growing your portfolio.</span></h2>
+    <p class="lead rv">See how RentRewards can simplify collections, operations and tenant management across your portfolio.</p>
+    <div class="cta-row rv">
+      <a class="btn btn-primary" href="#contact" data-demo>Book a Demo</a>
+      <a class="btn btn-ghost" href="https://wa.me/254713207247?text=Hello%20RentRewards%2C%20I%27d%20like%20to%20talk%20about%20my%20portfolio." target="_blank" rel="noopener">Talk to us on WhatsApp</a>
+    </div>
+    <p class="contact rv">Call or WhatsApp <a href="tel:+254713207247">0713 207 247</a>. Pricing is shared during a demo.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer" id="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="RentRewards">
+          <span class="brand-badge"><svg aria-hidden="true"><use href="#i-mark"/></svg></span>
+          <span class="brand-text"><span class="brand-name">RentRewards</span><span class="brand-sub">Powered by AXENT Technologies</span></span>
+        </a>
+        <p class="about">Property management for the Kenyan rental market.</p>
+      </div>
+      <nav aria-labelledby="f1"><h2 id="f1">Product</h2><ul>
+        <li><a href="#explorer" data-tab="payments">Product Overview</a></li>
+        <li><a href="#explorer" data-tab="payments">Rent &amp; Payments</a></li>
+        <li><a href="#explorer" data-tab="leasing">Leasing</a></li>
+        <li><a href="#explorer" data-tab="maintenance">Maintenance</a></li>
+        <li><a href="#intelligence">Reporting</a></li></ul></nav>
+      <nav aria-labelledby="f2"><h2 id="f2">Solutions</h2><ul>
+        <li><a href="#experiences">Property Managers</a></li>
+        <li><a href="#experiences">Landlords</a></li>
+        <li><a href="#tenant">Tenants</a></li></ul></nav>
+      <nav aria-labelledby="f3"><h2 id="f3">Company</h2><ul>
+        <li><a href="#audience">About</a></li>
+        <li><a href="#contact">Contact</a></li></ul>
+        <h2 id="f4" style="margin-top:24px">Resources</h2><ul>
+        <li><a href="#contact">Help</a></li>
+        <li><a href="#journey">Resources</a></li></ul></nav>
+      <nav aria-labelledby="f5"><h2 id="f5">Legal</h2><ul>
+        <li><a href="#footer" data-legal="Privacy">Privacy</a></li>
+        <li><a href="#footer" data-legal="Terms">Terms</a></li></ul></nav>
+    </div>
+    <div class="foot-base">
+      <span><b>People. Technology. Progress.</b></span>
+      <span>© 2026 AXENT Technologies. Demonstration data is used throughout this prototype.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Demo request dialog: no backend, hands the request to WhatsApp -->
+<dialog id="demo-dlg" aria-labelledby="demo-h">
+  <form class="dlg" method="dialog" id="demo-form" novalidate>
+    <h2 id="demo-h">Book a demo</h2>
+    <p>Tell us a little about your portfolio. This opens WhatsApp with your message ready to send to 0713 207 247.</p>
+    <div class="field"><label for="d-name">Your name</label><input id="d-name" name="name" autocomplete="name" required><div class="err" id="e-name" hidden>Please enter your name.</div></div>
+    <div class="field"><label for="d-phone">Phone number</label><input id="d-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required><div class="err" id="e-phone" hidden>Please enter a phone number we can reach.</div></div>
+    <div class="field"><label for="d-size">Units you manage</label>
+      <select id="d-size" name="size"><option>Under 20 units</option><option>20–100 units</option><option>100–500 units</option><option>500+ units</option></select></div>
+    <div class="row">
+      <button class="btn btn-primary" type="submit">Continue on WhatsApp</button>
+      <button class="btn btn-ghost" type="button" id="demo-cancel">Cancel</button>
+    </div>
+    <p class="fine muted">We only use these details to reply about your demo.</p>
+  </form>
+</dialog>
+
+<div class="tip" id="tip" role="presentation"></div>
+<script>/* RentRewards PMS landing prototype — vanilla JS.
+   Every product interface on the page is built here from the demonstration data below.
+   All figures are for an EXAMPLE portfolio and reconcile with each other. */
+(function () {
+  'use strict';
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ico = function (n) { return '<svg aria-hidden="true"><use href="#i-' + n + '"/></svg>'; };
+  var kes = function (n) { return 'KES ' + Math.round(n).toLocaleString('en-KE'); };
+  var num = function (n) { return Math.round(n).toLocaleString('en-KE'); };
+  var kfmt = function (n) { return n >= 1e6 ? (n / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M' : n >= 1e3 ? Math.round(n / 1e3) + 'K' : String(n); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+
+  /* ------------------------------------------------------------------ data */
+  var PROPS = [
+    { id: 'riv', name: 'Riverside Apartments', landlord: 'Wanjiku Holdings', code: 'A', units: 12, occ: 12, exp: 324000, col: 324000, carried: 0, vacant: [], owing: [] },
+    { id: 'gp',  name: 'Green Park Estate',    landlord: 'Mutiso Family Trust', code: 'B', units: 10, occ: 9, exp: 198000, col: 162000, carried: 0, vacant: [7], owing: [2, 5] },
+    { id: 'wc',  name: 'Westlands Court',      landlord: 'Karanja & Sons Ltd', code: 'C', units: 8, occ: 8, exp: 272000, col: 272000, carried: 0, vacant: [], owing: [] },
+    { id: 'kh',  name: 'Kilimani Heights',     landlord: 'Wanjiku Holdings', code: 'D', units: 10, occ: 8, exp: 224000, col: 194000, carried: 22000, vacant: [4, 9], owing: [6] },
+    { id: 'ow',  name: 'Oakwood Residences',   landlord: 'Mutiso Family Trust', code: 'E', units: 8, occ: 7, exp: 122000, col: 98000, carried: 38000, vacant: [8], owing: [3] }
+  ];
+  PROPS.forEach(function (p) { p.cur = p.exp - p.col; p.arrears = p.cur + p.carried; p.rate = p.col / p.exp; });
+  function agg(list) {
+    var a = { units: 0, occ: 0, exp: 0, col: 0, cur: 0, carried: 0, arrears: 0 };
+    list.forEach(function (p) { ['units', 'occ', 'exp', 'col', 'cur', 'carried', 'arrears'].forEach(function (k) { a[k] += p[k]; }); });
+    a.rate = a.col / a.exp; return a;
+  }
+  var ALL = agg(PROPS);
+
+  var PAYMENTS = [
+    { d: '02 Sep 2026', t: 'James Mwangi', p: 'Riverside Apartments', u: 'A12', a: 25000, s: 'Paid', inv: 'September rent' },
+    { d: '01 Sep 2026', t: 'Faith Njeri', p: 'Green Park Estate', u: 'B3', a: 18000, s: 'Paid', inv: 'September rent' },
+    { d: '31 Aug 2026', t: 'David Otieno', p: 'Westlands Court', u: 'C5', a: 30000, s: 'Paid', inv: 'August rent' },
+    { d: '30 Aug 2026', t: 'Grace Wanjiku', p: 'Kilimani Heights', u: 'D2', a: 22000, s: 'Paid', inv: 'August rent' },
+    { d: '29 Aug 2026', t: 'Peter Karanja', p: 'Oakwood Residences', u: 'E5', a: 20000, s: 'Pending', inv: 'August rent' },
+    { d: '29 Aug 2026', t: 'Esther Achieng', p: 'Riverside Apartments', u: 'A4', a: 27000, s: 'Paid', inv: 'August rent' },
+    { d: '28 Aug 2026', t: 'Samuel Kiptoo', p: 'Westlands Court', u: 'C1', a: 34000, s: 'Paid', inv: 'August rent' },
+    { d: '28 Aug 2026', t: 'Mercy Wambui', p: 'Green Park Estate', u: 'B4', a: 22000, s: 'Paid', inv: 'August rent' },
+    { d: '27 Aug 2026', t: 'Brian Mutua', p: 'Kilimani Heights', u: 'D6', a: 15000, s: 'Partial', inv: 'August rent (KES 28,000 billed)' },
+    { d: '26 Aug 2026', t: 'Lucy Chebet', p: 'Oakwood Residences', u: 'E2', a: 17500, s: 'Paid', inv: 'August rent' },
+    { d: '25 Aug 2026', t: 'Kevin Omondi', p: 'Riverside Apartments', u: 'A9', a: 28000, s: 'Paid', inv: 'August rent' },
+    { d: '25 Aug 2026', t: 'Ann Muthoni', p: 'Westlands Court', u: 'C3', a: 36000, s: 'Paid', inv: 'August rent' },
+    { d: '24 Aug 2026', t: 'Unidentified payer (ref “RENT”)', p: '—', u: '', a: 22000, s: 'Unmatched', inv: 'Held in suspense' }
+  ];
+
+  var MONTHS = [
+    ['Mar', 1092, 1004], ['Apr', 1104, 1036], ['May', 1110, 1023],
+    ['Jun', 1126, 1058], ['Jul', 1132, 1042], ['Aug', 1140, 1050]
+  ];
+
+  var EXPIRIES = [
+    ['30 Sep', 'A12 · Riverside Apartments', 'James Mwangi'],
+    ['30 Sep', 'C3 · Westlands Court', 'Ann Muthoni'],
+    ['30 Sep', 'D6 · Kilimani Heights', 'Brian Mutua'],
+    ['15 Oct', 'B4 · Green Park Estate', 'Mercy Wambui'],
+    ['31 Oct', 'E2 · Oakwood Residences', 'Lucy Chebet']
+  ];
+  var EXP_BUCKETS = [['Sep', 3], ['Oct', 2], ['Nov', 4]];
+
+  var LEASES = [
+    { t: 'James Mwangi', u: 'A12 · Riverside', s: '1 Oct 2024', e: '30 Sep 2026', r: 25000, st: 'Expiring', pct: 96 },
+    { t: 'Ann Muthoni', u: 'C3 · Westlands', s: '1 Oct 2024', e: '30 Sep 2026', r: 36000, st: 'Expiring', pct: 96 },
+    { t: 'Brian Mutua', u: 'D6 · Kilimani', s: '1 Oct 2025', e: '30 Sep 2026', r: 28000, st: 'Expiring', pct: 92 },
+    { t: 'Mercy Wambui', u: 'B4 · Green Park', s: '15 Oct 2025', e: '15 Oct 2026', r: 22000, st: 'Expiring', pct: 88 },
+    { t: 'Faith Njeri', u: 'B3 · Green Park', s: '1 Mar 2026', e: '28 Feb 2027', r: 18000, st: 'Active', pct: 50 },
+    { t: 'David Otieno', u: 'C5 · Westlands', s: '1 Jan 2026', e: '31 Dec 2026', r: 30000, st: 'Active', pct: 67 },
+    { t: 'Grace Wanjiku', u: 'D2 · Kilimani', s: '1 Jun 2026', e: '31 May 2027', r: 22000, st: 'Active', pct: 25 },
+    { t: 'Peter Karanja', u: 'E5 · Oakwood', s: '1 Feb 2026', e: '31 Jan 2027', r: 20000, st: 'Active', pct: 58 }
+  ];
+
+  var TICKETS = [
+    { id: 'TKT-0041', c: 'rep', t: 'Kitchen tap leaking', u: 'A7 · Riverside Apartments', cat: 'Plumbing', pr: 'Medium', age: '2 hours ago',
+      ev: [['02 Sep 07:48', 'Reported by tenant from the portal']] },
+    { id: 'TKT-0042', c: 'rep', t: 'Gate light not working', u: 'Green Park Estate', cat: 'Electrical', pr: 'Low', age: 'Yesterday',
+      ev: [['01 Sep 18:20', 'Reported by caretaker']] },
+    { id: 'TKT-0038', c: 'asg', t: 'No water on third floor', u: 'Westlands Court', cat: 'Water', pr: 'High', age: '2 days ago',
+      ev: [['31 Aug 06:55', 'Reported by tenant from the portal'], ['31 Aug 07:10', 'Acknowledged by property manager'], ['31 Aug 07:32', 'Assigned to Joseph (caretaker)']] },
+    { id: 'TKT-0035', c: 'prg', t: 'Cracked bedroom ceiling', u: 'D6 · Kilimani Heights', cat: 'Structural', pr: 'Medium', age: '5 days ago',
+      ev: [['28 Aug 09:14', 'Reported by tenant from the portal'], ['28 Aug 10:02', 'Acknowledged'], ['29 Aug 08:30', 'Assigned to contractor'], ['01 Sep 11:45', 'In progress: inspection done, repair booked']] },
+    { id: 'TKT-0036', c: 'prg', t: 'Intercom not ringing', u: 'E5 · Oakwood Residences', cat: 'Security', pr: 'Low', age: '4 days ago',
+      ev: [['29 Aug 15:05', 'Reported by tenant from the portal'], ['30 Aug 09:00', 'Assigned to Joseph (caretaker)'], ['01 Sep 10:20', 'In progress: replacement unit ordered']] },
+    { id: 'TKT-0031', c: 'res', t: 'Broken window latch', u: 'A3 · Riverside Apartments', cat: 'Structural', pr: 'Low', age: 'Closed Aug 28',
+      ev: [['24 Aug 12:40', 'Reported by tenant from the portal'], ['25 Aug 09:15', 'Assigned to Joseph (caretaker)'], ['28 Aug 14:00', 'Resolved: latch replaced']] },
+    { id: 'TKT-0030', c: 'res', t: 'Wi-Fi outage in common area', u: 'D1 · Kilimani Heights', cat: 'Internet', pr: 'Medium', age: 'Closed Aug 26',
+      ev: [['23 Aug 20:10', 'Reported by tenant from the portal'], ['24 Aug 08:00', 'Assigned to provider'], ['26 Aug 16:30', 'Resolved: router replaced']] }
+  ];
+  var KCOLS = [['rep', 'Reported'], ['asg', 'Assigned'], ['prg', 'In progress'], ['res', 'Resolved']];
+
+  /* ----------------------------------------------------------------- bits */
+  function badge(status) {
+    var m = {
+      Paid: ['b-ok', 'check'], Pending: ['b-warn', 'clock'], Partial: ['b-warn', 'half'],
+      Unmatched: ['b-bad', 'alert'], Active: ['b-ok', 'check'], Expiring: ['b-warn', 'clock'], Ended: ['b-mute', 'clock']
+    }[status] || ['b-mute', 'clock'];
+    return '<span class="badge ' + m[0] + '">' + ico(m[1]) + status + '</span>';
+  }
+
+  var tip = $('#tip');
+  tip.style.position = 'fixed';
+  function showTip(html, x, y) {
+    tip.innerHTML = html; tip.classList.add('is-on');
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    var left = Math.min(Math.max(8, x + 14), window.innerWidth - w - 8);
+    var top = Math.max(8, y - h - 12);
+    tip.style.left = left + 'px'; tip.style.top = top + 'px';
+  }
+  function hideTip() { tip.classList.remove('is-on'); }
+  function tipFor(node, html) {
+    node.addEventListener('mousemove', function (e) { showTip(html, e.clientX, e.clientY); });
+    node.addEventListener('mouseleave', hideTip);
+    node.addEventListener('focus', function () { var r = node.getBoundingClientRect(); showTip(html, r.left + r.width / 2, r.top); });
+    node.addEventListener('blur', hideTip);
+  }
+
+  /* ------------------------------------------------------------ hero panel */
+  var weights = [14, 12, 10, 10, 12, 8, 6, 3, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2];
+  var wsum = weights.reduce(function (a, b) { return a + b; }, 0);
+  var cum = []; weights.reduce(function (acc, w, i) { acc += w; cum[i] = acc / wsum; return acc; }, 0);
+
+  function lineChart(host, total, expected, name) {
+    var W = 360, H = 300, L = 44, R = 10, T = 12, B = 26, iw = W - L - R, ih = H - T - B;
+    var max = Math.max(expected * 1.08, 1);
+    var x = function (d) { return L + (d - 1) / 30 * iw; };
+    var y = function (v) { return T + ih - v / max * ih; };
+    var pts = cum.map(function (c, i) { return [x(i + 1), y(c * total)]; });
+    var line = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join('');
+    var area = line + 'L' + x(31) + ' ' + y(0) + 'L' + x(1) + ' ' + y(0) + 'Z';
+    var ticks = [0, .5, 1].map(function (f) {
+      var v = max / 1.08 * f; return '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="#e5dfd0" stroke-width="1"/><text x="' + (L - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + kfmt(v) + '</text>';
+    }).join('');
+    var xl = [1, 5, 10, 15, 20, 25, 31].map(function (d) { return '<text x="' + x(d) + '" y="' + (H - 6) + '" text-anchor="middle">' + d + '</text>'; }).join('');
+    host.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cumulative rent collected in August for ' + esc(name) + ': ' + kes(total) + ' of ' + kes(expected) + ' expected">' +
+      ticks + xl +
+      '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(expected) + '" y2="' + y(expected) + '" stroke="#86919b" stroke-dasharray="4 4"/>' +
+      '<text x="' + (W - R) + '" y="' + (y(expected) - 6) + '" text-anchor="end">Expected ' + kfmt(expected) + '</text>' +
+      '<line x1="' + x(5) + '" x2="' + x(5) + '" y1="' + T + '" y2="' + (T + ih) + '" stroke="#b9b3a3" stroke-dasharray="2 3"/>' +
+      '<text x="' + (x(5) + 5) + '" y="' + (T + 11) + '">Due 5th</text>' +
+      '<path d="' + area + '" fill="#0f7a53" fill-opacity=".12"/><path d="' + line + '" fill="none" stroke="#0f7a53" stroke-width="2.2" stroke-linejoin="round"/>' +
+      '<circle id="hc-dot" r="4" fill="#0f7a53" stroke="#fff" stroke-width="2" cx="-10" cy="-10"/>' +
+      '<rect id="hc-hit" x="' + L + '" y="' + T + '" width="' + iw + '" height="' + ih + '" fill="transparent" tabindex="0" aria-label="Chart area. Use left and right arrow keys to read each day."/></svg>';
+    var svg = $('svg', host), hit = $('#hc-hit', host), dot = $('#hc-dot', host);
+    function at(d) {
+      d = Math.max(1, Math.min(31, d));
+      var v = cum[d - 1] * total; dot.setAttribute('cx', x(d)); dot.setAttribute('cy', y(v));
+      return '<b>' + d + ' Aug</b>' + kes(v) + ' collected<br>' + Math.round(v / expected * 100) + '% of expected';
+    }
+    var kb = 5;
+    hit.addEventListener('mousemove', function (e) {
+      var r = svg.getBoundingClientRect(); var px = (e.clientX - r.left) / r.width * W;
+      var d = Math.round((px - L) / iw * 30) + 1; showTip(at(d), e.clientX, e.clientY);
+    });
+    hit.addEventListener('mouseleave', function () { hideTip(); dot.setAttribute('cx', -10); });
+    hit.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') kb = Math.min(31, kb + 1); else if (e.key === 'ArrowLeft') kb = Math.max(1, kb - 1); else return;
+      e.preventDefault(); var r = hit.getBoundingClientRect(); showTip(at(kb), r.left + (kb - 1) / 30 * r.width, r.top + 20);
+    });
+    hit.addEventListener('blur', function () { hideTip(); dot.setAttribute('cx', -10); });
+  }
+
+  (function () {
+    var a = agg(PROPS);
+    $('#hs-chip-v').textContent = Math.round(a.rate * 100) + '% collected';
+    $('#hs-chip-s').textContent = 'August · ' + kes(a.col) + ' of ' + kes(a.exp);
+    $('#hs-chip-b').style.width = (a.rate * 100).toFixed(1) + '%';
+  })();
+
+  /* ----------------------------------------------------------- proof strip */
+  (function () {
+    var items = [
+      { to: 1.05, dec: 2, pre: 'KES ', suf: 'M', l: 'Rent collected', d: 'of KES 1.14M expected' },
+      { to: 92, dec: 0, pre: '', suf: '%', l: 'Collection rate', d: '92.1% before rounding' },
+      { to: 44, dec: 0, pre: '', suf: ' / 48', l: 'Occupied units', d: '4 vacant' },
+      { to: 150, dec: 0, pre: 'KES ', suf: 'K', l: 'Outstanding', d: 'KES 90K this month + KES 60K carried over' }
+    ];
+    var host = $('#proof');
+    host.innerHTML = items.map(function (it) {
+      var final = it.pre + it.to.toFixed(it.dec) + it.suf;
+      return '<div class="proof-item"><div class="v" data-to="' + it.to + '" data-dec="' + it.dec + '" data-pre="' + it.pre + '" data-suf="' + it.suf + '" aria-label="' + final + '">' + final + '</div><div class="l">' + it.l + '</div><div class="d">' + it.d + '</div></div>';
+    }).join('');
+    if (reduce || !('IntersectionObserver' in window)) return;
+    var done = false;
+    new IntersectionObserver(function (es, ob) {
+      if (done || !es[0].isIntersecting) return; done = true; ob.disconnect();
+      $$('.v', host).forEach(function (el) {
+        var to = +el.dataset.to, dec = +el.dataset.dec, t0 = performance.now(), dur = 900;
+        (function tick(t) {
+          var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+          el.textContent = el.dataset.pre + (to * e).toFixed(dec) + el.dataset.suf;
+          if (p < 1) requestAnimationFrame(tick);
+        })(t0);
+      });
+    }, { threshold: .4 }).observe(host);
+  })();
+
+  /* ------------------------------------------------- payment → settlement */
+  var STEPS = [
+    ['Tenant pays rent', 'James pays KES 25,000 from the portal or to the paybill with his tenant code.'],
+    ['M-PESA payment received', 'The transaction is stored exactly as received before any matching is attempted.'],
+    ['Tenant and invoice identified', 'The reference is matched by tenant code, lease, property and unit, or payer phone. If nothing matches, the money is parked, never guessed.'],
+    ['Payment reconciled', 'The payment is allocated to the oldest invoice due first and the invoice clears.'],
+    ['Receipt generated', 'A numbered receipt is issued and is downloadable by the tenant as a PDF.'],
+    ['Tenant ledger updated', 'The tenant’s balance moves from owing to nothing outstanding.'],
+    ['Landlord payable calculated', 'Commission is taken at the configured rate and the remainder is added to what the landlord is owed.'],
+    ['Tenant rewards recorded', 'Points are calculated from the rules and recorded with the reason, held for 30 days before they can be spent.'],
+    ['Accounting and compliance records updated', 'A balanced journal is posted and the payment becomes a rental income record for tax preparation.']
+  ];
+  var EFFECTS = [
+    [1, 'Payment initiated', 'James Mwangi · Unit A12 · Riverside Apartments', 'KES 25,000', ''],
+    [2, 'M-PESA confirmation stored', 'Raw transaction kept, duplicates ignored', 'Received', ''],
+    [3, 'Matched to tenant and invoice', 'Account reference resolved to the active lease', 'Unit A12', 'INV · September'],
+    [4, 'Invoice reconciled', 'Allocated oldest due first', 'Paid', 'Balance 25,000 → 0'],
+    [5, 'Receipt issued', 'PDF available to tenant and manager', 'Issued', ''],
+    [6, 'Tenant balance', 'Statement line added', 'KES 0', 'Nothing outstanding'],
+    [7, 'Landlord payable', 'After commission of KES 250 (example 1%)', '+ KES 24,750', ''],
+    [8, 'Reward points', '250 base + 20% for an 11-month streak', '+ 300 pts', 'Pending · 30 days'],
+    [9, 'Journal posted', 'Debits equal credits: KES 25,000', 'Balanced', ''],
+    [9, 'Rental income record', 'Added to the period for eRITS preparation', '+ KES 25,000', 'Simulated filing']
+  ];
+  var cur = -1, timer = null;
+  var stepsHost = $('#steps'), fill = $('#steps-fill'), effHost = $('#effects');
+  stepsHost.setAttribute('role', 'list');
+  stepsHost.insertAdjacentHTML('beforeend', STEPS.map(function (s, i) {
+    return '<div role="listitem"><button type="button" class="step" data-i="' + i + '" aria-label="Step ' + (i + 1) + ': ' + s[0] + '"><span class="dot">' + String(i + 1).padStart(2, '0') + '</span><span class="t"><b>' + s[0] + '</b><span>' + s[1] + '</span></span></button></div>';
+  }).join(''));
+  effHost.innerHTML = EFFECTS.map(function (e, i) {
+    return '<div class="eff" data-s="' + e[0] + '"><div class="k">' + e[1] + '</div><div class="d">' + e[2] + '</div><div class="vv">' + e[3] + (e[4] ? '<small>' + e[4] + '</small>' : '') + '</div></div>';
+  }).join('');
+
+  function setStep(i) {
+    cur = i;
+    $$('.step', stepsHost).forEach(function (b, k) {
+      b.classList.toggle('is-on', k === i); b.classList.toggle('is-done', k < i);
+      b.setAttribute('aria-current', k === i ? 'step' : 'false');
+    });
+    $$('.eff', effHost).forEach(function (e) {
+      var s = +e.dataset.s - 1;
+      e.classList.toggle('is-in', s <= i); e.classList.toggle('is-new', s === i);
+    });
+    var b = $$('.step', stepsHost)[Math.max(i, 0)];
+    fill.style.height = i < 0 ? '0px' : Math.max(0, b.parentElement.offsetTop + 20 - 20) + 'px';
+  }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+  function play() {
+    stop(); setStep(-1);
+    if (reduce) { setStep(STEPS.length - 1); return; }
+    var i = -1;
+    timer = setInterval(function () { i++; setStep(i); if (i >= STEPS.length - 1) stop(); }, 1100);
+  }
+  stepsHost.addEventListener('click', function (e) { var b = e.target.closest('.step'); if (b) { stop(); setStep(+b.dataset.i); } });
+  $('#journey-replay').addEventListener('click', play);
+  if ('IntersectionObserver' in window) {
+    var started = false;
+    new IntersectionObserver(function (es, ob) { if (es[0].isIntersecting && !started) { started = true; ob.disconnect(); play(); } }, { threshold: .35 }).observe($('.journey-grid'));
+  } else { setStep(STEPS.length - 1); }
+  window.addEventListener('resize', function () { if (cur >= 0) setStep(cur); });
+
+  /* -------------------------------------------------------- product explorer */
+  var TABS = [
+    ['payments', 'Rent & Payments'], ['properties', 'Properties'], ['leasing', 'Leasing'],
+    ['maintenance', 'Maintenance'], ['accounting', 'Accounting'], ['compliance', 'Compliance']
+  ];
+  var COPY = {
+    payments: ['Know exactly who has paid.', 'M-PESA payments are matched to the right tenant and invoice automatically, receipts are issued, and anything that cannot be matched waits in a queue instead of landing on the wrong account.',
+      ['M-PESA collection with automatic tenant matching', 'Allocation to invoices, oldest due first', 'Digital receipts for every payment', 'Arrears tracked across the portfolio', 'Landlord settlements calculated from confirmed payments'],
+      'Prototype: runs end to end against simulated M-PESA payloads. Live connection needs Safaricom credentials.'],
+    properties: ['Every building, every unit.', 'See each property’s landlord, occupancy and collections, then open it to see which units are paid, owing or vacant.',
+      ['Landlord, property and unit in one chain', 'Occupancy worked out from leases, never typed in', 'Collections and arrears by property', 'Bulk upload of units from a spreadsheet'], ''],
+    leasing: ['Know what ends, and when.', 'Every lease with its term, rent and status. Leases nearing their end are flagged so renewals can be planned well ahead.',
+      ['Lease terms, rent and billing day', 'Expiring leases flagged ahead of time', 'Move-in and move-out recorded against the unit', 'Rent invoices raised from the lease'], ''],
+    maintenance: ['Repairs, from report to resolved.', 'Tenants report issues from their portal and the ticket lands on the staff board with the property and unit already filled in. Every status change is kept on the thread.',
+      ['Tenant reporting from the portal', 'Board by status: reported, assigned, in progress, resolved', 'Priority, category and assignee', 'A full update thread per ticket'], ''],
+    accounting: ['Books that balance themselves.', 'A payment never just flips a “paid” flag. It posts balanced double-entry lines that are never edited; a correction is a reversing entry.',
+      ['Balanced journals for every payment', 'Unmatched cash held in suspense so the ledger still balances', 'Commission and landlord payable posted alongside', 'A trial balance that always ties out'], 'Account names are an example chart of accounts.'],
+    compliance: ['Fix the gaps before you file.', 'RentRewards flags what would hold a return back, such as a missing KRA PIN or an unmatched payment, and keeps a history of every period.',
+      ['Monthly rental income periods', 'Compliance exceptions queue', 'Submission preparation', 'Audit history of changes'], 'Prototype: submissions are simulated and stamped as such. Nothing is sent to KRA.']
+  };
+  var xpState = { page: 0, q: '', st: 'All', pr: 'All', sel: null, prop: 'gp', lease: 'All', ticket: 'TKT-0035', acct: 'matched', ex: [false, false], prepared: false };
+
+  function panelShell(key, ui) {
+    var c = COPY[key];
+    return '<div class="tabpanel"><div class="copy"><h3 class="h3">' + c[0] + '</h3><p>' + c[1] + '</p><ul>' + c[2].map(function (b) { return '<li>' + b + '</li>'; }).join('') + '</ul>' + (c[3] ? '<p class="status-note muted">' + c[3] + '</p>' : '') + '</div><div class="ui">' + ui + '</div></div>';
+  }
+  function uiBar(title, extra) { return '<div class="ui-bar"><div class="ui-title"><span class="mk">' + ico('mark') + '</span>' + title + '</div><div>' + (extra || '<span class="demo-tag">Demonstration data</span>') + '</div></div>'; }
+
+  /* Rent & Payments */
+  var PAGE = 5;
+  function paymentsUI() {
+    var rows = PAYMENTS.filter(function (p) {
+      var q = xpState.q.toLowerCase();
+      return (xpState.st === 'All' || p.s === xpState.st) && (xpState.pr === 'All' || p.p === xpState.pr) && (!q || (p.t + ' ' + p.p + ' ' + p.u).toLowerCase().indexOf(q) > -1);
+    });
+    var pages = Math.max(1, Math.ceil(rows.length / PAGE));
+    xpState.page = Math.min(xpState.page, pages - 1);
+    var view = rows.slice(xpState.page * PAGE, xpState.page * PAGE + PAGE);
+    var sel = xpState.sel && PAYMENTS[xpState.sel.i] ? PAYMENTS[xpState.sel.i] : null;
+    var detail = '';
+    if (sel) {
+      detail = '<div class="thread" style="margin-top:12px"><h5>Payment detail · ' + esc(sel.t) + '</h5><ul>' +
+        '<li><time>Amount</time><span>' + kes(sel.a) + ' · M-PESA</span></li>' +
+        '<li><time>Applied to</time><span>' + esc(sel.inv) + '</span></li>' +
+        '<li><time>Status</time><span>' + (sel.s === 'Paid' ? 'Reconciled, receipt issued, tenant ledger updated.' : sel.s === 'Pending' ? 'Received and awaiting confirmation. It will reconcile once confirmed.' : sel.s === 'Partial' ? 'KES 13,000 still owing on the invoice; the tenant sees the balance and can pay the rest from the portal.' : 'The reference “RENT” matched no tenant. The cash is held in suspense and an exception is raised for an accountant to match by hand.') + '</span></li></ul></div>';
+    }
+    var props = ['All'].concat(PROPS.map(function (p) { return p.name; }));
+    return uiBar('Payments') + '<div class="ui-body">' +
+      '<div class="toolbar"><div class="grow"><label class="sr" for="px-q">Search payments</label><input id="px-q" type="search" placeholder="Search tenant, property or unit" value="' + esc(xpState.q) + '"></div>' +
+      '<label class="sr" for="px-st">Status</label><select id="px-st">' + ['All', 'Paid', 'Pending', 'Partial', 'Unmatched'].map(function (s) { return '<option' + (s === xpState.st ? ' selected' : '') + ' value="' + s + '">' + (s === 'All' ? 'All statuses' : s) + '</option>'; }).join('') + '</select>' +
+      '<label class="sr" for="px-pr">Property</label><select id="px-pr">' + props.map(function (s) { return '<option' + (s === xpState.pr ? ' selected' : '') + ' value="' + esc(s) + '">' + (s === 'All' ? 'All properties' : s) + '</option>'; }).join('') + '</select></div>' +
+      '<div class="table-wrap"><table class="t"><caption class="sr">Recent rent payments</caption><thead><tr><th scope="col">Date</th><th scope="col">Tenant</th><th scope="col">Property</th><th scope="col" class="r">Amount</th><th scope="col">Status</th></tr></thead><tbody>' +
+      (view.length ? view.map(function (p) { var i = PAYMENTS.indexOf(p); return '<tr data-row="' + i + '" tabindex="0" class="' + (xpState.sel && xpState.sel.i === i ? 'is-sel' : '') + '"><td>' + p.d + '</td><td>' + esc(p.t) + '</td><td>' + esc(p.p) + '</td><td class="r n">' + kes(p.a) + '</td><td>' + badge(p.s) + '</td></tr>'; }).join('') : '<tr><td colspan="5" class="empty">No payments match these filters.</td></tr>') +
+      '</tbody></table></div>' +
+      '<div class="pager"><span>' + (rows.length ? (xpState.page * PAGE + 1) + '–' + Math.min(rows.length, xpState.page * PAGE + PAGE) + ' of ' + rows.length : '0 payments') + ' · select a row for detail</span><span class="btns"><button class="ui-btn" id="px-prev"' + (xpState.page === 0 ? ' disabled' : '') + '>Previous</button><button class="ui-btn" id="px-next"' + (xpState.page >= pages - 1 ? ' disabled' : '') + '>Next</button></span></div>' + detail + '</div>';
+  }
+  function bindPayments(panel) {
+    var redraw = function (keepFocus) { var ui = $('.ui', panel); ui.innerHTML = paymentsUI(); bindPayments(panel); if (keepFocus) { var f = $(keepFocus, panel); if (f) { f.focus(); try { var l = f.value.length; f.setSelectionRange(l, l); } catch (e) {} } } };
+    var q = $('#px-q', panel); q.addEventListener('input', function () { xpState.q = q.value; xpState.page = 0; redraw('#px-q'); });
+    $('#px-st', panel).addEventListener('change', function (e) { xpState.st = e.target.value; xpState.page = 0; redraw('#px-st'); });
+    $('#px-pr', panel).addEventListener('change', function (e) { xpState.pr = e.target.value; xpState.page = 0; redraw('#px-pr'); });
+    $('#px-prev', panel).addEventListener('click', function () { xpState.page--; redraw('#px-next'); });
+    $('#px-next', panel).addEventListener('click', function () { xpState.page++; redraw('#px-prev'); });
+    $$('[data-row]', panel).forEach(function (r) {
+      var go = function () { xpState.sel = { i: +r.dataset.row }; redraw(); };
+      r.addEventListener('click', go); r.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  }
+
+  /* Properties */
+  function propertiesUI() {
+    var sel = PROPS.filter(function (p) { return p.id === xpState.prop; })[0];
+    var tiles = '';
+    for (var n = 1; n <= sel.units; n++) {
+      var state = sel.vacant.indexOf(n) > -1 ? 'v' : sel.owing.indexOf(n) > -1 ? 'w' : 'o';
+      tiles += '<div class="unit ' + state + '"><b>' + sel.code + n + '</b>' + (state === 'v' ? 'Vacant' : state === 'w' ? 'Owing' : 'Paid') + '</div>';
+    }
+    return uiBar('Properties') + '<div class="ui-body"><div class="table-wrap"><table class="t"><caption class="sr">Properties</caption><thead><tr><th scope="col">Property</th><th scope="col">Landlord</th><th scope="col">Occupancy</th><th scope="col" class="r">Collected</th><th scope="col" class="r">Rate</th></tr></thead><tbody>' +
+      PROPS.map(function (p) { return '<tr data-prop="' + p.id + '" tabindex="0" class="' + (p.id === xpState.prop ? 'is-sel' : '') + '"><td><b style="color:var(--ink)">' + p.name + '</b></td><td>' + p.landlord + '</td><td><span class="occ"><span class="bar" aria-hidden="true"><i style="width:' + Math.round(p.occ / p.units * 100) + '%"></i></span>' + p.occ + '/' + p.units + '</span></td><td class="r n">' + kes(p.col) + '</td><td class="r n">' + Math.round(p.rate * 100) + '%</td></tr>'; }).join('') +
+      '</tbody></table></div><div class="panel-title" style="margin-top:16px">' + sel.name + ' · units <span>' + sel.occ + ' occupied · ' + (sel.units - sel.occ) + ' vacant · ' + sel.owing.length + ' owing</span></div><div class="unitgrid">' + tiles + '</div>' +
+      '<div class="legend"><span><i style="background:var(--ok-bg);border-color:#b8dfca"></i>Paid</span><span><i style="background:var(--warn-bg);border-color:#ecc98a"></i>Owing</span><span><i style="border-style:dashed"></i>Vacant</span></div></div>';
+  }
+  function bindProperties(panel) {
+    $$('[data-prop]', panel).forEach(function (r) {
+      var go = function () { xpState.prop = r.dataset.prop; $('.ui', panel).innerHTML = propertiesUI(); bindProperties(panel); $('[data-prop="' + xpState.prop + '"]', panel).focus(); };
+      r.addEventListener('click', go); r.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  }
+
+  /* Leasing */
+  function leasingUI() {
+    var rows = LEASES.filter(function (l) { return xpState.lease === 'All' || l.st === xpState.lease; });
+    return uiBar('Leases') + '<div class="ui-body"><div class="toolbar"><div class="chips" role="group" aria-label="Filter leases">' + ['All', 'Active', 'Expiring'].map(function (s) { return '<button class="chip" type="button" data-lf="' + s + '" aria-pressed="' + (xpState.lease === s) + '">' + s + (s === 'Expiring' ? ' (4)' : '') + '</button>'; }).join('') + '</div></div>' +
+      '<div class="table-wrap"><table class="t"><caption class="sr">Leases</caption><thead><tr><th scope="col">Tenant</th><th scope="col">Unit</th><th scope="col">Term</th><th scope="col" class="r">Rent</th><th scope="col">Status</th></tr></thead><tbody>' +
+      rows.map(function (l) { return '<tr><td>' + l.t + '</td><td>' + l.u + '</td><td><div>' + l.s + ' – ' + l.e + '</div><div class="bar" style="margin-top:4px" aria-hidden="true"><i style="width:' + l.pct + '%;' + (l.st === 'Expiring' ? 'background:#c58a1b' : '') + '"></i></div></td><td class="r n">' + kes(l.r) + '</td><td>' + badge(l.st) + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+      '<p class="xs muted" style="margin-top:10px">Expiring means the lease ends within 90 days of 2 Sep 2026. Nine leases fall in that window across the portfolio; four are shown here.</p></div>';
+  }
+  function bindLeasing(panel) {
+    $$('[data-lf]', panel).forEach(function (b) { b.addEventListener('click', function () { xpState.lease = b.dataset.lf; $('.ui', panel).innerHTML = leasingUI(); bindLeasing(panel); $('[data-lf="' + xpState.lease + '"]', panel).focus(); }); });
+  }
+
+  /* Maintenance */
+  function maintenanceUI() {
+    var t = TICKETS.filter(function (x) { return x.id === xpState.ticket; })[0];
+    return uiBar('Maintenance board') + '<div class="ui-body"><div class="kanban">' + KCOLS.map(function (c) {
+      var items = TICKETS.filter(function (x) { return x.c === c[0]; });
+      return '<div class="kcol"><h4>' + c[1] + '<span>' + items.length + '</span></h4>' + items.map(function (x) {
+        return '<button type="button" class="kcard" data-t="' + x.id + '" aria-pressed="' + (x.id === xpState.ticket) + '"><span class="id">' + x.id + ' · ' + x.cat + '</span><b>' + x.t + '</b><span class="m">' + x.u + '<br>' + x.pr + ' priority · ' + x.age + '</span></button>';
+      }).join('') + '</div>';
+    }).join('') + '</div>' +
+      '<div class="thread"><h5>' + t.id + ' · ' + t.t + '</h5><ul>' + t.ev.map(function (e) { return '<li><time>' + e[0] + '</time><span>' + e[1] + '</span></li>'; }).join('') + '</ul></div></div>';
+  }
+  function bindMaintenance(panel) {
+    $$('[data-t]', panel).forEach(function (b) { b.addEventListener('click', function () { xpState.ticket = b.dataset.t; $('.ui', panel).innerHTML = maintenanceUI(); bindMaintenance(panel); $('[data-t="' + xpState.ticket + '"]', panel).focus(); }); });
+  }
+
+  /* Accounting */
+  function journal(title, tag, lines) {
+    var dr = 0, cr = 0;
+    var body = lines.map(function (l) { if (l[0] === 'Dr') dr += l[2]; else cr += l[2]; return '<tr class="' + (l[0] === 'Cr' ? 'cr' : '') + '"><td>' + l[0] + ' · ' + l[1] + '</td><td class="n">' + (l[0] === 'Dr' ? num(l[2]) : '') + '</td><td class="n">' + (l[0] === 'Cr' ? num(l[2]) : '') + '</td></tr>'; }).join('');
+    return '<div class="journal"><header><span>' + title + '</span><span class="badge ' + (dr === cr ? 'b-ok' : 'b-bad') + '">' + ico('check') + (dr === cr ? 'Balanced' : 'Unbalanced') + '</span></header><table><thead class="sr"><tr><th>Account</th><th>Debit</th><th>Credit</th></tr></thead><tbody>' + body + '</tbody><tfoot><tr><td>' + tag + '</td><td class="n">' + num(dr) + '</td><td class="n">' + num(cr) + '</td></tr></tfoot></table></div>';
+  }
+  function accountingUI() {
+    var k = xpState.acct, html = '';
+    if (k === 'matched') {
+      html = journal('Rent received · James Mwangi · A12', 'Totals (KES)', [['Dr', 'Cash: M-PESA collection', 25000], ['Cr', 'Tenant receivable: rent', 25000]]) +
+        journal('Commission and landlord payable', 'Totals (KES)', [['Dr', 'Landlord rent clearing', 25000], ['Cr', 'Landlord payable: Wanjiku Holdings', 24750], ['Cr', 'Commission income', 250]]);
+    } else if (k === 'unmatched') {
+      html = journal('Unmatched receipt · reference “RENT”', 'Totals (KES)', [['Dr', 'Cash: M-PESA collection', 22000], ['Cr', 'Suspense: unmatched receipts', 22000]]) +
+        '<p class="small muted" style="margin-bottom:8px">The money is not guessed onto a tenant. An exception is raised and the payment waits in the unmatched queue.</p>';
+    } else {
+      html = journal('Accountant matches it to Brian Mutua · D6', 'Totals (KES)', [['Dr', 'Suspense: unmatched receipts', 22000], ['Cr', 'Tenant receivable: rent', 22000]]) +
+        '<p class="small muted" style="margin-bottom:8px">Reconciling by hand clears the suspense balance, and the payment then follows the normal path: receipt, ledger, landlord payable.</p>';
+    }
+    return uiBar('Ledger', '<span class="demo-tag">Example accounts</span>') + '<div class="ui-body"><div class="toolbar"><div class="seg" role="group" aria-label="Choose a scenario">' +
+      [['matched', 'Matched payment'], ['unmatched', 'Unmatched payment'], ['resolved', 'Resolved by hand']].map(function (s) { return '<button type="button" data-a="' + s[0] + '" aria-pressed="' + (xpState.acct === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div></div>' + html + '</div>';
+  }
+  function bindAccounting(panel) {
+    $$('[data-a]', panel).forEach(function (b) { b.addEventListener('click', function () { xpState.acct = b.dataset.a; $('.ui', panel).innerHTML = accountingUI(); bindAccounting(panel); $('[data-a="' + xpState.acct + '"]', panel).focus(); }); });
+  }
+
+  /* Compliance (explorer: periods + exceptions) */
+  function complianceUI() {
+    return uiBar('eRITS · periods and exceptions') + '<div class="ui-body"><div class="banner">' + ico('alert') + '<span><b>Prototype.</b> Submissions are simulated and stamped as such. Nothing is sent to KRA.</span></div>' +
+      '<div class="table-wrap"><table class="t"><caption class="sr">Monthly periods</caption><thead><tr><th scope="col">Period</th><th scope="col" class="r">Rental income</th><th scope="col">Status</th></tr></thead><tbody>' +
+      '<tr><td>August 2026</td><td class="r n">' + kes(1050000) + '</td><td><span class="badge b-warn">' + ico('alert') + 'Draft · 2 exceptions</span></td></tr>' +
+      '<tr><td>July 2026</td><td class="r n">' + kes(1042000) + '</td><td><span class="badge b-ok">' + ico('check') + 'Prepared</span></td></tr>' +
+      '<tr><td>June 2026</td><td class="r n">' + kes(1058000) + '</td><td><span class="badge b-info">' + ico('check') + 'Simulated submission</span></td></tr></tbody></table></div>' +
+      '<div class="panel-title" style="margin-top:16px">Exceptions to clear <span>August 2026</span></div><ul class="list-rows">' +
+      '<li><div><b style="color:var(--ink)">KRA PIN missing</b><div class="sub">Karanja &amp; Sons Ltd · Westlands Court</div></div><span class="badge b-bad">' + ico('alert') + 'Blocks return</span></li>' +
+      '<li><div><b style="color:var(--ink)">Unmatched payment</b><div class="sub">KES 22,000 · 24 Aug · held in suspense</div></div><span class="badge b-warn">' + ico('clock') + 'Needs matching</span></li></ul>' +
+      '<div class="panel-title" style="margin-top:16px">Audit history <span>latest first</span></div><ul class="list-rows"><li><span>July 2026 period prepared</span><span class="sub">3 Aug · accounts</span></li><li><span>Landlord tax profile updated</span><span class="sub">29 Jul · manager</span></li></ul></div>';
+  }
+
+  var RENDER = {
+    payments: [paymentsUI, bindPayments], properties: [propertiesUI, bindProperties], leasing: [leasingUI, bindLeasing],
+    maintenance: [maintenanceUI, bindMaintenance], accounting: [accountingUI, bindAccounting], compliance: [complianceUI, function () {}]
+  };
+  var tabsEl = $('#tabs'), panelEl = $('#tabpanel'), activeTab = 'payments';
+  tabsEl.innerHTML = TABS.map(function (t) { return '<button role="tab" class="tab" id="tab-' + t[0] + '" data-tab="' + t[0] + '" aria-selected="false" aria-controls="tabpanel" tabindex="-1">' + t[1] + '</button>'; }).join('');
+  function selectTab(key, focus) {
+    activeTab = key;
+    $$('.tab', tabsEl).forEach(function (b) { var on = b.dataset.tab === key; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); });
+    panelEl.setAttribute('aria-labelledby', 'tab-' + key);
+    panelEl.innerHTML = panelShell(key, RENDER[key][0]());
+    RENDER[key][1](panelEl);
+    var on = $('.tab[aria-selected="true"]', tabsEl);
+    if (on && tabsEl.scrollWidth > tabsEl.clientWidth) tabsEl.scrollTo({ left: on.offsetLeft - 20, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  tabsEl.addEventListener('click', function (e) { var b = e.target.closest('.tab'); if (b) selectTab(b.dataset.tab); });
+  tabsEl.addEventListener('keydown', function (e) {
+    var keys = TABS.map(function (t) { return t[0]; }), i = keys.indexOf(activeTab);
+    if (e.key === 'ArrowRight') i = (i + 1) % keys.length; else if (e.key === 'ArrowLeft') i = (i - 1 + keys.length) % keys.length;
+    else if (e.key === 'Home') i = 0; else if (e.key === 'End') i = keys.length - 1; else return;
+    e.preventDefault(); selectTab(keys[i], true);
+  });
+  selectTab('payments');
+
+  /* --------------------------------------------------- portfolio intelligence */
+  (function () {
+    var maint = 38500, commission = Math.round(ALL.col * 0.01), payable = ALL.col - commission - maint;
+    var tiles = [
+      ['Expected rent', 'KES ' + kfmt(ALL.exp), 'August 2026'], ['Collected rent', 'KES ' + kfmt(ALL.col), 'KES 1,050,000'],
+      ['Collection rate', (ALL.rate * 100).toFixed(1) + '%', 'of expected'], ['Occupancy', (ALL.occ / ALL.units * 100).toFixed(1) + '%', ALL.occ + ' of ' + ALL.units + ' units'],
+      ['Arrears', 'KES ' + kfmt(ALL.arrears), 'KES 90K this month, 60K carried'], ['Maintenance costs', 'KES 38.5K', '4 tickets closed in August'],
+      ['Landlord payable', 'KES ' + (payable / 1e6).toFixed(2) + 'M', 'after 1% commission and costs'], ['Lease expiries', '9', 'in the next 90 days']
+    ];
+    $('#tiles').innerHTML = tiles.map(function (t) { return '<div class="tile"><div class="l">' + t[0] + '</div><div class="v">' + t[1] + '</div><div class="s">' + t[2] + '</div></div>'; }).join('');
+
+    /* monthly grouped bars */
+    var W = 560, H = 230, L = 40, R = 8, T = 10, B = 26, iw = W - L - R, ih = H - T - B, max = 1200;
+    var y = function (v) { return T + ih - v / max * ih; }, g = iw / MONTHS.length, bw = Math.min(26, g / 3);
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Expected versus collected rent by month, March to August 2026">';
+    [0, 400, 800, 1200].forEach(function (v) { s += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="#1b3144"/><text x="' + (L - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + v + '</text>'; });
+    MONTHS.forEach(function (m, i) {
+      var cx = L + g * i + g / 2, rate = (m[2] / m[1] * 100).toFixed(1);
+      s += '<g class="mb" tabindex="0" data-i="' + i + '" role="img" aria-label="' + m[0] + ': expected ' + m[1] + 'K, collected ' + m[2] + 'K, ' + rate + ' percent"><rect x="' + (cx - g / 2) + '" y="' + T + '" width="' + g + '" height="' + ih + '" fill="transparent"/>' +
+        '<rect x="' + (cx - bw - 2) + '" y="' + y(m[1]) + '" width="' + bw + '" height="' + (y(0) - y(m[1])) + '" rx="2" fill="#3a566c"/>' +
+        '<rect x="' + (cx + 2) + '" y="' + y(m[2]) + '" width="' + bw + '" height="' + (y(0) - y(m[2])) + '" rx="2" fill="#4cc38a"/></g><text x="' + cx + '" y="' + (H - 7) + '" text-anchor="middle">' + m[0] + '</text>';
+    });
+    $('#ch-monthly').innerHTML = s + '</svg>';
+    $$('#ch-monthly .mb').forEach(function (n) { var m = MONTHS[+n.dataset.i]; tipFor(n, '<b>' + m[0] + ' 2026</b>Expected KES ' + num(m[1] * 1000) + '<br>Collected KES ' + num(m[2] * 1000) + '<br>' + (m[2] / m[1] * 100).toFixed(1) + '% collected'); });
+
+    /* occupancy + arrears */
+    $('#ch-occ').innerHTML = PROPS.map(function (p) { return '<div class="hbar"><span class="nm">' + p.name + '</span><span class="trk" role="img" aria-label="' + p.name + ' ' + p.occ + ' of ' + p.units + ' occupied"><i style="width:' + (p.occ / p.units * 100) + '%;background:#4cc38a"></i></span><span class="vl">' + p.occ + '/' + p.units + '</span></div>'; }).join('');
+    var amax = 70000;
+    $('#ch-arrears').innerHTML = PROPS.slice().sort(function (a, b) { return b.arrears - a.arrears; }).map(function (p) {
+      return '<div class="hbar"><span class="nm">' + p.name + '</span><span class="trk" role="img" aria-label="' + p.name + ' arrears ' + num(p.arrears) + ' shillings: ' + num(p.cur) + ' this month, ' + num(p.carried) + ' carried over"><i style="width:' + (p.cur / amax * 100) + '%;background:#e0a23a"></i><i style="width:' + (p.carried / amax * 100) + '%;background:#c8553d"></i></span><span class="vl">' + (p.arrears ? Math.round(p.arrears / 1000) + 'K' : '–') + '</span></div>';
+    }).join('');
+
+    /* expiries */
+    var EW = 520, EH = 120, eb = 44, ex = '<svg viewBox="0 0 ' + EW + ' ' + EH + '" role="img" aria-label="Lease expiries: September 3, October 2, November 4">';
+    var gap = (EW - 40) / EXP_BUCKETS.length;
+    EXP_BUCKETS.forEach(function (b, i) {
+      var h = b[1] / 5 * 70, cx = 20 + gap * i + gap / 2;
+      ex += '<g class="eb" tabindex="0" data-i="' + i + '"><rect x="' + (cx - eb / 2) + '" y="' + (86 - h) + '" width="' + eb + '" height="' + h + '" rx="3" fill="#4cc38a" fill-opacity=".85"/><text x="' + cx + '" y="' + (80 - h) + '" text-anchor="middle" style="fill:#fff;font-weight:600">' + b[1] + '</text><text x="' + cx + '" y="108" text-anchor="middle">' + b[0] + '</text></g>';
+    });
+    $('#ch-exp').innerHTML = ex + '</svg>';
+    $$('#ch-exp .eb').forEach(function (n) { var b = EXP_BUCKETS[+n.dataset.i]; tipFor(n, '<b>' + b[0] + ' 2026</b>' + b[1] + ' leases end'); });
+    $('#expiry-list').innerHTML = EXPIRIES.map(function (e) { return '<li><time>' + e[0] + '</time><span>' + e[1] + '</span><span class="sub">' + e[2] + '</span></li>'; }).join('') + '<li><time>+4</time><span class="sub">more in October and November</span><span></span></li>';
+  })();
+
+  /* ------------------------------------------------------------- lifecycle */
+  var STAGES = [
+    ['Move In', 'The tenancy starts cleanly.', ['The tenant and lease are recorded against the unit and the move-in is completed.', 'The unit becomes occupied automatically, because occupancy follows the lease.', 'The tenant is invited to the portal with a one-time link.'], 'Property manager, then tenant',
+      '<div class="ui"><div class="ui-body"><ul class="list-rows"><li><span>Lease created</span><span class="badge b-ok">' + ico('check') + 'Done</span></li><li><span>Move-in completed</span><span class="badge b-ok">' + ico('check') + 'Done</span></li><li><span>Portal invitation sent</span><span class="badge b-warn">' + ico('clock') + 'Pending</span></li></ul></div></div>'],
+    ['Rent Due', 'Rent is billed without chasing.', ['Rent invoices are raised from the lease and any shared charges.', 'The tenant sees what is due, when, and the account number that matches their payment to their tenancy.', 'Overdue amounts roll into arrears across the portfolio.'], 'Property manager and tenant',
+      '<div class="ui"><div class="ui-body"><div class="panel-title">Invoice · October rent <span>due 5 Oct</span></div><ul class="list-rows"><li><span>Monthly rent</span><b class="num">KES 25,000</b></li><li><span>Pay with account number</span><b>TNT-…</b></li></ul></div></div>'],
+    ['Payment', 'Money arrives and finds its owner.', ['M-PESA payments are matched to the tenant and invoice automatically.', 'Allocation is oldest due first, so arrears clear before current rent.', 'Anything unmatched waits in a queue for an accountant, never guessed onto an account.'], 'Everyone sees the same ledger',
+      '<div class="ui"><div class="ui-body"><ul class="list-rows"><li><span>Reference “A12”</span><span class="badge b-ok">' + ico('check') + 'Matched to James Mwangi</span></li><li><span>Reference “RENT”</span><span class="badge b-bad">' + ico('alert') + 'Unmatched, held</span></li></ul></div></div>'],
+    ['Receipt', 'Proof of payment, instantly.', ['A numbered receipt is issued for every confirmed payment.', 'Tenants download receipts, statements and their rental record as PDFs.', 'The tenant ledger updates in the same step.'], 'Tenant and property manager',
+      '<div class="ui"><div class="ui-body"><div class="panel-title">Receipt <span>PDF</span></div><ul class="list-rows"><li><span>Amount received</span><b class="num">KES 25,000</b></li><li><span>Applied to</span><span>September rent</span></li><li><span>Balance after</span><b class="num">KES 0</b></li></ul></div></div>'],
+    ['Rewards', 'Paying on time is recognised.', ['One point for every KES 100 of rent, at the full rate when paid on time.', 'A streak of on-time months adds a bonus, and lateness reduces the award.', 'Points are held 30 days before they can be spent, and every award shows its reason. Redemption is coming soon.'], 'Tenant',
+      '<div class="ui"><div class="ui-body"><div class="panel-title">September rent <span>pending 30 days</span></div><ul class="list-rows"><li><span>250 base, paid on time</span><b class="num">× 1.00</b></li><li><span>11-month streak</span><b class="num">+ 20%</b></li><li><span>Points awarded</span><b class="num">300</b></li></ul></div></div>'],
+    ['Maintenance', 'Repairs are reported and followed.', ['The tenant reports an issue from the portal; the property and unit come from their lease.', 'It appears on the staff board and moves through assigned, in progress and resolved.', 'Every update is kept on the ticket thread, visible to the tenant.'], 'Tenant, caretaker, manager',
+      '<div class="ui"><div class="ui-body"><ul class="list-rows"><li><span>Reported · kitchen tap</span><span class="badge b-warn">' + ico('clock') + 'Reported</span></li><li><span>Assigned to caretaker</span><span class="badge b-info">' + ico('check') + 'Assigned</span></li><li><span>Tap replaced</span><span class="badge b-ok">' + ico('check') + 'Resolved</span></li></ul></div></div>'],
+    ['Renewal', 'Expiries are seen coming.', ['Leases nearing their end are flagged as expiring.', 'Upcoming expiries are listed on the dashboard by month, so renewals can be planned early.', 'The tenant’s payment record is there to inform the conversation.'], 'Property manager and landlord',
+      '<div class="ui"><div class="ui-body"><ul class="list-rows"><li><span>A12 · James Mwangi</span><span class="badge b-warn">' + ico('clock') + 'Expires 30 Sep</span></li><li><span>B4 · Mercy Wambui</span><span class="badge b-warn">' + ico('clock') + 'Expires 15 Oct</span></li></ul></div></div>'],
+    ['Move Out', 'The tenancy closes cleanly.', ['The move-out is recorded against the lease.', 'The final balance is visible before the unit is released.', 'The unit returns to available, and the tenant keeps their statements and rental record.'], 'Property manager and tenant',
+      '<div class="ui"><div class="ui-body"><ul class="list-rows"><li><span>Move-out recorded</span><span class="badge b-ok">' + ico('check') + 'Done</span></li><li><span>Final balance</span><b class="num">KES 0</b></li><li><span>Unit A12</span><span class="badge b-mute">' + ico('clock') + 'Available</span></li></ul></div></div>']
+  ];
+  var stagesEl = $('#stages'), stagePanel = $('#stage-panel'), stage = 0;
+  stagesEl.innerHTML = STAGES.map(function (s, i) { return '<button class="stage" role="tab" id="stg-' + i + '" data-i="' + i + '" aria-selected="false" aria-controls="stage-panel" tabindex="-1"><span class="d">' + (i + 1) + '</span><span class="n">' + s[0] + '</span></button>'; }).join('');
+  function setStage(i, focus) {
+    stage = i;
+    $$('.stage', stagesEl).forEach(function (b, k) { var on = k === i; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; b.classList.toggle('is-on', on); b.classList.toggle('is-past', k < i); if (on && focus) b.focus(); });
+    var s = STAGES[i];
+    stagePanel.setAttribute('aria-labelledby', 'stg-' + i);
+    stagePanel.innerHTML = '<div class="stage-panel"><div><p class="eyebrow">Stage ' + (i + 1) + ' of 8</p><h3 class="h3" style="margin:12px 0 0">' + s[0] + '</h3><p class="lead" style="margin-top:8px;font-size:1.125rem">' + s[1] + '</p></div><div><ul class="acts">' + s[2].map(function (a) { return '<li>' + a + '</li>'; }).join('') + '</ul><p class="who"><b>Who sees it:</b> ' + s[3] + '</p><div style="margin-top:20px;max-width:420px">' + s[4] + '</div></div></div>';
+  }
+  stagesEl.addEventListener('click', function (e) { var b = e.target.closest('.stage'); if (b) setStage(+b.dataset.i); });
+  stagesEl.addEventListener('keydown', function (e) {
+    var n = STAGES.length, i = stage;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') i = (i + 1) % n; else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') i = (i - 1 + n) % n; else if (e.key === 'Home') i = 0; else if (e.key === 'End') i = n - 1; else return;
+    e.preventDefault(); setStage(i, true);
+  });
+  setStage(0);
+
+  /* ------------------------------------------------------- tenant phone UI */
+  var FACTORS = [['Paid on time', 30.3, 45, '14 of 23 months by the due date, 3 more within 5 days'], ['How late, when late', 18.2, 20, '2.7 days past due on average'], ['Nothing outstanding', 20, 20, 'Nothing owing'], ['Unbroken run', 9.2, 10, '11 months in a row without a late payment'], ['Length of tenancy', 5, 5, '24 months on record']];
+  var phoneTab = 'home';
+  function ring(score) {
+    var r = 32, c = 2 * Math.PI * r;
+    return '<svg class="ring" viewBox="0 0 80 80" role="img" aria-label="Rental Profile Score ' + score + ' out of 100"><circle cx="40" cy="40" r="' + r + '" fill="none" stroke="#ece7da" stroke-width="8"/><circle cx="40" cy="40" r="' + r + '" fill="none" stroke="#0f7a53" stroke-width="8" stroke-linecap="round" stroke-dasharray="' + (c * score / 100).toFixed(1) + ' ' + c.toFixed(1) + '" transform="rotate(-90 40 40)"/><text x="40" y="45" text-anchor="middle" font-size="20" font-weight="700" fill="#0e212f">' + score + '</text></svg>';
+  }
+  function phoneBody() {
+    if (phoneTab === 'profile') {
+      return '<div class="p-card"><div class="lbl">Rental Profile Score</div><div class="score">' + ring(83) + '<div><b>Good</b><span>83 out of 100</span></div></div><div class="stats3"><div><b>11</b><span>on-time payments in a row</span></div><div><b>None</b><span>current arrears</span></div><div><b>24 mo</b><span>verified rental history</span></div></div></div>' +
+        '<div class="p-card"><div class="lbl">How the score is built</div>' + FACTORS.map(function (f) { return '<div class="factor"><div class="r">' + f[0] + '<span>' + f[1] + ' / ' + f[2] + '</span></div><div class="bar" aria-hidden="true"><i style="width:' + (f[1] / f[2] * 100) + '%"></i></div><small>' + f[3] + '</small></div>'; }).join('') + '</div>';
+    }
+    if (phoneTab === 'rewards') {
+      return '<div class="p-card"><div class="lbl">Reward points</div><div class="pts"><b>1,019</b><span class="muted">719 available · 300 pending</span></div></div>' +
+        '<div class="p-card"><div class="lbl">Recent awards</div><ul class="ledger-rows"><li><span>September rent</span><b>+300</b><small>250 base, 11-month streak +20%. Pending until 2 Oct</small></li><li><span>August rent</span><b>+300</b><small>250 base, 10-month streak +20%</small></li><li><span>July rent</span><b>+300</b><small>250 base, 9-month streak +20%</small></li></ul></div>' +
+        '<div class="banner" style="margin:0">' + ico('clock') + '<span>Redemption is coming soon. Your points are safe and keep building.</span></div>';
+    }
+    return '<div class="p-card"><div class="lbl">September rent</div><div class="pts"><b>KES 0 due</b>' + badge('Paid') + '</div><div class="muted" style="margin-top:4px">Paid 2 Sep · next rent due 5 Oct</div></div>' +
+      '<div class="p-card"><div class="lbl">Rental Profile</div><div class="score" style="margin-top:6px">' + ring(83).replace('class="ring"', 'class="ring" style="width:56px;height:56px"') + '<div><b>Good · 83 / 100</b><span>11 on-time payments in a row</span></div></div></div>' +
+      '<div class="p-card"><div class="lbl">Reward points</div><div class="pts"><b>1,019</b><span class="muted">300 pending</span></div></div>' +
+      '<div class="actions6">' + [['pay', 'Pay Rent'], ['doc', 'View Receipt'], ['list', 'Statements'], ['star', 'Rewards'], ['wrench', 'Maintenance'], ['key', 'Lease']].map(function (a) { return '<button type="button" data-go="' + a[1] + '">' + ico(a[0]) + a[1] + '</button>'; }).join('') + '</div>';
+  }
+  function phoneRender() {
+    $('#phone').innerHTML = '<div class="p-status"><span>9:41</span><span>RentRewards</span></div><div class="p-head"><div><b>James Mwangi</b><small>A12 · Riverside Apartments</small></div><span class="avatar" aria-hidden="true">JM</span></div><div class="p-body">' + phoneBody() + '</div><div class="p-nav" role="group" aria-label="Tenant portal sections">' + [['home', 'Home'], ['profile', 'Rental Profile'], ['rewards', 'Rewards']].map(function (t) { return '<button type="button" data-p="' + t[0] + '" aria-pressed="' + (phoneTab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>';
+    $$('[data-p]', $('#phone')).forEach(function (b) { b.addEventListener('click', function () { phoneTab = b.dataset.p; phoneRender(); $('[data-p="' + phoneTab + '"]', $('#phone')).focus(); }); });
+    $$('[data-go]', $('#phone')).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var g = b.dataset.go; if (g === 'Rewards') phoneTab = 'rewards'; else if (g === 'Statements' || g === 'Lease') { toast('“' + g + '” opens in the full tenant portal.'); return; } else { toast('“' + g + '” opens in the full tenant portal.'); return; }
+        phoneRender();
+      });
+    });
+  }
+  phoneRender();
+
+  /* --------------------------------------------------- three experiences */
+  function tree() {
+    var months = [
+      ['August', 'due 5 Aug · KES 25,000', 'On time', 'b-ok', 'check', [['2 Aug', 'KES 25,000', '3 days early']]],
+      ['July', 'due 5 Jul · KES 25,000', 'Just late', 'b-warn', 'clock', [['7 Jul', 'KES 15,000', '2 days late'], ['8 Jul', 'KES 10,000', '3 days late · cleared']]],
+      ['June', 'due 5 Jun · KES 25,000', 'On time', 'b-ok', 'check', [['4 Jun', 'KES 25,000', '1 day early']]]
+    ];
+    return '<div class="tree" id="tree"><ul><li><div class="node"><b>James Mwangi</b><span class="m">A12 · Riverside Apartments</span></div><ul><li><div class="node"><b>Lease</b><span class="m">1 Oct 2024 – 30 Sep 2026 · KES 25,000 a month</span></div><ul><li><button type="button" class="node" aria-expanded="true" data-tr="y"><svg class="caret" aria-hidden="true"><use href="#i-caret"/></svg><b>2026</b></button><ul data-tp="y">' +
+      months.map(function (m, i) { return '<li><button type="button" class="node" aria-expanded="' + (i === 1) + '" data-tr="m' + i + '"><svg class="caret" aria-hidden="true"><use href="#i-caret"/></svg><b>' + m[0] + '</b><span class="m">' + m[1] + '</span><span class="badge ' + m[3] + '">' + ico(m[4]) + m[2] + '</span></button><ul data-tp="m' + i + '"' + (i === 1 ? '' : ' hidden') + '>' + m[5].map(function (p) { return '<li><div class="node"><b>Payment</b><span class="m">' + p[0] + ' · ' + p[1] + ' · ' + p[2] + '</span></div></li>'; }).join('') + '</ul></li>'; }).join('') +
+      '</ul></li></ul></li></ul></li></ul></div>';
+  }
+  var THREE = [
+    ['Property managers', 'Run the portfolio.', ['Properties', 'Units', 'Tenants', 'Collections', 'Leases', 'Maintenance', 'Reporting'], 'Explore Property Management', 'properties',
+      '<div class="ui">' + uiBar('Collections queue') + '<div class="ui-body"><div class="kpis" style="grid-template-columns:repeat(2,1fr)"><div class="kpi"><div class="l">Outstanding</div><div class="v">KES 150K</div><div class="s">across 3 properties</div></div><div class="kpi"><div class="l">Unmatched</div><div class="v">1</div><div class="s">KES 22,000 in suspense</div></div></div><ul class="list-rows"><li><div><b style="color:var(--ink)">Peter Karanja · E5</b><div class="sub">Oakwood Residences · 5 days overdue</div></div><span class="num"><b>KES 20,000</b></span></li><li><div><b style="color:var(--ink)">Brian Mutua · D6</b><div class="sub">Kilimani Heights · part-paid</div></div><span class="num"><b>KES 13,000</b></span></li><li><div><b style="color:var(--ink)">B2 · Green Park Estate</b><div class="sub">2 units owing this month</div></div><span class="num"><b>KES 36,000</b></span></li></ul></div></div>'],
+    ['Landlords', 'See the performance.', ['Income', 'Occupancy', 'Collections', 'Expenses', 'Statements', 'Settlements'], 'Explore Landlord Experience', 'intelligence',
+      '<div class="ui">' + uiBar('Wanjiku Holdings · August') + '<div class="ui-body"><ul class="list-rows"><li><span>Rent collected</span><b class="num">KES 518,000</b></li><li><span>Commission (example 1%)</span><b class="num">− KES 5,180</b></li><li><span>Maintenance costs</span><b class="num">− KES 21,500</b></li><li><span><b style="color:var(--ink)">Payable to landlord</b></span><b class="num" style="color:var(--green-ink)">KES 491,320</b></li></ul><div class="panel-title" style="margin-top:16px">Tenant payment history <span class="pill-plan">Planned</span></div>' + tree() + '</div></div>'],
+    ['Tenants', 'Manage your home.', ['Rent payments', 'Receipts', 'Statements', 'Rewards', 'Rental Profile', 'Maintenance', 'Lease information'], 'Explore Tenant Experience', 'tenant',
+      '<div class="ui">' + uiBar('Statement · James Mwangi') + '<div class="ui-body"><div class="table-wrap"><table class="t" style="min-width:420px"><caption class="sr">Tenant statement</caption><thead><tr><th scope="col">Date</th><th scope="col">Description</th><th scope="col" class="r">Charge</th><th scope="col" class="r">Paid</th><th scope="col" class="r">Balance</th></tr></thead><tbody><tr><td>1 Sep</td><td>September rent</td><td class="r n">25,000</td><td class="r n"></td><td class="r n">25,000</td></tr><tr><td>2 Sep</td><td>M-PESA payment</td><td class="r n"></td><td class="r n">25,000</td><td class="r n">0</td></tr><tr><td>1 Aug</td><td>August rent</td><td class="r n">25,000</td><td class="r n"></td><td class="r n">25,000</td></tr><tr><td>2 Aug</td><td>M-PESA payment</td><td class="r n"></td><td class="r n">25,000</td><td class="r n">0</td></tr></tbody></table></div><p class="xs muted" style="margin-top:10px">Statements and each receipt download as PDF; statements also as CSV.</p></div></div>']
+  ];
+  $('#three').innerHTML = THREE.map(function (t) {
+    return '<div class="exp rv"><div class="exp-copy"><p class="role">' + t[0] + '</p><h3 class="h3">' + t[1] + '</h3><p class="caps">' + t[2].map(function (c) { return '<b>' + c + '</b>'; }).join(' <span aria-hidden="true">/</span> ') + '</p><a class="link" href="#' + (t[4] === 'properties' ? 'explorer' : t[4]) + '" data-tab="' + (t[4] === 'properties' ? 'properties' : '') + '">' + t[3] + ' <span aria-hidden="true">→</span></a></div><div>' + t[5] + '</div></div>';
+  }).join('');
+  $('#tree') && $('#tree').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tr]'); if (!b) return;
+    var open = b.getAttribute('aria-expanded') === 'true'; b.setAttribute('aria-expanded', !open);
+    var p = $('[data-tp="' + b.dataset.tr + '"]', $('#tree')); if (p) p.hidden = open;
+  });
+
+  /* ------------------------------------------------------------ Kenya rails */
+  var RAILS = [
+    ['M-PESA', 'Rent payments', 'Payments are matched to tenants and invoices by account reference, unit or phone. Runs end to end on simulated Safaricom payloads; live credentials are pending.', 'Prototype', 's-proto'],
+    ['Banks', 'Settlements and reconciliation', 'Landlord payout destinations (M-PESA or bank) are recorded today. Bank statement ingestion is planned.', 'Planned', 's-plan'],
+    ['KRA eRITS', 'Rental income tax workflows', 'Records, periods, exceptions and submission preparation work. Filings are simulated and stamped; live filing needs authorised KRA access.', 'Prototype', 's-proto'],
+    ['SMS', 'Notifications', 'Notification records are created now. The SMS gateway connection point is ready.', 'Integration ready', 's-ready'],
+    ['WhatsApp', 'Tenant communication', 'Not built yet.', 'Planned', 's-plan'],
+    ['Email', 'Receipts and statements', 'Receipts and statements download as PDF. Sending by email uses the same connection point as SMS.', 'Integration ready', 's-ready']
+  ];
+  $('#rails').innerHTML = RAILS.map(function (r) { return '<div class="rail" style="border-bottom-color:#25394b"><div class="nm" style="color:#fff">' + r[0] + '</div><div class="use" style="color:#e9eef2">' + r[1] + '</div><div class="nt" style="color:#9fb0bd">' + r[2] + '</div><div class="st"><span class="status ' + r[4] + '">' + r[3] + '</span></div></div>'; }).join('');
+  $('#status-legend').innerHTML = [['Live', 's-live', 'Running in production with real credentials. Nothing is at this status yet.'], ['Prototype', 's-proto', 'Works end to end against simulated providers.'], ['Integration ready', 's-ready', 'The connection point exists; credentials and approval are still needed.'], ['Planned', 's-plan', 'On the roadmap, not yet built.']].map(function (l) { return '<div><dt><span class="status ' + l[1] + '">' + l[0] + '</span></dt><dd style="color:#9fb0bd">' + l[2] + '</dd></div>'; }).join('');
+
+  /* ------------------------------------------------ compliance return panel */
+  function compRender() {
+    var done = xpState.ex[0] && xpState.ex[1];
+    var left = 2 - xpState.ex.filter(Boolean).length;
+    var status = xpState.prepared ? '<span class="badge b-info">' + ico('check') + 'Prepared · simulated</span>' : done ? '<span class="badge b-ok">' + ico('check') + 'Ready to prepare</span>' : '<span class="badge b-warn">' + ico('alert') + 'Draft · ' + left + ' exception' + (left === 1 ? '' : 's') + '</span>';
+    var exRow = function (i, title, sub, action) {
+      return '<li><div><b style="color:var(--ink)">' + title + '</b><div class="sub">' + sub + '</div></div>' + (xpState.ex[i] ? '<span class="badge b-ok">' + ico('check') + 'Cleared</span>' : '<button class="ui-btn" type="button" data-ex="' + i + '">' + action + '</button>') + '</li>';
+    };
+    $('#comp-ui').innerHTML = uiBar('Rental income return · August 2026', '<span class="demo-tag">Demonstration data</span>') + '<div class="ui-body"><div class="banner">' + ico('alert') + '<span><b>Prototype.</b> Preparing a return here is simulated. Nothing is sent to KRA.</span></div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="color:var(--ink)">Period status</b>' + status + '</div>' +
+      '<div class="ret-row"><span>Properties included</span><b>5</b></div><div class="ret-row"><span>Landlord tax profiles</span><b>3</b></div><div class="ret-row"><span>Rental income recorded</span><b>' + kes(1050000) + '</b></div><div class="ret-row"><span>Held in suspense, not yet income</span><b>' + kes(22000) + '</b></div><div class="ret-row"><span>Tax rules applied</span><b style="font-weight:550">Sample set, confirm rates with KRA</b></div>' +
+      '<div class="panel-title" style="margin-top:16px">Exceptions <span>clear these first</span></div><ul class="list-rows">' + exRow(0, 'KRA PIN missing', 'Karanja &amp; Sons Ltd · Westlands Court', 'Add PIN') + exRow(1, 'Unmatched payment', 'KES 22,000 · 24 Aug', 'Match payment') + '</ul>' +
+      '<div style="margin-top:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="ui-btn" type="button" id="comp-prep" ' + (done && !xpState.prepared ? '' : 'disabled') + ' style="' + (done && !xpState.prepared ? 'background:var(--ink);color:#fff;border-color:var(--ink)' : '') + '">' + (xpState.prepared ? 'Prepared' : 'Prepare return') + '</button><button class="ui-btn" type="button" id="comp-reset">Reset demo</button>' + (xpState.prepared ? '<span class="xs muted">Recorded in the audit history as a simulated preparation.</span>' : '') + '</div></div>';
+    $$('[data-ex]', $('#comp-ui')).forEach(function (b) { b.addEventListener('click', function () { xpState.ex[+b.dataset.ex] = true; compRender(); var n = $('#comp-prep'); if (n && !n.disabled) n.focus(); }); });
+    var pr = $('#comp-prep'); if (pr) pr.addEventListener('click', function () { xpState.prepared = true; compRender(); });
+    $('#comp-reset').addEventListener('click', function () { xpState.ex = [false, false]; xpState.prepared = false; compRender(); });
+  }
+  compRender();
+
+  /* ------------------------------------------- testimonial component (empty) */
+  window.RentRewards = window.RentRewards || {};
+  window.RentRewards.mountTestimonials = function (host, items) {
+    var tpl = $('#testimonial-template'), shown = 0;
+    host.innerHTML = '';
+    (items || []).forEach(function (t) {
+      if (!t || t.verified !== true || !t.quote || !t.name || !t.organisation) return; // never render unverified claims
+      var n = tpl.content.cloneNode(true);
+      n.querySelector('blockquote').textContent = t.quote;
+      n.querySelector('[data-name]').textContent = t.name;
+      n.querySelector('[data-role]').textContent = t.role || '';
+      n.querySelector('[data-org]').textContent = t.organisation;
+      host.appendChild(n); shown++;
+    });
+    host.hidden = shown === 0;
+  };
+
+  /* ----------------------------------------------------------- chrome / nav */
+  var header = $('.site-header');
+  var onScroll = function () { header.classList.toggle('is-stuck', window.scrollY > 8); };
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  var menuBtn = $('.menu-btn'), menu = $('#mobile-menu');
+  function setMenu(open) { menuBtn.setAttribute('aria-expanded', open); menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); menu.classList.toggle('is-open', open); }
+  menuBtn.addEventListener('click', function () { setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', function (m) { if (m.matches) setMenu(false); });
+
+  /* explorer deep links (footer + experience CTAs) */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-tab]'); if (!a || !a.dataset.tab) return;
+    selectTab(a.dataset.tab);
+  });
+
+  /* toast */
+  var toastEl = document.createElement('div');
+  toastEl.setAttribute('role', 'status'); toastEl.setAttribute('aria-live', 'polite');
+  toastEl.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#0e212f;color:#fff;padding:12px 18px;border-radius:8px;font-size:.9375rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:90;max-width:calc(100vw - 32px);text-align:center';
+  document.body.appendChild(toastEl);
+  var toastT;
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.style.opacity = 1; toastEl.style.transform = 'translateX(-50%)';
+    clearTimeout(toastT); toastT = setTimeout(function () { toastEl.style.opacity = 0; toastEl.style.transform = 'translateX(-50%) translateY(20px)'; }, 3200);
+  }
+  $$('[data-signin]').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); setMenu(false); toast('Sign In opens the RentRewards app. It is not part of this landing prototype.'); }); });
+  $$('[data-legal]').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); toast(a.dataset.legal + ' page: to be published before launch.'); }); });
+
+  /* demo dialog → WhatsApp */
+  var dlg = $('#demo-dlg'), form = $('#demo-form'), lastFocus;
+  $$('[data-demo]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault(); setMenu(false); lastFocus = document.activeElement;
+      if (typeof dlg.showModal === 'function') { dlg.showModal(); $('#d-name').focus(); } else { window.location.hash = 'contact'; }
+    });
+  });
+  $('#demo-cancel').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('close', function () { if (lastFocus) lastFocus.focus(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var n = $('#d-name').value.trim(), p = $('#d-phone').value.trim(), ok = true;
+    $('#e-name').hidden = !!n; $('#e-phone').hidden = p.replace(/\D/g, '').length >= 9;
+    if (!n || p.replace(/\D/g, '').length < 9) ok = false;
+    if (!ok) { (n ? $('#d-phone') : $('#d-name')).focus(); return; }
+    var msg = 'Hello RentRewards, I would like a demo. Name: ' + n + '. Phone: ' + p + '. Units managed: ' + $('#d-size').value + '.';
+    window.open('https://wa.me/254713207247?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+    dlg.close(); form.reset();
+  });
+
+  /* scroll reveals */
+  var rv = $$('.rv');
+  if (reduce || !('IntersectionObserver' in window)) { rv.forEach(function (n) { n.classList.add('is-in'); }); }
+  else {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    rv.forEach(function (n) { io.observe(n); });
+  }
+})();
+</script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import { db } from '@/db'
 import { expenses, maintenanceTickets, maintenanceUpdates, properties, tenants, units, users, vendors } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
 import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordOwnsProperty } from '@/server/landlord-access'
 import { can } from '@/lib/rbac'
 import { cents, formatKES } from '@/lib/money'
 import { fmtDate, fmtDateTime } from '@/lib/dates'
@@ -42,7 +43,7 @@ export default async function TicketDetailPage({ params }: { params: Promise<{ i
     .where(scoped(maintenanceTickets, scope, eq(maintenanceTickets.id, id)))
     .limit(1)
 
-  if (!record) notFound()
+  if (!record || !(await landlordOwnsProperty(scope, record.propertyId))) notFound()
   const { ticket } = record
 
   const [updates, linkedExpenses, assigneeOptions, vendorOptions] = await Promise.all([
@@ -55,12 +56,16 @@ export default async function TicketDetailPage({ params }: { params: Promise<{ i
     db
       .select({ id: users.id, name: users.fullName })
       .from(users)
-      .where(sql`${users.organizationId} = ${scope.organizationId} and ${users.isActive} = true`)
+      .where(sql`${users.organizationId} = ${scope.organizationId} and ${users.isActive} = true and ${users.role} not in ('TENANT', 'LANDLORD')`)
       .orderBy(asc(users.fullName)),
     db.select({ id: vendors.id, name: vendors.name }).from(vendors).where(scoped(vendors, scope, eq(vendors.isActive, true))).orderBy(asc(vendors.name)),
   ])
 
   const canUpdate = can(session, 'maintenance.update')
+  const canAssign = can(session, 'maintenance.assign')
+  const canClose = can(session, 'maintenance.close')
+  const canRaiseExpense = can(session, 'expenses.create')
+  const statusOptions = TICKET_FLOW.filter((state) => canClose || state !== 'CLOSED')
 
   return (
     <>
@@ -126,13 +131,15 @@ export default async function TicketDetailPage({ params }: { params: Promise<{ i
                 <label className="block text-xs font-medium text-muted">
                   Status
                   <select name="status" className="field mt-1" defaultValue={ticket.status}>
-                    {TICKET_FLOW.map((state) => (
+                    {statusOptions.map((state) => (
                       <option key={state} value={state}>
                         {humanise(state)}
                       </option>
                     ))}
                   </select>
                 </label>
+                {canAssign && (
+                  <>
                 <label className="block text-xs font-medium text-muted">
                   Assign to
                   <select name="assignedToId" className="field mt-1" defaultValue={ticket.assignedToId ?? ''}>
@@ -155,6 +162,8 @@ export default async function TicketDetailPage({ params }: { params: Promise<{ i
                     ))}
                   </select>
                 </label>
+                  </>
+                )}
                 <label className="block text-xs font-medium text-muted">
                   Actual cost (KES)
                   <input
@@ -174,6 +183,7 @@ export default async function TicketDetailPage({ params }: { params: Promise<{ i
                   Resolution notes
                   <textarea name="resolutionNotes" rows={2} className="field mt-1" defaultValue={ticket.resolutionNotes ?? ''} />
                 </label>
+                {canClose && canRaiseExpense && (
                 <label className="flex items-start gap-2 text-xs text-muted">
                   <input type="checkbox" name="raiseExpense" defaultChecked className="mt-0.5 rounded border-line" />
                   <span>
@@ -181,6 +191,7 @@ export default async function TicketDetailPage({ params }: { params: Promise<{ i
                     statement.
                   </span>
                 </label>
+                )}
               </ActionForm>
             </Card>
           )}

@@ -123,7 +123,7 @@ export async function inviteTenant(
   })
 
   const baseUrl = options.baseUrl ?? ''
-  const inviteUrl = `${baseUrl}/portal/accept?token=${token}`
+  const inviteUrl = `${baseUrl}/tenant/accept?token=${token}`
 
   // The console provider prints this; a real provider would email or SMS it.
   await getNotificationProvider().send({

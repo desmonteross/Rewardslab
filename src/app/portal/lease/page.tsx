@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { CalendarClock } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { formatKES } from '@/lib/money'
@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic'
 const DAY_MS = 86_400_000
 
 export default async function PortalLeasePage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const tenancy = await portalTenancy(scopeFromSession(session))
   const lease = tenancy?.lease ?? null
 

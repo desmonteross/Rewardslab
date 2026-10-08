@@ -168,3 +168,42 @@ export interface BankingProvider {
   info(): ProviderInfo
   fetchStatement(args: { account: string; from: Date; to: Date }): Promise<InboundTransaction[]>
 }
+
+// ---------------------------------------------------------------------------
+// Listings — advertising vacant units to house seekers
+// ---------------------------------------------------------------------------
+
+/** What a listing portal is told about a vacant unit. */
+export interface UnitListingPayload {
+  listingId: string
+  organizationId: string
+  propertyName: string
+  town: string
+  area?: string | null
+  unitNumber: string
+  unitType: string
+  bedrooms: number
+  bathrooms: number
+  askingRentCents: number
+  depositCents: number
+  headline: string
+  description: string
+  availableFrom: Date
+}
+
+export interface ListingSyncResult {
+  success: boolean
+  /** The portal's own id for the listing, needed to withdraw it later. */
+  externalRef?: string | null
+  /** False when no portal is connected yet: the listing is kept and sent once one is. */
+  delivered: boolean
+  message: string
+}
+
+export interface ListingProvider {
+  info(): ProviderInfo
+  /** Put a vacant unit on the portal. */
+  publish(listing: UnitListingPayload): Promise<ListingSyncResult>
+  /** Pull a unit off the portal. */
+  withdraw(listingId: string, externalRef: string | null): Promise<ListingSyncResult>
+}

@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RentRewards PMS — Property management built for Kenya</title>
+  <meta name="description" content="Run your entire rental portfolio from one place. Collect rent, manage leases, automate operations and reward great tenants. Powered by AXENT Technologies.">
+  <meta name="theme-color" content="#f6f3ec">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- SVG symbols reused across the page -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-check" viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 4.5V8l2.3 1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 16 16"><path d="M8 2.2l6.2 11H1.8L8 2.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 6.5v3M8 11.6v.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-half" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 2a6 6 0 010 12z" fill="currentColor"/></symbol>
+    <symbol id="i-q" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6.3 6.4a1.8 1.8 0 113 1.3c-.7.5-1.3.8-1.3 1.6M8 11.5v.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-caret" viewBox="0 0 16 16"><path d="M6 3.5L10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pay" viewBox="0 0 20 20"><rect x="2.5" y="5" width="15" height="10.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 8.5h15" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 20 20"><path d="M5.5 2.5h6l3.5 3.5v11.5h-9.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 11h4.5M8 14h4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-list" viewBox="0 0 20 20"><path d="M6.5 5.5h9M6.5 10h9M6.5 14.5h9M3.5 5.5h.1M3.5 10h.1M3.5 14.5h.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 20 20"><path d="M10 2.8l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L2.8 8l5-.7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 20 20"><path d="M12.5 3.5a4 4 0 00-3.8 5.2L3.5 13.9a1.7 1.7 0 002.4 2.4l5.2-5.2a4 4 0 005.2-3.8l-2.4 2.4-2-.5-.5-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-key" viewBox="0 0 20 20"><circle cx="6.8" cy="12.8" r="3.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9.2 10.4L16.5 3.5M13.5 6.3l2 2M15.5 4.5l1.5 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 16 16"><path d="M8 1.8l5 1.8v4c0 3-2 5.2-5 6.6-3-1.4-5-3.6-5-6.6v-4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M5.6 8l1.7 1.7 3.2-3.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mark" viewBox="0 0 100 100"><path d="M0.0 0.0L64.882 0.0A43.713 43.713 0 0 1 100.728 44.868L100.728 50.147L74.985 50.147L74.985 43.324A21.316 21.316 0 0 0 53.669 24.985L24.985 24.985ZM0.0 36.838L36.838 36.838L100.0 100.0L62.088 100.0Z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<header class="site-header" id="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="RentRewards, powered by AXENT Technologies">
+        <span class="brand-badge"><svg aria-hidden="true"><use href="#i-mark"/></svg></span>
+        <span class="brand-text">
+          <span class="brand-name">RentRewards</span>
+          <span class="brand-sub">Powered by AXENT Technologies</span>
+        </span>
+      </a>
+      <div class="nav-links">
+        <a href="#explorer">Product</a>
+        <a href="#experiences">Solutions</a>
+        <a href="#contact">Pricing</a>
+        <a href="#footer">Resources</a>
+        <a href="#footer">About</a>
+      </div>
+      <div class="nav-right">
+        <a class="signin" href="#contact" data-signin>Sign In</a>
+        <a class="btn btn-primary btn-sm" href="#contact" data-demo>Book a Demo</a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span></button>
+      </div>
+    </nav>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#explorer">Product</a>
+    <a href="#experiences">Solutions</a>
+    <a href="#contact">Pricing</a>
+    <a href="#footer">Resources</a>
+    <a href="#footer">About</a>
+    <a href="#contact" data-signin>Sign In</a>
+    <a class="btn btn-primary" href="#contact" data-demo>Book a Demo</a>
+    <p class="contact-line">Call or WhatsApp <a href="tel:+254713207247" style="display:inline;border:0;padding:0;font-size:inherit;font-weight:600">0713 207 247</a></p>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ 1. HERO ============ -->
+<section class="hero" aria-labelledby="hero-h">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Property management for Kenya</p>
+      <h1 class="h1" id="hero-h">Run your entire rental portfolio <span class="accent">from one place.</span></h1>
+      <p class="tagline">Collect rent. Manage leases. Automate operations. Reward great tenants.</p>
+      <p class="lead">RentRewards brings properties, tenants, payments, maintenance, landlords and reporting together in one connected platform built for modern property management.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#contact" data-demo>Book a Demo</a>
+        <a class="btn btn-ghost" href="#explorer">Explore the Platform</a>
+      </div>
+      <ul class="context-row" aria-label="Built for Kenya">
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg>Built for Kenya</li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg>M-PESA ready*</li>
+        <li><svg aria-hidden="true"><use href="#i-check"/></svg>KRA eRITS ready*</li>
+      </ul>
+      <p class="context-note">*Integration-ready. The prototype runs against simulated providers; see <a href="#kenya" style="color:inherit">integration status</a>.</p>
+    </div>
+
+    <figure class="ui" id="hero-ui" aria-label="RentRewards dashboard, demonstration portfolio">
+      <div class="ui-bar">
+        <div class="ui-title"><span class="mk"><svg aria-hidden="true"><use href="#i-mark"/></svg></span>Dashboard</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <label class="sr" for="hero-prop">Portfolio</label>
+          <select id="hero-prop"></select>
+          <span class="demo-tag">Demonstration data</span>
+        </div>
+      </div>
+      <div class="ui-body">
+        <div class="kpis" id="hero-kpis"></div>
+        <div class="hero-split">
+          <div>
+            <div class="panel-title">Rent collected, August 2026 <span>cumulative · hover for the day</span></div>
+            <div class="chart" id="hero-chart"></div>
+          </div>
+          <div>
+            <div class="panel-title">Recent payments <span>latest first</span></div>
+            <ul class="tx-list" id="hero-tx"></ul>
+          </div>
+        </div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ 2. PROOF STRIP ============ -->
+<section class="proof" aria-label="Example portfolio metrics">
+  <div class="wrap">
+    <div class="proof-grid" id="proof"></div>
+    <p class="proof-note"><b>Example portfolio, August 2026.</b> Five properties and 48 units of demonstration data. These are not RentRewards customer or company statistics.</p>
+  </div>
+</section>
+
+<!-- ============ 3. DIFFERENCE ============ -->
+<section class="difference" id="difference" aria-labelledby="diff-h">
+  <div class="wrap">
+    <p class="eyebrow rv">The RentRewards difference</p>
+    <div class="grid diff-grid" style="margin-top:28px">
+      <h2 class="diff-statement rv" id="diff-h">
+        <span class="big" style="display:block">Rent shouldn’t just be collected.</span>
+        <span class="big" style="display:block">It should create value.</span>
+      </h2>
+      <div class="diff-copy rv">
+        <p>Most systems stop at “paid” or “unpaid”. In RentRewards a confirmed payment is the start of a chain: the same event keeps every part of the operation current, with no re-keying.</p>
+        <ul class="conn" aria-label="What one payment connects">
+          <li>Property operations <span>collections, arrears</span></li>
+          <li>Landlord visibility <span>what is owed</span></li>
+          <li>Tenant experience <span>receipts, statements</span></li>
+          <li>Accounting <span>balanced journals</span></li>
+          <li>Compliance <span>rental income records</span></li>
+          <li>Rewards <span>points with reasons</span></li>
+          <li>Rental history <span>the Rental Profile</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. PAYMENT → SETTLEMENT ============ -->
+<section class="section rule-top" id="journey" aria-labelledby="journey-h">
+  <div class="wrap">
+    <div class="journey-head rv">
+      <p class="eyebrow">One payment, whole ecosystem</p>
+      <h2 class="h2" id="journey-h">From payment to settlement. Automatically.</h2>
+      <p class="lead">Follow a single rent payment. Each step runs without anyone keying it in, and the panel on the right shows what changed.</p>
+    </div>
+    <div class="journey-grid">
+      <div>
+        <div class="pay-chip"><span>Sample payment</span><b>KES 25,000</b></div>
+        <div class="steps" id="steps" role="list" aria-label="Payment workflow"><span class="fill" id="steps-fill" aria-hidden="true"></span></div>
+        <div class="journey-ctl">
+          <button class="btn btn-ghost btn-sm" type="button" id="journey-replay">Replay</button>
+          <span class="small">Select any step to jump to it.</span>
+        </div>
+      </div>
+      <aside class="ui effects" aria-label="Records updated by this payment" aria-live="polite">
+        <div class="ui-bar"><div class="ui-title">What changed</div><span class="demo-tag">Example</span></div>
+        <div class="ui-body" id="effects"></div>
+        <p class="eff-foot">Illustrative figures: James Mwangi, Riverside Apartments, September rent, paid on time. Commission shown at an example rate of 1%. Points follow the live rules: 1 point per KES 100, a streak bonus, held 30 days before they can be spent.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. PRODUCT EXPLORER ============ -->
+<section class="section rule-top" id="explorer" aria-labelledby="exp-h">
+  <div class="wrap">
+    <div class="explorer-head rv">
+      <div>
+        <p class="eyebrow">The platform</p>
+        <h2 class="h2" id="exp-h">Everything you need to manage rentals.</h2>
+      </div>
+      <p class="lead" style="max-width:26em">Six working views of the same data. Switch between them, filter, search and open records.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Product areas" id="tabs"></div>
+    <div id="tabpanel" role="tabpanel" tabindex="0"></div>
+  </div>
+</section>
+
+<!-- ============ 6. PORTFOLIO INTELLIGENCE ============ -->
+<section class="section dark on-dark" id="intelligence" aria-labelledby="intel-h">
+  <div class="wrap">
+    <div class="intel-head rv">
+      <p class="eyebrow">Portfolio intelligence</p>
+      <h2 class="h2" id="intel-h">See your portfolio like a business.</h2>
+      <p class="lead">Expected against collected, occupancy by property, where arrears sit and which leases end next, all drawn from the same invoices and payments, so the figures always agree.</p>
+    </div>
+    <div class="ui on-dark rv" id="intel-ui" aria-label="Portfolio analytics, demonstration data">
+      <div class="ui-bar">
+        <div class="ui-title"><span class="mk"><svg aria-hidden="true"><use href="#i-mark"/></svg></span>Portfolio analytics</div>
+        <div style="display:flex;gap:8px;align-items:center"><span class="demo-tag">Demonstration data · as at 2 Sep 2026</span></div>
+      </div>
+      <div class="ui-body">
+        <div class="tiles" id="tiles"></div>
+        <div class="charts">
+          <div class="cbox c-7">
+            <div class="panel-title">Expected vs collected rent <span>Mar–Aug 2026, KES thousands</span></div>
+            <div class="chart" id="ch-monthly"></div>
+            <div class="lg"><span><i style="background:#3a566c"></i>Expected</span><span><i style="background:#4cc38a"></i>Collected</span></div>
+          </div>
+          <div class="cbox c-5">
+            <div class="panel-title">Occupancy by property <span>occupied / units</span></div>
+            <div id="ch-occ"></div>
+          </div>
+          <div class="cbox c-5">
+            <div class="panel-title">Arrears by property <span>KES thousands</span></div>
+            <div id="ch-arrears"></div>
+            <div class="lg"><span><i style="background:#e0a23a"></i>This month</span><span><i style="background:#c8553d"></i>Carried over</span></div>
+          </div>
+          <div class="cbox c-7">
+            <div class="panel-title">Upcoming lease expiries <span>next 90 days</span></div>
+            <div class="chart" id="ch-exp"></div>
+            <ul class="expiry" id="expiry-list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. LIFECYCLE ============ -->
+<section class="section" id="lifecycle" aria-labelledby="life-h">
+  <div class="wrap">
+    <div class="life-head rv">
+      <p class="eyebrow">The tenancy, end to end</p>
+      <h2 class="h2" id="life-h">Your rental operations, connected.</h2>
+      <p class="lead">Pick a stage to see what RentRewards does at that point, and who sees it.</p>
+    </div>
+    <div class="stages" id="stages" role="tablist" aria-label="Rental lifecycle"></div>
+    <div id="stage-panel" role="tabpanel" tabindex="0"></div>
+  </div>
+</section>
+
+<!-- ============ 8. TENANT EXPERIENCE ============ -->
+<section class="section tenant" id="tenant" aria-labelledby="tenant-h">
+  <div class="wrap tenant-grid">
+    <div class="tenant-copy">
+      <p class="eyebrow rv">For tenants</p>
+      <h2 class="h2 rv" id="tenant-h">Good tenants should be worth knowing.</h2>
+      <p class="lead rv">A tenant gets more than somewhere to pay rent: receipts the moment they pay, a record of how they have paid, and points they earn for paying on time.</p>
+      <dl class="facts rv">
+        <div><dt>Rental Profile</dt><dd>A score out of 100 built from payment behaviour only: how often rent cleared on time, how late when late, what is outstanding, the longest unbroken run and length of tenancy. Every point is explained.</dd></div>
+        <div><dt>Reward points</dt><dd>One point for every KES 100 of rent, full rate when paid on time, a bonus for an unbroken streak. Points are held for 30 days before they can be spent.</dd></div>
+        <div><dt>Receipts and statements</dt><dd>Every receipt and the full statement download as PDF, ready to hand to a future landlord.</dd></div>
+      </dl>
+      <p class="disclaimer rv"><b>Rental Profile Score, not a credit score.</b> It uses only the tenant’s payment history inside RentRewards, and it is not a credit reference bureau product. Redemption of points is coming soon.</p>
+    </div>
+    <div class="phone-wrap rv">
+      <div class="phone" aria-label="Tenant portal, mobile view, demonstration data">
+        <div class="screen" id="phone"></div>
+      </div>
+      <p class="xs muted" style="text-align:center;max-width:300px">Tenant portal, mobile web. Demonstration tenant. A native tenant app is planned for a later phase.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. THREE EXPERIENCES ============ -->
+<section class="section" id="experiences" aria-labelledby="three-h">
+  <div class="wrap">
+    <div class="exp-head rv">
+      <p class="eyebrow">Who it is for</p>
+      <h2 class="h2" id="three-h">One platform. Three better experiences.</h2>
+    </div>
+    <div id="three"></div>
+  </div>
+</section>
+
+<!-- ============ 10. BUILT FOR KENYA ============ -->
+<section class="section dark on-dark" id="kenya" aria-labelledby="kenya-h">
+  <div class="wrap">
+    <div class="kenya-head">
+      <div>
+        <p class="eyebrow rv">Integrations</p>
+        <h2 class="h2 rv" id="kenya-h">Built around the way Kenya pays and rents.</h2>
+      </div>
+      <p class="lead rv">Each connection carries an honest status, so you know what runs today and what is still to come.</p>
+    </div>
+    <div class="rails rv" id="rails" style="border-top-color:#4a6073"></div>
+    <dl class="status-legend rv" id="status-legend"></dl>
+  </div>
+</section>
+
+<!-- ============ 11. KRA COMPLIANCE ============ -->
+<section class="section" id="compliance" aria-labelledby="comp-h">
+  <div class="wrap comp-grid">
+    <div>
+      <p class="eyebrow rv">Compliance</p>
+      <h2 class="h2 rv" id="comp-h">Compliance shouldn’t require another spreadsheet.</h2>
+      <p class="lead rv">RentRewards organises the records that rental income tax filing depends on, so preparing a return starts from data that is already in order.</p>
+      <ol class="prep rv" aria-label="How a return is prepared">
+        <li><div><b>Property tax profiles</b><span>Each landlord and property carries its KRA details and taxpayer type.</span></div></li>
+        <li><div><b>Rental income records</b><span>Confirmed payments become income records automatically.</span></div></li>
+        <li><div><b>Monthly tax periods</b><span>Records roll into a period you can review before anything is sent.</span></div></li>
+        <li><div><b>Compliance exceptions</b><span>Missing PINs and unmatched payments are flagged for fixing first.</span></div></li>
+        <li><div><b>Submission preparation</b><span>A reviewed period is prepared for filing.</span></div></li>
+        <li><div><b>Audit history</b><span>Who prepared, changed and submitted what, and when.</span></div></li>
+      </ol>
+      <p class="term rv"><b>KRA eRITS</b>: the Electronic Rental Income Tax System. RentRewards prepares and organises the records; it does not use any undocumented KRA interface, and in the prototype submissions are simulated and labelled as such.</p>
+    </div>
+    <div class="ui rv" id="comp-ui" aria-label="Rental income tax return preparation, demonstration data"></div>
+  </div>
+</section>
+
+<!-- ============ 12. SOCIAL PROOF (no invented claims) ============ -->
+<section class="section rule-top" id="audience" aria-labelledby="aud-h">
+  <div class="wrap">
+    <div class="aud-head rv">
+      <p class="eyebrow">Our audience</p>
+      <h2 class="h2" id="aud-h">Built for the people who keep rental properties running.</h2>
+    </div>
+    <div class="aud rv">
+      <div><h3>Property managers</h3><p>Who need to know who has paid, which units are empty and which tickets are open, without opening five spreadsheets.</p></div>
+      <div><h3>Landlords</h3><p>Who want to see income, expenses and what is owed to them, without having to ask.</p></div>
+      <div><h3>Tenants</h3><p>Who want a receipt the moment they pay, a clear statement, and credit for paying on time.</p></div>
+    </div>
+    <!-- Reusable testimonial slot. Stays empty until verified testimonials exist.
+         Call RentRewards.mountTestimonials(el, items) from script.js with items that have
+         { quote, name, role, organisation, verified: true }. Unverified items are never rendered. -->
+    <div class="testimonials" id="testimonials" hidden></div>
+    <template id="testimonial-template">
+      <figure class="quote"><blockquote></blockquote><figcaption><b data-name></b> · <span data-role></span>, <span data-org></span></figcaption></figure>
+    </template>
+  </div>
+</section>
+
+<!-- ============ 13. FINAL CTA ============ -->
+<section class="final dark on-dark" id="contact" aria-labelledby="final-h">
+  <div class="wrap">
+    <p class="eyebrow rv">Get started</p>
+    <h2 class="h2 rv" id="final-h" style="margin-top:20px">Less chasing rent.<span>More time growing your portfolio.</span></h2>
+    <p class="lead rv">See how RentRewards can simplify collections, operations and tenant management across your portfolio.</p>
+    <div class="cta-row rv">
+      <a class="btn btn-primary" href="#contact" data-demo>Book a Demo</a>
+      <a class="btn btn-ghost" href="https://wa.me/254713207247?text=Hello%20RentRewards%2C%20I%27d%20like%20to%20talk%20about%20my%20portfolio." target="_blank" rel="noopener">Talk to us on WhatsApp</a>
+    </div>
+    <p class="contact rv">Call or WhatsApp <a href="tel:+254713207247">0713 207 247</a>. Pricing is shared during a demo.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer" id="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="RentRewards">
+          <span class="brand-badge"><svg aria-hidden="true"><use href="#i-mark"/></svg></span>
+          <span class="brand-text"><span class="brand-name">RentRewards</span><span class="brand-sub">Powered by AXENT Technologies</span></span>
+        </a>
+        <p class="about">Property management for the Kenyan rental market.</p>
+      </div>
+      <nav aria-labelledby="f1"><h2 id="f1">Product</h2><ul>
+        <li><a href="#explorer" data-tab="payments">Product Overview</a></li>
+        <li><a href="#explorer" data-tab="payments">Rent &amp; Payments</a></li>
+        <li><a href="#explorer" data-tab="leasing">Leasing</a></li>
+        <li><a href="#explorer" data-tab="maintenance">Maintenance</a></li>
+        <li><a href="#intelligence">Reporting</a></li></ul></nav>
+      <nav aria-labelledby="f2"><h2 id="f2">Solutions</h2><ul>
+        <li><a href="#experiences">Property Managers</a></li>
+        <li><a href="#experiences">Landlords</a></li>
+        <li><a href="#tenant">Tenants</a></li></ul></nav>
+      <nav aria-labelledby="f3"><h2 id="f3">Company</h2><ul>
+        <li><a href="#audience">About</a></li>
+        <li><a href="#contact">Contact</a></li></ul>
+        <h2 id="f4" style="margin-top:24px">Resources</h2><ul>
+        <li><a href="#contact">Help</a></li>
+        <li><a href="#journey">Resources</a></li></ul></nav>
+      <nav aria-labelledby="f5"><h2 id="f5">Legal</h2><ul>
+        <li><a href="#footer" data-legal="Privacy">Privacy</a></li>
+        <li><a href="#footer" data-legal="Terms">Terms</a></li></ul></nav>
+    </div>
+    <div class="foot-base">
+      <span><b>People. Technology. Progress.</b></span>
+      <span>© 2026 AXENT Technologies. Demonstration data is used throughout this prototype.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Demo request dialog: no backend, hands the request to WhatsApp -->
+<dialog id="demo-dlg" aria-labelledby="demo-h">
+  <form class="dlg" method="dialog" id="demo-form" novalidate>
+    <h2 id="demo-h">Book a demo</h2>
+    <p>Tell us a little about your portfolio. This opens WhatsApp with your message ready to send to 0713 207 247.</p>
+    <div class="field"><label for="d-name">Your name</label><input id="d-name" name="name" autocomplete="name" required><div class="err" id="e-name" hidden>Please enter your name.</div></div>
+    <div class="field"><label for="d-phone">Phone number</label><input id="d-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required><div class="err" id="e-phone" hidden>Please enter a phone number we can reach.</div></div>
+    <div class="field"><label for="d-size">Units you manage</label>
+      <select id="d-size" name="size"><option>Under 20 units</option><option>20–100 units</option><option>100–500 units</option><option>500+ units</option></select></div>
+    <div class="row">
+      <button class="btn btn-primary" type="submit">Continue on WhatsApp</button>
+      <button class="btn btn-ghost" type="button" id="demo-cancel">Cancel</button>
+    </div>
+    <p class="fine muted">We only use these details to reply about your demo.</p>
+  </form>
+</dialog>
+
+<div class="tip" id="tip" role="presentation"></div>
+<script src="script.js"></script>
+</body>
+</html>

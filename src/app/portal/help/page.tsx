@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Mail, Phone, Wrench } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { Card, DetailList, PageHeader } from '@/components/ui'
 import { portalTenancy } from '@/server/queries/portal'
@@ -9,7 +9,7 @@ export const metadata = { title: 'Help & support' }
 export const dynamic = 'force-dynamic'
 
 export default async function PortalHelpPage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const tenancy = await portalTenancy(scopeFromSession(session))
 
   return (

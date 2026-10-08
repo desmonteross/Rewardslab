@@ -113,6 +113,7 @@ export async function ingestMpesaTransaction(input: {
         organizationId: input.organizationId,
         landlordId: null,
         tenantId: null,
+        managerId: null,
         userId: input.actor.id,
         userName: input.actor.name ?? 'M-Pesa',
         role: 'ACCOUNTANT',

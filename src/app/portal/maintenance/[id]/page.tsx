@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate, fmtDateTime } from '@/lib/dates'
 import { Card, DetailList, EmptyState, Notice, PageHeader, StatusBadge, humanise } from '@/components/ui'
@@ -10,7 +10,7 @@ export const metadata = { title: 'Repair' }
 
 export default async function PortalTicketPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const scope = scopeFromSession(session)
 
   // portalTickets is already narrowed to this tenant, so a ticket that is not

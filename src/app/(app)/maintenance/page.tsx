@@ -100,11 +100,12 @@ export default async function MaintenancePage({ searchParams }: { searchParams: 
     db
       .select({ id: users.id, name: users.fullName })
       .from(users)
-      .where(sql`${users.organizationId} = ${scope.organizationId} and ${users.isActive} = true`)
+      .where(sql`${users.organizationId} = ${scope.organizationId} and ${users.isActive} = true and ${users.role} not in ('TENANT', 'LANDLORD')`)
       .orderBy(asc(users.fullName)),
   ])
 
   const canCreate = can(session, 'maintenance.create')
+  const canAssign = can(session, 'maintenance.assign')
   const boardColumns = TICKET_FLOW.filter((state) => state !== 'CLOSED')
 
   return (
@@ -179,6 +180,8 @@ export default async function MaintenancePage({ searchParams }: { searchParams: 
                   Description
                   <textarea name="description" rows={2} className="field mt-1" placeholder="What the tenant reported…" />
                 </label>
+                {canAssign && (
+                  <>
                 <label className="block text-xs font-medium text-muted">
                   Assign to
                   <select name="assignedToId" className="field mt-1" defaultValue="">
@@ -201,6 +204,8 @@ export default async function MaintenancePage({ searchParams }: { searchParams: 
                     ))}
                   </select>
                 </label>
+                  </>
+                )}
               </div>
             </ActionForm>
           </Card>

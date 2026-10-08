@@ -7,18 +7,20 @@
 // ===========================================================================
 
 import { env } from '@/lib/env'
-import type { BankingProvider, NotificationProvider, PaymentProvider, PayoutProvider, TaxProvider } from './types'
+import type { BankingProvider, ListingProvider, NotificationProvider, PaymentProvider, PayoutProvider, TaxProvider } from './types'
 import { MpesaMockProvider } from './payments/mpesa-mock'
 import { MpesaProvider } from './payments/mpesa'
 import { EritsMockProvider } from './tax/erits-mock'
 import { EritsProvider } from './tax/erits'
 import { ConsoleNotificationProvider } from './notifications/console'
 import { BankingStubProvider } from './banking/stub'
+import { FindAHomeStubProvider } from './listings/find-a-home-stub'
 
 let paymentProvider: PaymentProvider & Partial<PayoutProvider>
 let taxProvider: TaxProvider
 let notificationProvider: NotificationProvider
 let bankingProvider: BankingProvider
+let listingProvider: ListingProvider
 
 export function getPaymentProvider(): PaymentProvider {
   if (!paymentProvider) {
@@ -52,6 +54,11 @@ export function getBankingProvider(): BankingProvider {
   return bankingProvider
 }
 
+export function getListingProvider(): ListingProvider {
+  if (!listingProvider) listingProvider = new FindAHomeStubProvider()
+  return listingProvider
+}
+
 /** Everything the Integrations screen needs to describe the current wiring. */
 export function providerSummary() {
   return {
@@ -59,6 +66,7 @@ export function providerSummary() {
     tax: getTaxProvider().info(),
     notifications: getNotificationProvider().info(),
     banking: getBankingProvider().info(),
+    listings: getListingProvider().info(),
   }
 }
 

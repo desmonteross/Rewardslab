@@ -4,7 +4,7 @@ import { asc, eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { landlords, ledgerEntries, properties, settlementItems, settlements } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
-import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
 import { can } from '@/lib/rbac'
 import { cents, formatKES } from '@/lib/money'
 import { fmtDate, fmtDateTime } from '@/lib/dates'
@@ -31,7 +31,7 @@ export default async function SettlementDetailPage({ params }: { params: Promise
     })
     .from(settlements)
     .innerJoin(landlords, eq(landlords.id, settlements.landlordId))
-    .where(scoped(settlements, scope, eq(settlements.id, id)))
+    .where(landlordScoped(settlements, scope, eq(settlements.id, id)))
     .limit(1)
 
   if (!record) notFound()

@@ -5,7 +5,12 @@ import { requirePermission } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { DEFAULT_ROLE_PERMISSIONS, PERMISSIONS, PERMISSION_MODULES, ROLE_LABELS, type AppRole } from '@/lib/rbac'
 import { fmtDateTime } from '@/lib/dates'
-import { Card, DataTable, EmptyState, KpiCard, PageHeader, StatusBadge } from '@/components/ui'
+import { Card, DataTable, EmptyState, KpiCard, PageHeader, StatusBadge, humanise } from '@/components/ui'
+import { can } from '@/lib/rbac'
+import { fmtDate } from '@/lib/dates'
+import { ActionForm } from '@/components/action-form'
+import { inviteManagerAction, revokeUserInviteAction } from '@/app/invite-actions'
+import { userInvitesFor } from '@/server/services/user-invites'
 
 export const metadata = { title: 'Users' }
 export const dynamic = 'force-dynamic'
@@ -43,6 +48,9 @@ export default async function UsersPage() {
     (row) => row.lastLoginAt && Date.now() - row.lastLoginAt.getTime() < 30 * 86_400_000,
   ).length
 
+  const canManage = can(session, 'users.manage')
+  const managerInvites = canManage ? await userInvitesFor(scope, { role: 'PROPERTY_MANAGER' }) : []
+
   return (
     <>
       <PageHeader
@@ -56,6 +64,48 @@ export default async function UsersPage() {
         <KpiCard label="Signed in last 30 days" value={String(signedInRecently)} />
         <KpiCard label="Permissions available" value={String(Object.keys(PERMISSIONS).length)} />
       </div>
+
+      {canManage && (
+        <div className="mb-4">
+          <Card
+            title="Invite a property manager"
+            description="They set their own password from a one-time link, then see only the properties you assign to them on each property’s page."
+          >
+            <ActionForm action={inviteManagerAction} label="Send invitation" pendingLabel="Creating…">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <label className="block text-xs font-medium text-muted">
+                  Full name
+                  <input name="fullName" className="field mt-1" required />
+                </label>
+                <label className="block text-xs font-medium text-muted">
+                  Email
+                  <input name="email" type="email" className="field mt-1" required />
+                </label>
+              </div>
+            </ActionForm>
+            {managerInvites.length > 0 && (
+              <ul className="mt-4 divide-y divide-line border-t border-line">
+                {managerInvites.map((invite) => (
+                  <li key={invite.id} className="flex flex-wrap items-center justify-between gap-3 py-2.5 text-sm">
+                    <span className="text-ink">
+                      {invite.fullName} <span className="text-muted">· {invite.email}</span>
+                    </span>
+                    <span className="text-xs text-muted">
+                      {humanise(invite.status)} · sent {fmtDate(invite.createdAt)}
+                    </span>
+                    {invite.status === 'PENDING' && (
+                      <ActionForm action={revokeUserInviteAction} label="Revoke" variant="secondary" pendingLabel="Revoking…">
+                        <input type="hidden" name="inviteId" value={invite.id} />
+                        <input type="hidden" name="role" value="PROPERTY_MANAGER" />
+                      </ActionForm>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Card>
+        </div>
+      )}
 
       <Card padded={false} title="People">
         <DataTable

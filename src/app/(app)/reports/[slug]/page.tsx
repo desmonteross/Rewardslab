@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { asc, eq, sql } from 'drizzle-orm'
 import { Download } from 'lucide-react'
 import { db } from '@/db'
@@ -12,7 +12,7 @@ import { one, withParams, type SearchParamsPromise } from '@/lib/search-params'
 import { Card, EmptyState, KpiCard, Notice, PageHeader } from '@/components/ui'
 import { FilterBar } from '@/components/filters'
 import { PrintButton } from '@/components/print-button'
-import { findReport, formatCell, type ReportFilters } from '@/server/reports'
+import { canRunReport, findReport, formatCell, type ReportFilters } from '@/server/reports'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,6 +35,7 @@ export default async function ReportPage({
 
   const report = findReport(slug)
   if (!report) notFound()
+  if (!canRunReport(scope, report)) redirect('/forbidden')
 
   const monthParam = one(query, 'month')
   const [year, month] = monthParam ? monthParam.split('-').map(Number) : [undefined, undefined]

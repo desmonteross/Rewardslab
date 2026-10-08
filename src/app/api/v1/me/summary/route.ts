@@ -2,6 +2,8 @@ import { and, asc, desc, eq, gt, ne, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { leases, maintenanceTickets, payments, properties, receipts, rentInvoices, tenants, units } from '@/db/schema'
 import { authenticate, forbidden, handler, ok, unprocessable } from '@/lib/api'
+import { can } from '@/lib/rbac'
+import { landlordHasTenant } from '@/server/landlord-access'
 import { scoped } from '@/lib/tenancy'
 import { cents, num } from '@/lib/money'
 
@@ -25,6 +27,16 @@ export const GET = handler(async (request: Request) => {
   // A tenant may never read another tenancy, whatever the query string says.
   if (scope.tenantId && requested && requested !== scope.tenantId) {
     throw forbidden('You can only read your own tenancy.')
+  }
+  // Staff reading on behalf of a tenant need the same rights as the tenant
+  // screens, and a landlord only reaches tenants on their own properties.
+  if (!scope.tenantId) {
+    if (!can({ role: scope.role, permissions: scope.permissions }, 'tenants.view')) {
+      throw forbidden('Your role cannot read tenant records.')
+    }
+    if (!(await landlordHasTenant(scope, tenantId))) {
+      throw forbidden('That tenant is not on your properties.')
+    }
   }
 
   const [tenant] = await db.select().from(tenants).where(scoped(tenants, scope, eq(tenants.id, tenantId))).limit(1)

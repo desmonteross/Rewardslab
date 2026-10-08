@@ -51,7 +51,8 @@ export default async function IntegrationsPage() {
         <Notice tone="brand" title="What is actually wired up right now">
           Payments: <strong>{providers.payments.name}</strong> ({providers.payments.mode}). Tax:{' '}
           <strong>{providers.tax.name}</strong> ({providers.tax.mode}). Notifications:{' '}
-          <strong>{providers.notifications.name}</strong>. Switching to a live provider is a configuration change
+          <strong>{providers.notifications.name}</strong>. Listings: <strong>{providers.listings.name}</strong> (
+          {providers.listings.mode === 'mock' ? 'not connected yet' : providers.listings.mode}). Switching to a live provider is a configuration change
           plus an implementation of that adapter — no change to billing, reconciliation or compliance.
         </Notice>
       </div>

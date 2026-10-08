@@ -96,6 +96,7 @@ export function Topbar({
             userName={userName}
             userRole={userRole}
             organizationName={organizationName}
+            showSettings={permissions.includes('*') || permissions.includes('settings.view')}
             logout={logout}
           />
         </div>
@@ -189,11 +190,13 @@ function UserMenu({
   userName,
   userRole,
   organizationName,
+  showSettings,
   logout,
 }: {
   userName: string
   userRole: string
   organizationName: string
+  showSettings: boolean
   logout: () => Promise<void>
 }) {
   const [open, setOpen] = useState(false)
@@ -239,6 +242,7 @@ function UserMenu({
             <p className="mt-1 text-2xs text-faint">{userRole}</p>
           </div>
           <div className="p-1.5">
+            {showSettings && (
             <Link
               href="/settings"
               onClick={() => setOpen(false)}
@@ -246,6 +250,7 @@ function UserMenu({
             >
               Settings
             </Link>
+            )}
             <form action={logout}>
               <button
                 type="submit"

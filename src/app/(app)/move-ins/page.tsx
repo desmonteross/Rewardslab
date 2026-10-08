@@ -3,6 +3,9 @@ import { asc, desc, eq, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { leases, moveEvents, properties, tenants, units } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
+import { can } from '@/lib/rbac'
+import { ActionForm } from '@/components/action-form'
+import { completeMoveInAction } from '../onboarding-actions'
 import { landlordScoped, scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { one, type SearchParamsPromise } from '@/lib/search-params'
@@ -15,6 +18,8 @@ export const dynamic = 'force-dynamic'
 export default async function MoveInsPage({ searchParams }: { searchParams: SearchParamsPromise }) {
   const params = await searchParams
   const session = await requirePermission('tenants.view')
+  const canManage = can(session, 'moves.manage')
+  const canSeeLeases = can(session, 'leases.view')
   const scope = scopeFromSession(session)
   const status = one(params, 'status')
 
@@ -117,14 +122,35 @@ export default async function MoveInsPage({ searchParams }: { searchParams: Sear
                 </div>
               ),
             },
-            { key: 'lease', header: 'Lease', hideOnMobile: true, render: (row) => <Link href={`/leases/${row.leaseId}`} className="font-mono text-xs text-muted hover:text-brand">{row.leaseCode}</Link> },
+            { key: 'lease', header: 'Lease', hideOnMobile: true, render: (row) => canSeeLeases ? <Link href={`/leases/${row.leaseId}`} className="font-mono text-xs text-muted hover:text-brand">{row.leaseCode}</Link> : <span className="font-mono text-xs text-muted">{row.leaseCode}</span> },
             { key: 'scheduled', header: 'Scheduled', render: (row) => <span className="text-xs text-muted">{fmtDate(row.scheduledDate)}</span> },
             { key: 'completed', header: 'Completed', hideOnMobile: true, render: (row) => <span className="text-xs text-muted">{row.completedDate ? fmtDate(row.completedDate) : '—'}</span> },
             { key: 'rent', header: 'Rent', align: 'right', hideOnMobile: true, render: (row) => <Money value={row.monthlyRent} muted /> },
             { key: 'deposit', header: 'Deposit', align: 'right', render: (row) => <Money value={row.depositHeld} /> },
             { key: 'status', header: 'Status', align: 'right', render: (row) => <StatusBadge status={row.status} /> },
+            ...(canManage
+              ? [
+                  {
+                    key: 'action',
+                    header: '',
+                    align: 'right' as const,
+                    render: (row: (typeof rows)[number]) =>
+                      row.status === 'SCHEDULED' ? (
+                        <ActionForm
+                          action={completeMoveInAction}
+                          label="Complete"
+                          pendingLabel="Saving…"
+                          variant="secondary"
+                          confirm={`Hand over  to ?`}
+                        >
+                          <input type="hidden" name="moveEventId" value={row.id} />
+                        </ActionForm>
+                      ) : null,
+                  },
+                ]
+              : []),
           ]}
-          empty={<EmptyState title="No move-ins recorded" description="A move-in is created automatically when a lease starts." />}
+          empty={<EmptyState title="No move-ins recorded" description="Signing a lease schedules its move-in here." />}
         />
       </Card>
     </>

@@ -49,7 +49,14 @@ export function Sidebar({
     })
   }
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
+  // The most specific matching item wins, so /help/faq lights FAQs and not
+  // Guides (/help) as well.
+  const matches = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
+  const activeHref = sections
+    .flatMap((section) => section.items.map((item) => item.href))
+    .filter(matches)
+    .sort((a, b) => b.length - a.length)[0]
+  const isActive = (href: string) => href === activeHref
 
   return (
     <>
@@ -84,7 +91,7 @@ export function Sidebar({
           {sections.map((section, index) => (
             <div key={section.label ?? `section-${index}`} className="mb-3 last:mb-0">
               {section.label && !collapsed && (
-                <p className="px-2.5 pb-1.5 pt-2 text-2xs font-semibold uppercase tracking-wider text-nav-muted/70">
+                <p className="px-3 pb-1.5 pt-3 text-xs text-nav-muted">
                   {section.label}
                 </p>
               )}
@@ -100,11 +107,11 @@ export function Sidebar({
                         aria-current={active ? 'page' : undefined}
                         title={collapsed ? item.label : undefined}
                         className={clsx(
-                          'flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors',
+                          'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors',
                           collapsed && 'justify-center',
                           active
-                            ? 'bg-brand/20 font-medium text-white'
-                            : 'text-nav-muted hover:bg-white/5 hover:text-nav-ink',
+                            ? 'bg-nav-raised font-medium text-nav-accent'
+                            : 'text-nav-ink hover:bg-nav-raised/60 hover:text-white',
                         )}
                       >
                         <Icon name={item.icon} className="h-4 w-4 shrink-0" />
@@ -123,7 +130,7 @@ export function Sidebar({
             type="button"
             onClick={toggle}
             className={clsx(
-              'flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-nav-muted transition-colors hover:bg-white/5 hover:text-nav-ink',
+              'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-nav-muted transition-colors hover:bg-nav-raised/60 hover:text-nav-ink',
               collapsed && 'justify-center',
             )}
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}

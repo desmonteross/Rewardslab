@@ -87,7 +87,7 @@ export function ActionForm({
           <p
             role="status"
             className={clsx(
-              'flex items-start gap-1.5 text-xs leading-relaxed',
+              'flex items-start gap-1.5 whitespace-pre-line text-xs leading-relaxed',
               state.ok ? 'text-positive' : 'text-negative',
             )}
           >

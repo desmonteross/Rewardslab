@@ -1,10 +1,13 @@
+import Link from 'next/link'
 import { Sparkles } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { formatKES } from '@/lib/money'
 import { Card, PageHeader } from '@/components/ui'
 import { PayForm, type PayableInvoice } from '@/components/portal/pay-form'
+import { PointsTree } from '@/components/portal/points-tree'
+import { POINTS_PURPOSE } from '@/components/portal/points-copy'
 import { outstandingInvoices } from '@/server/services/checkout'
 import { portalRewards } from '@/server/queries/rewards'
 import { getPaymentProvider } from '@/server/adapters'
@@ -12,7 +15,7 @@ import { getPaymentProvider } from '@/server/adapters'
 export const metadata = { title: 'Pay rent' }
 
 export default async function PortalPayPage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const scope = scopeFromSession(session)
 
   const [invoices, rewards] = await Promise.all([outstandingInvoices(scope), portalRewards(scope, 8)])
@@ -76,7 +79,14 @@ export default async function PortalPayPage() {
         </div>
       </Card>
 
-      <Card title="Your points">
+      <Card
+        title="Your points"
+        actions={
+          <Link href="/portal/rewards" className="text-xs text-brand hover:underline">
+            See your tree
+          </Link>
+        }
+      >
         <div className="p-4">
           <div className="flex items-start gap-3">
             <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-brand" aria-hidden />
@@ -86,24 +96,15 @@ export default async function PortalPayPage() {
                 <span className="ml-1.5 text-sm font-normal text-muted">points</span>
               </p>
               <p className="mt-0.5 text-sm text-muted">
-                {rewards.balance.available.toLocaleString()} available ·{' '}
-                {rewards.balance.pending.toLocaleString()} still maturing
+                {rewards.balance.available.toLocaleString()} confirmed ·{' '}
+                {rewards.balance.pending.toLocaleString()} still settling
               </p>
             </div>
           </div>
-
-          {rewards.recent.length > 0 && (
-            <ul className="mt-4 space-y-2 border-t border-line pt-4">
-              {rewards.recent.slice(0, 5).map((entry) => (
-                <li key={entry.id} className="flex items-baseline justify-between gap-4 text-sm">
-                  <span className="min-w-0 truncate text-muted">{entry.narrative}</span>
-                  <span className="shrink-0 font-medium tabular-nums text-ink">
-                    +{entry.points.toLocaleString()}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
+          <p className="mt-3 text-sm leading-relaxed text-muted">{POINTS_PURPOSE}</p>
+          <div className="mt-4 border-t border-line pt-4">
+            <PointsTree earnings={rewards.earnings} total={rewards.balance.total} maxBranches={6} />
+          </div>
         </div>
       </Card>
     </div>

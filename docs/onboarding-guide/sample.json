@@ -1,0 +1,44 @@
+{
+  "manager": {
+    "fullName": "Faith Wambui",
+    "email": "faith.wambui.98194@example.co.ke"
+  },
+  "landlord": {
+    "type": "COMPANY",
+    "fullName": "Peter Baraka",
+    "companyName": "Baraka Holdings Ltd",
+    "phone": "0712 000 111",
+    "email": "peter.baraka.98194@example.co.ke",
+    "kraPin": "P051234567B",
+    "payoutMethod": "MPESA",
+    "mpesaNumber": "0712 000 111"
+  },
+  "property": {
+    "name": "Baraka Gardens",
+    "type": "APARTMENT",
+    "county": "Nairobi",
+    "town": "Nairobi",
+    "area": "Kilimani",
+    "address": "Argwings Kodhek Road"
+  },
+  "units": {
+    "unitNumber": "B1",
+    "count": "6",
+    "type": "ONE_BEDROOM",
+    "floor": "1",
+    "bedrooms": "1",
+    "bathrooms": "1",
+    "monthlyRent": "28000",
+    "deposit": "28000",
+    "serviceCharge": "2000"
+  },
+  "tenant": {
+    "fullName": "Grace Njeri",
+    "phone": "0722 981 949",
+    "email": "grace.njeri.98194@example.co.ke",
+    "nationalId": "30123456",
+    "kraPin": "A012345678Z",
+    "emergencyName": "John Njeri",
+    "emergencyPhone": "0733 000 333"
+  }
+}

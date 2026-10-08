@@ -14,6 +14,7 @@ import { amount, cents, percentOfCents, rateValue } from '@/lib/money'
 import { audit } from '@/lib/audit'
 import { assertInScope, scoped, type Scope } from '@/lib/tenancy'
 import { nextNumber } from './numbering'
+import { delistOnLetting } from './listings'
 
 export async function renewLease(
   scope: Scope,
@@ -234,6 +235,9 @@ export async function completeMoveIn(scope: Scope, moveEventId: string, notes?: 
       .limit(1)
       .then((rows) => rows[0])
     assertInScope(move, scope, 'move event')
+    if (move.type !== 'MOVE_IN' || move.status !== 'SCHEDULED') {
+      throw new Error('Only a scheduled move-in can be completed.')
+    }
 
     const [updated] = await tx
       .update(moveEvents)
@@ -272,7 +276,8 @@ export async function transferTenant(
 ) {
   const effectiveDate = options.effectiveDate ?? new Date()
 
-  return db.transaction(async (tx) => {
+  let afterCommit = async () => {}
+  const transferred = await db.transaction(async (tx) => {
     const existing = await tx
       .select()
       .from(leases)
@@ -336,6 +341,8 @@ export async function transferTenant(
       .set({ status: 'OCCUPIED', currentLeaseId: created.id, currentTenantId: existing.tenantId, updatedAt: new Date() })
       .where(scoped(units, scope, eq(units.id, target.id)))
 
+    afterCommit = await delistOnLetting(tx, scope, target.id, `Tenant transferred in (${created.code})`)
+
     await tx.insert(moveEvents).values([
       {
         organizationId: scope.organizationId,
@@ -376,6 +383,8 @@ export async function transferTenant(
 
     return created
   })
+  await afterCommit()
+  return transferred
 }
 
 /** Nightly housekeeping: flag leases inside their notice window. */

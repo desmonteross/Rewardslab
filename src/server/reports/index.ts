@@ -30,6 +30,7 @@ import {
 import { cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { fmtDate, fmtDateTime, periodFrom, periodOf } from '@/lib/dates'
 import { landlordScoped, scoped, type Scope } from '@/lib/tenancy'
+import { can, type Permission } from '@/lib/rbac'
 
 export interface ReportFilters {
   from?: Date
@@ -66,7 +67,20 @@ export interface ReportDefinition {
   description: string
   /** Which filters the report honours, so the UI only shows the useful ones. */
   filters: ('period' | 'dateRange' | 'property' | 'landlord' | 'tenant')[]
+  /**
+   * Extra permission needed beyond reports.view. Landlord logins are refused
+   * when `staffOnly` is set, because the rows are not tied to one landlord.
+   */
+  permission?: Permission
+  staffOnly?: boolean
   run: (scope: Scope, filters: ReportFilters) => Promise<ReportResult>
+}
+
+/** May this scope open the report? Used by the list, the screen and the export. */
+export function canRunReport(scope: Pick<Scope, 'landlordId' | 'role' | 'permissions'>, report: ReportDefinition): boolean {
+  if (report.staffOnly && scope.landlordId) return false
+  if (report.permission && !can({ role: scope.role, permissions: scope.permissions }, report.permission)) return false
+  return true
 }
 
 const money = (value: unknown) => formatKES(value as string)
@@ -493,6 +507,7 @@ export const REPORTS: ReportDefinition[] = [
 
   {
     slug: 'mpesa-reconciliation',
+    staffOnly: true,
     name: 'M-Pesa Reconciliation Report',
     group: 'Finance',
     description: 'Raw M-Pesa transactions against what the system matched.',
@@ -1025,6 +1040,8 @@ export const REPORTS: ReportDefinition[] = [
 
   {
     slug: 'audit-report',
+    staffOnly: true,
+    permission: 'audit.view',
     name: 'Audit Report',
     group: 'Compliance',
     description: 'Financial and tax actions taken in the window, with the actor.',

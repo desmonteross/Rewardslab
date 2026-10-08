@@ -1,5 +1,5 @@
 import { Download, FileSpreadsheet } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { Card, EmptyState, Money, PageHeader, StatusBadge } from '@/components/ui'
@@ -8,7 +8,7 @@ import { portalPaymentSummary, portalReceipts, portalStatement } from '@/server/
 export const metadata = { title: 'Payments' }
 
 export default async function PortalPaymentsPage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const scope = scopeFromSession(session)
 
   const [receipts, statement, summary] = await Promise.all([

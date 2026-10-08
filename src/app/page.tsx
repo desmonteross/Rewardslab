@@ -1,15 +1,23 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/session'
 import { homePathFor } from '@/lib/home-path'
+import { LandingPage } from '@/components/landing/landing-page'
+import { publicListings } from '@/server/services/listings'
+
+export const metadata = {
+  title: { absolute: 'RentRewards · Rent collected. Tenants rewarded.' },
+  description:
+    'Property management for Kenya: M-Pesa rent collection, accounting, landlord payouts and repairs, with points and a Rental Passport for tenants who pay on time.',
+}
+
+export const dynamic = 'force-dynamic'
 
 /**
- * The root sends each session to the screen its role can actually open.
- *
- * Sending everyone to /dashboard looks harmless until a tenant signs in: they
- * have no `dashboard.view`, so they land on /forbidden, whose only way out is
- * the dashboard — a loop with no exit that locks them out of their own portal.
+ * Signed-in sessions go straight to the screen their role can open (a tenant
+ * to the portal, staff to the dashboard). Everyone else sees the landing page.
  */
 export default async function Home() {
   const session = await getSession()
-  redirect(session ? homePathFor(session.role) : '/login')
+  if (session) redirect(homePathFor(session.role))
+  return <LandingPage listings={await publicListings(6)} />
 }

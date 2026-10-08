@@ -15,6 +15,20 @@
       "when": 1790241159566,
       "tag": "0001_rewards_checkout_valuations",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791193594604,
+      "tag": "0002_unit_listings",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791297169448,
+      "tag": "0003_user_invites",
+      "breakpoints": true
     }
   ]
 }

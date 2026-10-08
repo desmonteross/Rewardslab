@@ -2,7 +2,7 @@
 
 import { eq } from 'drizzle-orm'
 import { db } from '@/db'
-import { notifications, receipts, tenants } from '@/db/schema'
+import { notifications, receipts, tenants, users } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
 import { scopeFromSession, scoped } from '@/lib/tenancy'
 import { formatKES } from '@/lib/money'
@@ -16,7 +16,7 @@ import type { ActionState } from '@/components/action-form'
  */
 export async function emailReceiptAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
   try {
-    const session = await requirePermission('receipts.view')
+    const session = await requirePermission('receipts.issue')
     const scope = scopeFromSession(session)
     const receiptId = String(formData.get('receiptId'))
     const channel = String(formData.get('channel') ?? 'EMAIL') as 'EMAIL' | 'SMS'
@@ -53,8 +53,17 @@ export async function emailReceiptAction(_previous: ActionState, formData: FormD
       body,
     })
 
+    // Address the row to the tenant's portal login, when they have one, so it
+    // also shows on their own Notifications screen.
+    const [portalUser] = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(scoped(users, scope, eq(users.tenantId, row.receipt.tenantId)))
+      .limit(1)
+
     await db.insert(notifications).values({
       organizationId: scope.organizationId,
+      userId: portalUser?.id ?? null,
       channel,
       status: result.success ? 'SENT' : 'FAILED',
       title: `Receipt ${row.receipt.number} sent to ${row.tenantName}`,
