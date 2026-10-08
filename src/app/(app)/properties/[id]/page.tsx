@@ -23,6 +23,7 @@ import { requirePermission } from '@/lib/session'
 import { can } from '@/lib/rbac'
 import { ActionForm } from '@/components/action-form'
 import { createUnitAction } from '../../onboarding-actions'
+import { assignManagerAction } from '@/app/invite-actions'
 import { UnitUpload } from '@/components/unit-upload'
 import { liveListingsByUnit } from '@/server/services/listings'
 import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
@@ -171,6 +172,14 @@ export default async function PropertyDetailPage({
 
   const occupied = unitRows.filter((unit) => unit.status === 'OCCUPIED').length
   const listedUnits = await liveListingsByUnit(scope, unitRows.map((unit) => unit.id))
+  const canAssignManager = can(session, 'users.manage')
+  const managerOptions = canAssignManager
+    ? await db
+        .select({ id: users.id, name: users.fullName, role: users.role })
+        .from(users)
+        .where(scoped(users, scope, eq(users.isActive, true), sql`${users.role} in ('PROPERTY_MANAGER', 'ORG_ADMIN')`))
+        .orderBy(asc(users.fullName))
+    : []
   const collectionRate = percent(cents(stats?.collectedMonth), cents(stats?.billedMonth))
   const href = (next: string) => `/properties/${id}?tab=${next}`
 
@@ -309,6 +318,33 @@ export default async function PropertyDetailPage({
               ]}
             />
           </Card>
+
+          {canAssignManager && (
+            <Card
+              className="lg:col-span-3"
+              title="Property manager"
+              description="The manager assigned here is the only property manager who sees this property, its units, tenants, rent and repairs."
+            >
+              <ActionForm action={assignManagerAction} label="Save" pendingLabel="Saving…" className="flex flex-wrap items-end gap-3 space-y-0">
+                <input type="hidden" name="propertyId" value={id} />
+                <label className="block min-w-[16rem] text-xs font-medium text-muted">
+                  Manager
+                  <select name="managerId" className="field mt-1" defaultValue={property.managerId ?? ''}>
+                    <option value="">Unassigned</option>
+                    {managerOptions.map((manager) => (
+                      <option key={manager.id} value={manager.id}>
+                        {manager.name}
+                        {manager.role === 'ORG_ADMIN' ? ' (admin)' : ''}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </ActionForm>
+              <p className="mt-2 text-2xs text-faint">
+                New managers are invited from Administration → Users.
+              </p>
+            </Card>
+          )}
         </div>
       )}
 

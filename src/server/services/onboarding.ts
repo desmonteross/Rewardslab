@@ -134,7 +134,8 @@ export async function createProperty(scope: Scope, input: PropertyInput) {
         name: input.name,
         type: input.type,
         landlordId: input.landlordId,
-        managerId: input.managerId || null,
+        // A property manager adding a property manages it, or they could not see it.
+        managerId: input.managerId || scope.managerId || null,
         county: input.county,
         town: input.town,
         area: input.area || null,

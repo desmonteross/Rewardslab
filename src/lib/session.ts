@@ -21,6 +21,17 @@ export async function requireSession(): Promise<Session> {
   return session
 }
 
+/**
+ * For tenant portal pages. The portal layout already redirects anyone else,
+ * but Next renders a page alongside its layout, so the page must not assume
+ * a tenancy either: a staff session would otherwise throw on its first query.
+ */
+export async function requireTenantSession(): Promise<Session> {
+  const session = await requireSession()
+  if (session.role !== 'TENANT' || !session.tenantId) redirect(homePathFor(session.role))
+  return session
+}
+
 /** For pages: 403 unless the session holds the permission. */
 export async function requirePermission(permission: Permission): Promise<Session> {
   const session = await requireSession()

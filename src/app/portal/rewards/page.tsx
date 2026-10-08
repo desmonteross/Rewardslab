@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Gift, Sparkles } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { Card, DataTable, EmptyState, PageHeader, humanise } from '@/components/ui'
@@ -13,7 +13,7 @@ export const metadata = { title: 'Rewards' }
 export const dynamic = 'force-dynamic'
 
 export default async function PortalRewardsPage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const { balance, recent, earnings } = await portalRewards(scopeFromSession(session))
 
   return (

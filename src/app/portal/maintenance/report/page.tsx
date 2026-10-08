@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { Card, Notice, PageHeader } from '@/components/ui'
 import { ActionForm } from '@/components/action-form'
@@ -10,7 +10,7 @@ import { reportIssueAction } from '../actions'
 export const metadata = { title: 'Report an issue' }
 
 export default async function ReportIssuePage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const tenancy = await portalTenancy(scopeFromSession(session))
 
   return (

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Download } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { formatKES } from '@/lib/money'
@@ -15,7 +15,7 @@ export default async function PortalReceiptPage({
 }: {
   params: Promise<{ id: string }>
 }) {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const { id } = await params
 
   // The query is tenant-scoped, so another tenant's receipt id simply does not

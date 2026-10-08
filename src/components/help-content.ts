@@ -5,7 +5,7 @@
 //  person only the guides for screens their role can actually open.
 // ===========================================================================
 
-import type { Permission } from '@/lib/rbac'
+import type { AppRole, Permission } from '@/lib/rbac'
 
 export interface HelpGuide {
   /** Anchor id on the Help page. */
@@ -15,6 +15,8 @@ export interface HelpGuide {
   href: string
   /** Shown only to roles holding this permission. */
   permission: Permission
+  /** When set, shown only to these roles (on top of the permission). */
+  roles?: AppRole[]
   summary: string
   steps: string[]
   tips?: string[]
@@ -26,6 +28,40 @@ export interface HelpGroup {
 }
 
 export const HELP_GROUPS: HelpGroup[] = [
+  {
+    label: 'Your access',
+    guides: [
+      {
+        id: 'landlord-portal',
+        title: 'Your landlord portal',
+        href: '/dashboard',
+        permission: 'dashboard.view',
+        roles: ['LANDLORD'],
+        summary: 'What you see as a property owner, and how you got here.',
+        steps: [
+          'Your property manager invited you from your landlord record. You set your password from the one-time link in the invitation email.',
+          'Every screen shows only the properties you own: rent billed and collected, arrears, tenants and leases, expenses, maintenance, settlements and statements.',
+          'Reports → Landlord statement gives a month’s rent, commission, expenses and net payout for your portfolio.',
+          'You can view but not change records. Ask your property manager for changes.',
+        ],
+        tips: ['If a property you own is missing, ask your property manager to check which landlord it is recorded under.'],
+      },
+      {
+        id: 'manager-workspace',
+        title: 'Your property manager workspace',
+        href: '/properties',
+        permission: 'dashboard.view',
+        roles: ['PROPERTY_MANAGER'],
+        summary: 'You see the properties assigned to you, and everything on them.',
+        steps: [
+          'An administrator invited you from Administration → Users. You set your password from the one-time link.',
+          'You see only properties where you are the assigned manager: their units, tenants, leases, rent, payments, listings and maintenance.',
+          'A property you add yourself is assigned to you automatically.',
+          'To take on another property, ask an administrator to assign you on that property’s page.',
+        ],
+      },
+    ],
+  },
   {
     label: 'Overview',
     guides: [
@@ -296,6 +332,37 @@ export const HELP_GROUPS: HelpGroup[] = [
     label: 'Administration',
     guides: [
       {
+        id: 'invite-landlord',
+        title: 'Inviting a landlord to the landlord portal',
+        href: '/landlords',
+        permission: 'landlords.update',
+        summary: 'Give an owner their own login that shows only the properties they own.',
+        steps: [
+          'Open Landlords and choose the landlord.',
+          'Under Landlord portal, check the email address and click Send invitation.',
+          'The landlord gets a one-time link, valid for 72 hours, and sets their own password. Until email is connected, the link is also shown to you so you can send it yourself.',
+          'Once they accept, the card shows their login and last sign-in. They see only properties recorded under their landlord record.',
+        ],
+        tips: [
+          'Sending a new invitation cancels the old link. Use Revoke to cancel one without sending another.',
+          'Each landlord can have one portal login.',
+        ],
+      },
+      {
+        id: 'invite-manager',
+        title: 'Inviting property managers and assigning properties',
+        href: '/users',
+        permission: 'users.manage',
+        summary: 'Add a property manager who works only on the properties you give them.',
+        steps: [
+          'Open Administration → Users and fill in Invite a property manager with their name and email.',
+          'They get a one-time link, valid for 72 hours, to set their password.',
+          'Open each property they will run, and on its Overview choose them under Property manager. They see that property straight away.',
+          'Change or clear the manager there at any time. A property with no manager is seen only by administrators.',
+        ],
+        tips: ['Properties a manager adds themselves are assigned to them automatically.'],
+      },
+      {
         id: 'admin',
         title: 'Users, settings and integrations',
         href: '/users',
@@ -353,6 +420,26 @@ export const GETTING_AROUND: HelpTopic[] = [
 ]
 
 export const FAQS: { question: string; answer: string }[] = [
+  {
+    question: 'How do I give a landlord access to their properties?',
+    answer:
+      'Open the landlord’s page and send an invitation under Landlord portal. They set their own password from the link and then see only the properties they own: collections, arrears, tenants, expenses, maintenance, settlements and statements.',
+  },
+  {
+    question: 'How do I add a property manager?',
+    answer:
+      'Invite them from Administration → Users, then assign them to properties on each property’s Overview tab. A property manager sees only the properties assigned to them.',
+  },
+  {
+    question: 'A property manager cannot see a property. Why?',
+    answer:
+      'They are not its assigned manager. An administrator can assign them on the property’s Overview tab under Property manager. The change applies straight away.',
+  },
+  {
+    question: 'An invitation link has expired or was lost.',
+    answer:
+      'Links last 72 hours and work once. Send a new invitation from the same place: the landlord’s page for landlords, or Administration → Users for property managers. The new link replaces the old one.',
+  },
   {
     question: 'I cannot see a page a colleague can see.',
     answer:

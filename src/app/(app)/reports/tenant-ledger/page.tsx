@@ -3,7 +3,7 @@ import { asc, eq, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { invoiceItems, leases, organizations, payments, properties, rentInvoices, tenants, units } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
-import { scopeFromSession, scoped } from '@/lib/tenancy'
+import { scopeFromSession, scoped, portfolioTenantFilter } from '@/lib/tenancy'
 import { landlordHasTenant } from '@/server/landlord-access'
 import { cents, formatKES } from '@/lib/money'
 import { fmtDate } from '@/lib/dates'
@@ -35,9 +35,7 @@ export default async function TenantLedgerPage({ searchParams }: { searchParams:
       scoped(
         tenants,
         scope,
-        scope.landlordId
-          ? sql`exists (select 1 from leases l join properties p on p.id = l.property_id where l.tenant_id = tenants.id and p.landlord_id = ${scope.landlordId})`
-          : undefined,
+        portfolioTenantFilter(scope),
       ),
     )
     .orderBy(asc(tenants.fullName))

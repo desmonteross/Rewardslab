@@ -1,5 +1,5 @@
 import { Download, FileSpreadsheet } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { Card, DataTable, EmptyState, Money, PageHeader } from '@/components/ui'
@@ -9,7 +9,7 @@ export const metadata = { title: 'Statements' }
 export const dynamic = 'force-dynamic'
 
 export default async function PortalStatementsPage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const statement = await portalStatement(scopeFromSession(session))
 
   const closingBalance = statement.length > 0 ? statement[statement.length - 1].balanceCents : 0

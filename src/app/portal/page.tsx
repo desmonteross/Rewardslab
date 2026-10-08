@@ -22,7 +22,7 @@ import {
   Wallet,
   Wrench,
 } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { formatKES } from '@/lib/money'
@@ -64,7 +64,7 @@ function monthsBetween(from: Date, to: Date): number {
 }
 
 export default async function PortalHomePage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const scope = scopeFromSession(session)
 
   const [{ tenancy, rent, record }, points, tickets, receipts, announcements] = await Promise.all([

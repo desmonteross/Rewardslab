@@ -3,7 +3,7 @@ import { asc, eq, gt, ilike, or, sql } from 'drizzle-orm'
 import { db } from '@/db'
 import { leases, properties, tenants, tenantStatusEnum, units } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
-import { landlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordScoped, scopeFromSession, scoped, portfolioTenantFilter } from '@/lib/tenancy'
 import { can } from '@/lib/rbac'
 import { cents } from '@/lib/money'
 import { fmtDate } from '@/lib/dates'
@@ -45,9 +45,7 @@ export default async function TenantsPage({ searchParams }: { searchParams: Sear
       : undefined,
     balance === 'owing' ? sql`(${balanceExpression}) > 0` : undefined,
     balance === 'clear' ? sql`(${balanceExpression}) <= 0` : undefined,
-    scope.landlordId
-      ? sql`exists (select 1 from leases l join properties p on p.id = l.property_id where l.tenant_id = tenants.id and p.landlord_id = ${scope.landlordId})`
-      : undefined,
+    portfolioTenantFilter(scope),
   )
 
   const [rows, [{ total }], [summary], propertyOptions] = await Promise.all([

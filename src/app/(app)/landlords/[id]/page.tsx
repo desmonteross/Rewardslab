@@ -13,10 +13,14 @@ import {
   settlements,
   taxProfiles,
   units,
+  users,
 } from '@/db/schema'
 import { requirePermission } from '@/lib/session'
 import { can } from '@/lib/rbac'
-import { ownLandlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
+import { landlordScoped, ownLandlordScoped, scopeFromSession, scoped } from '@/lib/tenancy'
+import { ActionForm } from '@/components/action-form'
+import { inviteLandlordAction, revokeUserInviteAction } from '@/app/invite-actions'
+import { userInvitesFor } from '@/server/services/user-invites'
 import { cents, formatKES, formatPercent, percent } from '@/lib/money'
 import { fmtDate, fmtDayMonth, periodOf } from '@/lib/dates'
 import {
@@ -47,6 +51,19 @@ export default async function LandlordDetailPage({ params }: { params: Promise<{
     .limit(1)
 
   if (!landlord) notFound()
+
+  const canInvite = can(session, 'landlords.update') && !scope.landlordId
+  const [portalLogin, portalInvites] = canInvite
+    ? await Promise.all([
+        db
+          .select({ email: users.email, lastLoginAt: users.lastLoginAt, isActive: users.isActive })
+          .from(users)
+          .where(scoped(users, scope, eq(users.landlordId, id)))
+          .limit(1)
+          .then((rows) => rows[0] ?? null),
+        userInvitesFor(scope, { landlordId: id }),
+      ])
+    : ([null, []] as [null, Awaited<ReturnType<typeof userInvitesFor>>])
 
   const [portfolio, propertyRows, settlementRows, expenseRows, eritsRows, taxProfile] = await Promise.all([
     db
@@ -85,7 +102,7 @@ export default async function LandlordDetailPage({ params }: { params: Promise<{
         collected: sql<string>`(select coalesce(sum(pm.gross_amount), 0) from payments pm where pm.property_id = properties.id and pm.status = 'CONFIRMED' and pm.paid_at >= ${period.start} and pm.paid_at <= ${period.end})`,
       })
       .from(properties)
-      .where(scoped(properties, scope, eq(properties.landlordId, id)))
+      .where(landlordScoped(properties, scope, eq(properties.landlordId, id)))
       .orderBy(asc(properties.name)),
 
     db
@@ -225,6 +242,53 @@ export default async function LandlordDetailPage({ params }: { params: Promise<{
           />
         </Card>
       </div>
+
+      {canInvite && (
+        <div className="mt-4">
+          <Card
+            title="Landlord portal"
+            description="The landlord signs in to see only the properties they own: collections, arrears, tenants, expenses, maintenance, settlements and statements."
+          >
+            {portalLogin ? (
+              <DetailList
+                columns={3}
+                items={[
+                  { label: 'Login', value: portalLogin.email },
+                  { label: 'Status', value: portalLogin.isActive ? 'Active' : 'Disabled' },
+                  { label: 'Last sign-in', value: portalLogin.lastLoginAt ? fmtDate(portalLogin.lastLoginAt) : 'Not yet' },
+                ]}
+              />
+            ) : (
+              <ActionForm action={inviteLandlordAction} label="Send invitation" pendingLabel="Creating…">
+                <input type="hidden" name="landlordId" value={id} />
+                <label className="block max-w-md text-xs font-medium text-muted">
+                  Email to invite
+                  <input name="email" type="email" className="field mt-1" defaultValue={landlord.email ?? ''} placeholder="owner@example.co.ke" required />
+                </label>
+                <p className="text-2xs text-faint">They get a one-time link, valid for 72 hours, to set their own password.</p>
+              </ActionForm>
+            )}
+            {portalInvites.length > 0 && (
+              <ul className="mt-4 divide-y divide-line border-t border-line">
+                {portalInvites.map((invite) => (
+                  <li key={invite.id} className="flex flex-wrap items-center justify-between gap-3 py-2.5 text-sm">
+                    <span className="text-ink">{invite.email}</span>
+                    <span className="text-xs text-muted">
+                      {humanise(invite.status)} · sent {fmtDate(invite.createdAt)} by {invite.invitedByName ?? '—'}
+                    </span>
+                    {invite.status === 'PENDING' && (
+                      <ActionForm action={revokeUserInviteAction} label="Revoke" variant="secondary" pendingLabel="Revoking…">
+                        <input type="hidden" name="inviteId" value={invite.id} />
+                        <input type="hidden" name="role" value="LANDLORD" />
+                      </ActionForm>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </Card>
+        </div>
+      )}
 
       <div className="mt-4">
         <Card title="Properties owned" padded={false}>

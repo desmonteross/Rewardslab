@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Sparkles } from 'lucide-react'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { scopeFromSession } from '@/lib/tenancy'
 import { fmtDate } from '@/lib/dates'
 import { formatKES } from '@/lib/money'
@@ -15,7 +15,7 @@ import { getPaymentProvider } from '@/server/adapters'
 export const metadata = { title: 'Pay rent' }
 
 export default async function PortalPayPage() {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   const scope = scopeFromSession(session)
 
   const [invoices, rewards] = await Promise.all([outstandingInvoices(scope), portalRewards(scope, 8)])

@@ -25,12 +25,14 @@ export default async function HelpPage() {
     ? []
     : HELP_GROUPS.map((group) => ({
         ...group,
-        guides: group.guides.filter((guide) => can(session, guide.permission)),
+        guides: group.guides.filter(
+          (guide) => can(session, guide.permission) && (!guide.roles || guide.roles.includes(session.role)),
+        ),
       })).filter((group) => group.guides.length > 0)
 
   const contents = [
     { id: 'getting-around', label: 'Getting around' },
-    ...groups.map((group) => ({ id: `group-${group.label.toLowerCase()}`, label: group.label })),
+    ...groups.map((group) => ({ id: `group-${group.label.toLowerCase().replace(/\s+/g, '-')}`, label: group.label })),
   ]
 
   return (
@@ -60,7 +62,7 @@ export default async function HelpPage() {
           </section>
 
           {groups.map((group) => (
-            <section key={group.label} id={`group-${group.label.toLowerCase()}`} className="scroll-mt-20">
+            <section key={group.label} id={`group-${group.label.toLowerCase().replace(/\s+/g, '-')}`} className="scroll-mt-20">
               <h2 className="mb-3 text-lg font-semibold text-ink">{group.label}</h2>
               <div className="space-y-4">
                 {group.guides.map((guide) => (

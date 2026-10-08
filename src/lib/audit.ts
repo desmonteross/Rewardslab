@@ -52,6 +52,8 @@ export type AuditAction =
   | 'User Signed In'
   | 'User Signed Out'
   | 'User Created'
+  | 'User Invited'
+  | 'User Invite Revoked'
   | 'User Permissions Changed'
   | 'Tenant Portal Invited'
   | 'Tenant Portal Invite Revoked'

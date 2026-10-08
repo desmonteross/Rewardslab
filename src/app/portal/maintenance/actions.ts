@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { requireSession } from '@/lib/session'
+import { requireTenantSession } from '@/lib/session'
 import { can } from '@/lib/rbac'
 import { scopeFromSession } from '@/lib/tenancy'
 import { reportIssue } from '@/server/services/portal'
@@ -23,7 +23,7 @@ const CATEGORIES: MaintenanceCategoryName[] = [
 const PRIORITIES = ['LOW', 'MEDIUM', 'HIGH', 'URGENT'] as const
 
 export async function reportIssueAction(_previous: ActionState, formData: FormData): Promise<ActionState> {
-  const session = await requireSession()
+  const session = await requireTenantSession()
   if (session.role !== 'TENANT' || !can(session, 'portal.issues.report')) {
     return { ok: false, message: 'You are not allowed to report issues here.' }
   }

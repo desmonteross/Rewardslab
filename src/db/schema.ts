@@ -1548,6 +1548,38 @@ export const tenantInvites = pgTable(
   ],
 )
 
+/**
+ * Invitations for staff-side logins: landlords to the landlord portal and
+ * property managers to the management app. Same rules as tenant invites:
+ * only the SHA-256 hash of the token is stored, it expires, issuing a new one
+ * revokes the old, and accepting it burns it.
+ */
+export const userInvites = pgTable(
+  'user_invites',
+  {
+    id: pk(),
+    organizationId: orgRef(),
+    role: userRoleEnum('role').notNull(),
+    /** Set for a landlord invitation: the landlord record the login will see. */
+    landlordId: text('landlord_id').references(() => landlords.id, { onDelete: 'cascade' }),
+    email: text('email').notNull(),
+    fullName: text('full_name').notNull(),
+    tokenHash: text('token_hash').notNull(),
+    status: portalInviteStatusEnum('status').notNull().default('PENDING'),
+    expiresAt: ts('expires_at').notNull(),
+    acceptedAt: ts('accepted_at'),
+    invitedById: text('invited_by_id'),
+    invitedByName: text('invited_by_name'),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    unique('user_invites_token_uq').on(t.tokenHash),
+    index('user_invites_org_idx').on(t.organizationId),
+    index('user_invites_landlord_idx').on(t.landlordId),
+  ],
+)
+
 export const notifications = pgTable(
   'notifications',
   {
